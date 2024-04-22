@@ -28,39 +28,7 @@ const AppProfileCardStyle3 = Loadable(lazy(() => import('views/application/users
 const AppProfileListStyle1 = Loadable(lazy(() => import('views/application/users/list/Style1')));
 const AppProfileListStyle2 = Loadable(lazy(() => import('views/application/users/list/Style2')));
 
-// application - customer routing
-const AppCustomerList = Loadable(lazy(() => import('views/application/customer/CustomerList')));
-const AppCustomerOrderList = Loadable(lazy(() => import('views/application/customer/OrderList')));
-const AppCustomerCreateInvoice = Loadable(lazy(() => import('views/application/customer/CreateInvoice')));
-const AppCustomerOrderDetails = Loadable(lazy(() => import('views/application/customer/OrderDetails')));
-const AppCustomerProduct = Loadable(lazy(() => import('views/application/customer/Product')));
-const AppCustomerProductReview = Loadable(lazy(() => import('views/application/customer/ProductReview')));
 
-// application routing
-const AppChat = Loadable(lazy(() => import('views/application/chat')));
-const AppKanban = Loadable(lazy(() => import('views/application/kanban')));
-const AppKanbanBacklogs = Loadable(lazy(() => import('views/application/kanban/Backlogs')));
-const AppKanbanBoard = Loadable(lazy(() => import('views/application/kanban/Board')));
-const AppMail = Loadable(lazy(() => import('views/application/mail')));
-const AppCalendar = Loadable(lazy(() => import('views/application/calendar')));
-const AppContactCard = Loadable(lazy(() => import('views/application/contact/Card')));
-const AppContactList = Loadable(lazy(() => import('views/application/contact/List')));
-
-// application e-commerce pages
-const AppECommProducts = Loadable(lazy(() => import('views/application/e-commerce/Products')));
-const AppECommProductDetails = Loadable(lazy(() => import('views/application/e-commerce/ProductDetails')));
-const AppECommProductList = Loadable(lazy(() => import('views/application/e-commerce/ProductList')));
-const AppECommCheckout = Loadable(lazy(() => import('views/application/e-commerce/Checkout')));
-
-// forms component routing
-const FrmComponentsTextfield = Loadable(lazy(() => import('views/forms/components/TextField')));
-const FrmComponentsButton = Loadable(lazy(() => import('views/forms/components/Button')));
-const FrmComponentsCheckbox = Loadable(lazy(() => import('views/forms/components/Checkbox')));
-const FrmComponentsRadio = Loadable(lazy(() => import('views/forms/components/Radio')));
-const FrmComponentsSwitch = Loadable(lazy(() => import('views/forms/components/Switch')));
-const FrmComponentsAutoComplete = Loadable(lazy(() => import('views/forms/components/AutoComplete')));
-const FrmComponentsSlider = Loadable(lazy(() => import('views/forms/components/Slider')));
-const FrmComponentsDateTime = Loadable(lazy(() => import('views/forms/components/DateTime')));
 
 // forms plugins layout
 const FrmLayoutLayout = Loadable(lazy(() => import('views/forms/layouts/Layouts')));
@@ -68,31 +36,6 @@ const FrmLayoutMultiColumnForms = Loadable(lazy(() => import('views/forms/layout
 const FrmLayoutActionBar = Loadable(lazy(() => import('views/forms/layouts/ActionBar')));
 const FrmLayoutStickyActionBar = Loadable(lazy(() => import('views/forms/layouts/StickyActionBar')));
 
-// forms plugins routing
-const FrmAutocomplete = Loadable(lazy(() => import('views/forms/plugins/AutoComplete')));
-const FrmMask = Loadable(lazy(() => import('views/forms/plugins/Mask')));
-const FrmClipboard = Loadable(lazy(() => import('views/forms/plugins/Clipboard')));
-const FrmRecaptcha = Loadable(lazy(() => import('views/forms/plugins/Recaptcha')));
-const FrmWysiwugEditor = Loadable(lazy(() => import('views/forms/plugins/WysiwugEditor')));
-const FrmModal = Loadable(lazy(() => import('views/forms/plugins/Modal')));
-const FrmTooltip = Loadable(lazy(() => import('views/forms/plugins/Tooltip')));
-
-// table routing
-const TableBasic = Loadable(lazy(() => import('views/forms/tables/TableBasic')));
-const TableDense = Loadable(lazy(() => import('views/forms/tables/TableDense')));
-const TableEnhanced = Loadable(lazy(() => import('views/forms/tables/TableEnhanced')));
-const TableData = Loadable(lazy(() => import('views/forms/tables/TableData')));
-const TableCustomized = Loadable(lazy(() => import('views/forms/tables/TablesCustomized')));
-const TableStickyHead = Loadable(lazy(() => import('views/forms/tables/TableStickyHead')));
-const TableCollapsible = Loadable(lazy(() => import('views/forms/tables/TableCollapsible')));
-
-// forms validation
-const FrmFormsValidation = Loadable(lazy(() => import('views/forms/forms-validation')));
-const FrmFormsWizard = Loadable(lazy(() => import('views/forms/forms-wizard')));
-
-// chart routing
-const ChartApexchart = Loadable(lazy(() => import('views/forms/chart/Apexchart')));
-const OrgChartPage = Loadable(lazy(() => import('views/forms/chart/OrgChart')));
 
 // basic ui-elements routing
 const BasicUIAccordion = Loadable(lazy(() => import('views/ui-elements/basic/UIAccordion')));
@@ -116,10 +59,6 @@ const AdvanceUISpeeddial = Loadable(lazy(() => import('views/ui-elements/advance
 const AdvanceUITimeline = Loadable(lazy(() => import('views/ui-elements/advance/UITimeline')));
 const AdvanceUIToggleButton = Loadable(lazy(() => import('views/ui-elements/advance/UIToggleButton')));
 const AdvanceUITreeview = Loadable(lazy(() => import('views/ui-elements/advance/UITreeview')));
-
-// pricing page routing
-const PagesPrice1 = Loadable(lazy(() => import('views/pages/pricing/Price1')));
-const PagesPrice2 = Loadable(lazy(() => import('views/pages/pricing/Price2')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -192,115 +131,15 @@ const MainRoutes = {
             element: <AppProfileListStyle2 />
         },
 
-        {
-            path: '/customer/customer-list',
-            element: <AppCustomerList />
-        },
-        {
-            path: '/customer/order-list',
-            element: <AppCustomerOrderList />
-        },
-        {
-            path: '/customer/create-invoice',
-            element: <AppCustomerCreateInvoice />
-        },
-        {
-            path: '/customer/order-details',
-            element: <AppCustomerOrderDetails />
-        },
-        {
-            path: '/customer/product',
-            element: <AppCustomerProduct />
-        },
-        {
-            path: '/customer/product-review',
-            element: <AppCustomerProductReview />
-        },
 
-        {
-            path: '/app/chat',
-            element: <AppChat />
-        },
-        {
-            path: '/app/mail',
-            element: <AppMail />
-        },
-        {
-            path: '/app/kanban',
-            element: <AppKanban />,
-            children: [
-                {
-                    path: 'backlogs',
-                    element: <AppKanbanBacklogs />
-                },
-                {
-                    path: 'board',
-                    element: <AppKanbanBoard />
-                }
-            ]
-        },
-        {
-            path: '/app/calendar',
-            element: <AppCalendar />
-        },
-        {
-            path: '/app/contact/c-card',
-            element: <AppContactCard />
-        },
-        {
-            path: '/app/contact/c-list',
-            element: <AppContactList />
-        },
 
-        {
-            path: '/e-commerce/products',
-            element: <AppECommProducts />
-        },
-        {
-            path: '/e-commerce/product-details/:id',
-            element: <AppECommProductDetails />
-        },
-        {
-            path: '/e-commerce/product-list',
-            element: <AppECommProductList />
-        },
-        {
-            path: '/e-commerce/checkout',
-            element: <AppECommCheckout />
-        },
 
-        {
-            path: '/components/text-field',
-            element: <FrmComponentsTextfield />
-        },
-        {
-            path: '/components/button',
-            element: <FrmComponentsButton />
-        },
-        {
-            path: '/components/checkbox',
-            element: <FrmComponentsCheckbox />
-        },
-        {
-            path: '/components/radio',
-            element: <FrmComponentsRadio />
-        },
-        {
-            path: '/components/autocomplete',
-            element: <FrmComponentsAutoComplete />
-        },
-        {
-            path: '/components/slider',
-            element: <FrmComponentsSlider />
-        },
-        {
-            path: '/components/switch',
-            element: <FrmComponentsSwitch />
-        },
-        {
-            path: '/components/date-time',
-            element: <FrmComponentsDateTime />
-        },
+
+
+
+
+
+
 
         {
             path: '/forms/layouts/layouts',
@@ -319,89 +158,11 @@ const MainRoutes = {
             element: <FrmLayoutStickyActionBar />
         },
 
-        {
-            path: '/forms/frm-autocomplete',
-            element: <FrmAutocomplete />
-        },
-        {
-            path: '/forms/frm-mask',
-            element: <FrmMask />
-        },
-        {
-            path: '/forms/frm-clipboard',
-            element: <FrmClipboard />
-        },
-        {
-            path: '/forms/frm-recaptcha',
-            element: <FrmRecaptcha />
-        },
-        {
-            path: '/forms/frm-wysiwug',
-            element: <FrmWysiwugEditor />
-        },
-        {
-            path: '/forms/frm-modal',
-            element: <FrmModal />
-        },
-        {
-            path: '/forms/frm-tooltip',
-            element: <FrmTooltip />
-        },
 
-        {
-            path: '/tables/tbl-basic',
-            element: <TableBasic />
-        },
-        {
-            path: '/tables/tbl-dense',
-            element: <TableDense />
-        },
-        {
-            path: '/tables/tbl-enhanced',
-            element: <TableEnhanced />
-        },
-        {
-            path: '/tables/tbl-data',
-            element: <TableData />
-        },
-        {
-            path: '/tables/tbl-customized',
-            element: <TableCustomized />
-        },
-        {
-            path: '/tables/tbl-sticky-header',
-            element: <TableStickyHead />
-        },
-        {
-            path: '/tables/tbl-collapse',
-            element: <TableCollapsible />
-        },
 
-        {
-            path: 'forms/charts/apexchart',
-            element: <ChartApexchart />
-        },
-        {
-            path: '/forms/charts/orgchart',
-            element: <OrgChartPage />
-        },
-        {
-            path: '/forms/forms-validation',
-            element: <FrmFormsValidation />
-        },
-        {
-            path: '/forms/forms-wizard',
-            element: <FrmFormsWizard />
-        },
 
-        {
-            path: '/basic/accordion',
-            element: <BasicUIAccordion />
-        },
-        {
-            path: '/basic/avatar',
-            element: <BasicUIAvatar />
-        },
+
+
         {
             path: '/basic/badges',
             element: <BasicUIBadges />
@@ -470,15 +231,6 @@ const MainRoutes = {
         {
             path: '/advance/treeview',
             element: <AdvanceUITreeview />
-        },
-
-        {
-            path: '/pages/price/price1',
-            element: <PagesPrice1 />
-        },
-        {
-            path: '/pages/price/price2',
-            element: <PagesPrice2 />
         },
 
         {
