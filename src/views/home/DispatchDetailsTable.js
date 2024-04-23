@@ -41,16 +41,16 @@ const DispatchDetailsTable = ({ dispatchid }) => {
     const table = useMaterialReactTable({
         columns,
         data,
-        enableColumnFilterModes: true,
+        enableColumnFilterModes: false,
         enableColumnOrdering: true,
         enableGrouping: true,
         enableColumnPinning: true,
         enableFacetedValues: true,
-        enableRowActions: true,
+        enableRowActions: false,
         enableRowSelection: false,
         initialState: {
             showColumnFilters: true,
-            showGlobalFilter: true,
+            showGlobalFilter: false,
             columnPinning: {
                 left: ['mrt-row-expand', 'mrt-row-select'],
                 right: ['mrt-row-actions'],
@@ -68,20 +68,6 @@ const DispatchDetailsTable = ({ dispatchid }) => {
             shape: 'rounded',
             variant: 'outlined',
         },
-        renderDetailPanel: ({ row }) => (
-            <Box
-                sx={{
-                    alignItems: 'center',
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    left: '30px',
-                    position: 'sticky',
-                    width: '100%',
-                }}
-            >
-                <DispatchDetailsTable dispatchid={row.original.id} />
-            </Box>
-        ),
     });
     return <MaterialReactTable table={table} />;
 };

@@ -1,5 +1,5 @@
 import {
-    Box,
+    Box, Container,
 } from '@mui/material';
 
 import {
@@ -52,7 +52,7 @@ const DispatchTable = () => {
         enableGrouping: true,
         enableColumnPinning: true,
         enableFacetedValues: true,
-        enableRowActions: true,
+        enableRowActions: false,
         enableRowSelection: false,
         initialState: {
             showColumnFilters: true,
@@ -85,7 +85,9 @@ const DispatchTable = () => {
                     width: '100%',
                 }}
             >
-                <DispatchDetailsTable dispatchid={row.original.id} />
+                <Container maxWidth={true}>
+                    <DispatchDetailsTable dispatchid={row.original.id} />
+                </Container>
             </Box>
         ),
     });
