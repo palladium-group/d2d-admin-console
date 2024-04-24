@@ -4,6 +4,8 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 // project imports
 import App from 'App';
@@ -16,7 +18,7 @@ import { ConfigProvider } from 'contexts/ConfigContext';
 import 'assets/scss/style.scss';
 
 // ==============================|| REACT DOM RENDER ||============================== //
-
+const queryClient = new QueryClient();
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
@@ -24,7 +26,10 @@ root.render(
         <PersistGate loading={null} persistor={persister}>
             <ConfigProvider>
                 <BrowserRouter basename={process.env.REACT_APP_BASE_NAME}>
-                    <App />
+                    <QueryClientProvider client={queryClient}>
+                        <App />
+                        <ReactQueryDevtools initialIsOpen={false} />
+                    </QueryClientProvider>
                 </BrowserRouter>
             </ConfigProvider>
         </PersistGate>

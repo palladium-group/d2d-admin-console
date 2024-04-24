@@ -20,36 +20,41 @@ const data = [
     },
 ];
 
-const DispatchDetailsTable = ({ dispatchid }) => {
+const DispatchDetailsTable = ({ manifests }) => {
+    console.log(manifests);
     const columns = useMemo(
         () => [
             {
-                accessorKey: "owner",
-                header: "Owner",
+                accessorKey: "facilityName",
+                header: "Facility Name",
             },
             {
-                accessorKey: "when",
-                header: "Dispatch Date",
+                accessorKey: "count",
+                header: "Count",
             },
             {
-                accessorKey: "status",
-                header: "Dispatch Status"
+                accessorKey: "lastVisitDate",
+                header: "Last Visit Date"
+            },
+            {
+                accessorKey: "statusName",
+                header: "Status"
             }
         ],
         []
     );
     const table = useMaterialReactTable({
         columns,
-        data,
+        data: manifests ? manifests: {},
         enableColumnFilterModes: false,
-        enableColumnOrdering: true,
-        enableGrouping: true,
-        enableColumnPinning: true,
-        enableFacetedValues: true,
+        enableColumnOrdering: false,
+        enableGrouping: false,
+        enableColumnPinning: false,
+        enableFacetedValues: false,
         enableRowActions: false,
         enableRowSelection: false,
         initialState: {
-            showColumnFilters: true,
+            showColumnFilters: false,
             showGlobalFilter: false,
             columnPinning: {
                 left: ['mrt-row-expand', 'mrt-row-select'],
