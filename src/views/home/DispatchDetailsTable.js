@@ -1,27 +1,11 @@
 import {MaterialReactTable, useMaterialReactTable} from "material-react-table";
 import {useMemo} from "react";
-import {Box} from "@mui/material";
-
-const data = [
-    {
-        owner: 'Monica',
-        status: 'Crooks',
-        when: '3/27/2015',
-    },
-    {
-        owner: 'Callie',
-        status: 'Kub',
-        when: '8/19/2019',
-    },
-    {
-        owner: 'Wellington',
-        status: 'Treutel',
-        when: '3/22/2017',
-    },
-];
+import {Box, IconButton} from "@mui/material";
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import {useNavigate} from "react-router-dom";
 
 const DispatchDetailsTable = ({ manifests }) => {
-    console.log(manifests);
+    const navigate = useNavigate();
     const columns = useMemo(
         () => [
             {
@@ -38,8 +22,32 @@ const DispatchDetailsTable = ({ manifests }) => {
             },
             {
                 accessorKey: "statusName",
-                header: "Status"
-            }
+                header: "Status",
+                Cell: ({ cell }) => (
+                    <Box
+                        component="span"
+                        sx={(theme) => ({
+                            backgroundColor:
+                                cell.getValue() == "InComplete"
+                                    ? theme.palette.error.dark
+                                    : cell.getValue() == "InProgress"
+                                        ? theme.palette.warning.dark
+                                        : theme.palette.success.dark,
+                            borderRadius: '0.25rem',
+                            color: '#fff',
+                            maxWidth: '9ch',
+                            p: '0.25rem',
+                        })}
+                    >
+                        {cell.getValue()?.toLocaleString?.('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                        })}
+                    </Box>
+                ),
+            },
         ],
         []
     );
@@ -51,7 +59,7 @@ const DispatchDetailsTable = ({ manifests }) => {
         enableGrouping: false,
         enableColumnPinning: false,
         enableFacetedValues: false,
-        enableRowActions: false,
+        enableRowActions: true,
         enableRowSelection: false,
         initialState: {
             showColumnFilters: false,
@@ -73,6 +81,17 @@ const DispatchDetailsTable = ({ manifests }) => {
             shape: 'rounded',
             variant: 'outlined',
         },
+        renderRowActions: ({ row }) => (
+            <Box>
+                <IconButton
+                    onClick={() =>
+                        navigate(`/project-access/${row.original.id}`)
+                    }
+                >
+                    <AddOutlinedIcon />
+                </IconButton>
+            </Box>
+        ),
     });
     return <MaterialReactTable table={table} />;
 };

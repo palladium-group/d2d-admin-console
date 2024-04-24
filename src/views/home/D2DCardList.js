@@ -15,16 +15,16 @@ const D2DCardList = () => {
                     <Grid container spacing={1}>
                         <Grid item xs={12}>
                             <Typography variant="subtitle2" align="left">
-                                Published Project
+                                Total Dispatches
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <Typography variant="h3" align="left">
-                                532
+                                4,600
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <LinearProgress variant="determinate" value={40} color="secondary" aria-label="project progress" />
+                            <LinearProgress variant="determinate" value={100} color="secondary" aria-label="project progress" />
                         </Grid>
                     </Grid>
                 </Grid>
@@ -32,7 +32,7 @@ const D2DCardList = () => {
                     <Grid container spacing={1}>
                         <Grid item xs={12}>
                             <Typography variant="subtitle2" align="left">
-                                Completed Task
+                                Completed Dispatches
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
@@ -44,7 +44,7 @@ const D2DCardList = () => {
                             {/** had wrong colour, colour is an enum not string */}
                             <LinearProgress
                                 variant="determinate"
-                                value={70}
+                                value={90}
                                 sx={{
                                     bgcolor: theme.palette.success.light,
                                     '& .MuiLinearProgress-bar': { bgcolor: theme.palette.success.dark }
@@ -58,19 +58,19 @@ const D2DCardList = () => {
                     <Grid container spacing={1}>
                         <Grid item xs={12}>
                             <Typography variant="subtitle2" align="left">
-                                Pending Task
+                                InProgress Dispatches
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <Typography variant="h3" align="left">
-                                1,005
+                                30
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
                             {/** had wrong colour, colour is an enum not string */}
                             <LinearProgress
                                 variant="determinate"
-                                value={30}
+                                value={10}
                                 sx={{
                                     bgcolor: theme.palette.orange.light,
                                     '& .MuiLinearProgress-bar': { bgcolor: theme.palette.orange.main }
@@ -84,18 +84,18 @@ const D2DCardList = () => {
                     <Grid container spacing={1}>
                         <Grid item xs={12}>
                             <Typography variant="subtitle2" align="left">
-                                Issues
+                                Incomplete Dispatches
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <Typography variant="h3" align="left">
-                                365
+                                15
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <LinearProgress
                                 variant="determinate"
-                                value={10}
+                                value={5}
                                 sx={{
                                     bgcolor: theme.palette.error.light,
                                     '& .MuiLinearProgress-bar': { bgcolor: theme.palette.error.main }
