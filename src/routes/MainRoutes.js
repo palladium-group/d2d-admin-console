@@ -19,6 +19,9 @@ const AppProfileCardStyle3 = Loadable(lazy(() => import('views/application/users
 const AppProfileListStyle1 = Loadable(lazy(() => import('views/application/users/list/Style1')));
 const AppProfileListStyle2 = Loadable(lazy(() => import('views/application/users/list/Style2')));
 
+// Facility
+const Facility = Loadable(lazy(() => import('views/pages/facility')));
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -30,8 +33,8 @@ const MainRoutes = {
     ),
     children: [
         {
-            path: '/user/social-profile/:tab',
-            element: <AppUserSocialProfile />
+            path: '/facility/:id',
+            element: <Facility />
         },
     ]
 };

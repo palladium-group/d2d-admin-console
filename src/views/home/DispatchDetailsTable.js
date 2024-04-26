@@ -85,7 +85,7 @@ const DispatchDetailsTable = ({ manifests }) => {
             <Box>
                 <IconButton
                     onClick={() =>
-                        navigate(`/project-access/${row.original.id}`)
+                        navigate(`/facility/${row.original.id}`)
                     }
                 >
                     <AddOutlinedIcon />
