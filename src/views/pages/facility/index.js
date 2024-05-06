@@ -1,4 +1,2 @@
-const Facility = () => {
-
-};
+const Facility = () => {};
 export default Facility;

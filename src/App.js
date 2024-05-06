@@ -17,27 +17,28 @@ const App = () => {
     const [userInformation, SetUserInformation] = useState(null);
 
     useEffect(() => {
-        kc.init({
-            onLoad: "login-required",
-            checkLoginIframe: false,
-        }).then((auth) => {
-            try {
-                if(auth) {
-                    const user = {
-                        id: kc.tokenParsed.sub,
-                        name: kc.tokenParsed.name,
-                        token: kc.token,
-                        roles: kc.tokenParsed?.resource_access?.["admin_console"]?.roles,
-                        sub: kc.tokenParsed.sub,
-                        tokenParsed: kc.tokenParsed,
-                    };
-                    SetUserInformation(user);
-                    console.log(kc)
-                }
-            } catch (e) {
-                console.log(e);
+
+        async function authenticate() {
+            const authenticated =  await kc.init({
+                onLoad: "login-required",
+                checkLoginIframe: false,
+            });
+            if(authenticated) {
+                const user = {
+                    id: kc.tokenParsed.sub,
+                    name: kc.tokenParsed.name,
+                    token: kc.token,
+                    roles: kc.tokenParsed?.resource_access?.["admin_console"]?.roles,
+                    sub: kc.tokenParsed.sub,
+                    tokenParsed: kc.tokenParsed,
+                };
+                SetUserInformation(user);
             }
-        });
+            else {
+                console.log("Login failed check why");
+            }
+        }
+        authenticate();
         kc.onTokenExpired = () => {
             kc.updateToken(30);
         }
