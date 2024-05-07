@@ -46,10 +46,15 @@ const RunDeckInfo = () => {
         container
         justifyContent="center"
         spacing={{ xs: 3, sm: 5 }}
-        sx={{ textAlign: 'center' }}>
+        sx={{ textAlign: 'center' }}
+      >
         <Grid item md={5} sm={6} xs={12}>
           <SubCard sx={{ ...cardSX }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Avatar
                 variant="rounded"
                 sx={{
@@ -59,7 +64,8 @@ const RunDeckInfo = () => {
                   height: 60,
                   width: 60,
                   borderRadius: '12px'
-                }}>
+                }}
+              >
                 <GridViewIcon sx={{ fontSize: '2.25rem' }} />
               </Avatar>
               <Stack alignItems="flex-start">
@@ -73,7 +79,8 @@ const RunDeckInfo = () => {
                       theme.palette.mode === 'dark'
                         ? theme.palette.dark[900]
                         : theme.palette.grey[900]
-                  }}>
+                  }}
+                >
                   Last Processing
                 </Typography>
                 <Typography
@@ -86,7 +93,8 @@ const RunDeckInfo = () => {
                       theme.palette.mode === 'dark'
                         ? theme.palette.dark[900]
                         : theme.palette.grey[900]
-                  }}>
+                  }}
+                >
                   2024-04-25 11:50
                 </Typography>
               </Stack>
@@ -96,7 +104,11 @@ const RunDeckInfo = () => {
         <Grid item md={2} sm={6} xs={12}></Grid>
         <Grid item md={5} sm={6} xs={12}>
           <SubCard sx={{ ...cardSX }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Avatar
                 variant="rounded"
                 sx={{
@@ -106,7 +118,8 @@ const RunDeckInfo = () => {
                   height: 60,
                   width: 60,
                   borderRadius: '12px'
-                }}>
+                }}
+              >
                 <WidgetsOutlinedIcon sx={{ fontSize: '2.25rem' }} />
               </Avatar>
               <Stack alignItems="flex-start">
@@ -120,7 +133,8 @@ const RunDeckInfo = () => {
                       theme.palette.mode === 'dark'
                         ? theme.palette.dark[900]
                         : theme.palette.grey[900]
-                  }}>
+                  }}
+                >
                   Next Processing
                 </Typography>
                 <Typography
@@ -133,7 +147,8 @@ const RunDeckInfo = () => {
                       theme.palette.mode === 'dark'
                         ? theme.palette.dark[900]
                         : theme.palette.grey[900]
-                  }}>
+                  }}
+                >
                   2024-04-26 11:50
                 </Typography>
               </Stack>

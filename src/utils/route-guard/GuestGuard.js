@@ -14,20 +14,20 @@ import { DASHBOARD_PATH } from 'config';
  */
 
 const GuestGuard = ({ children }) => {
-    const { isLoggedIn } = useAuth();
-    const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (isLoggedIn) {
-            navigate(DASHBOARD_PATH, { replace: true });
-        }
-    }, [isLoggedIn, navigate]);
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate(DASHBOARD_PATH, { replace: true });
+    }
+  }, [isLoggedIn, navigate]);
 
-    return children;
+  return children;
 };
 
 GuestGuard.propTypes = {
-    children: PropTypes.node
+  children: PropTypes.node
 };
 
 export default GuestGuard;

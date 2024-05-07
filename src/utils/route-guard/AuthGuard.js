@@ -12,21 +12,21 @@ import useAuth from 'hooks/useAuth';
  * @param {PropTypes.node} children children element/node
  */
 const AuthGuard = ({ children }) => {
-    console.log(useAuth());
-    const { isLoggedIn } = useAuth();
-    const navigate = useNavigate();
+  console.log(useAuth());
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!isLoggedIn) {
-            navigate('login', { replace: true });
-        }
-    }, [isLoggedIn, navigate]);
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('login', { replace: true });
+    }
+  }, [isLoggedIn, navigate]);
 
-    return children;
+  return children;
 };
 
 AuthGuard.propTypes = {
-    children: PropTypes.node
+  children: PropTypes.node
 };
 
 export default AuthGuard;

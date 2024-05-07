@@ -11,15 +11,15 @@ import SnackBarAction from './SnackBarAction';
 import TransitionBar from './TransitionBar';
 
 export {
-    ColorVariants,
-    MaxSnackbar,
-    TransitionBar,
-    CustomComponent,
-    Dense,
-    DismissSnackBar,
-    HideDuration,
-    PreventDuplicate,
-    PositioningSnackbar,
-    SnackBarAction,
-    IconVariants
+  ColorVariants,
+  MaxSnackbar,
+  TransitionBar,
+  CustomComponent,
+  Dense,
+  DismissSnackBar,
+  HideDuration,
+  PreventDuplicate,
+  PositioningSnackbar,
+  SnackBarAction,
+  IconVariants
 };

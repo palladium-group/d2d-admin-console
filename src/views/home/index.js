@@ -30,7 +30,13 @@ const Home = () => {
 
         <Grid item md={12}>
           <SectionWrapper
-            sx={{ bgcolor: theme.palette.mode === 'dark' ? 'dark.dark' : 'background.default' }}>
+            sx={{
+              bgcolor:
+                theme.palette.mode === 'dark'
+                  ? 'dark.dark'
+                  : 'background.default'
+            }}
+          >
             <HomeMap />
           </SectionWrapper>
         </Grid>

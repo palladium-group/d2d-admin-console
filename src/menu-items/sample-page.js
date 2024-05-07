@@ -9,14 +9,14 @@ import { IconBrandChrome } from '@tabler/icons';
 // ==============================|| MENU ITEMS - SAMPLE PAGE ||============================== //
 
 const icons = {
-    IconBrandChrome
+  IconBrandChrome
 };
 const samplePage = {
-    id: 'sample-page',
-    title: <FormattedMessage id="sample-page" />,
-    icon: icons.IconBrandChrome,
-    type: 'group',
-    url: '/sample-page'
+  id: 'sample-page',
+  title: <FormattedMessage id="sample-page" />,
+  icon: icons.IconBrandChrome,
+  type: 'group',
+  url: '/sample-page'
 };
 
 export default samplePage;

@@ -21,7 +21,8 @@ const HomeMap = () => {
       style={{ height: '500px' }}
       center={[-30.5595, 22.9375]}
       zoom={6}
-      scrollWheelZoom={true}>
+      scrollWheelZoom={true}
+    >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -32,7 +33,8 @@ const HomeMap = () => {
             key={index}
             position={[address[0], address[1]]}
             title={address[2]}
-            icon={customIcon}></Marker>
+            icon={customIcon}
+          ></Marker>
         ))}
       </MarkerClusterGroup>
     </MapContainer>

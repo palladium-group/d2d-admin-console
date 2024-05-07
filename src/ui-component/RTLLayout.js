@@ -12,23 +12,23 @@ import useConfig from 'hooks/useConfig';
 // ==============================|| RTL LAYOUT ||============================== //
 
 const RTLLayout = ({ children }) => {
-    const { rtlLayout } = useConfig();
+  const { rtlLayout } = useConfig();
 
-    useEffect(() => {
-        document.dir = rtlLayout ? 'rtl' : 'ltr';
-    }, [rtlLayout]);
+  useEffect(() => {
+    document.dir = rtlLayout ? 'rtl' : 'ltr';
+  }, [rtlLayout]);
 
-    const cacheRtl = createCache({
-        key: rtlLayout ? 'rtl' : 'css',
-        prepend: true,
-        stylisPlugins: rtlLayout ? [rtlPlugin] : []
-    });
+  const cacheRtl = createCache({
+    key: rtlLayout ? 'rtl' : 'css',
+    prepend: true,
+    stylisPlugins: rtlLayout ? [rtlPlugin] : []
+  });
 
-    return <CacheProvider value={cacheRtl}>{children}</CacheProvider>;
+  return <CacheProvider value={cacheRtl}>{children}</CacheProvider>;
 };
 
 RTLLayout.propTypes = {
-    children: PropTypes.node
+  children: PropTypes.node
 };
 
 export default RTLLayout;

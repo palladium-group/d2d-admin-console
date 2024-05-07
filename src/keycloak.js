@@ -1,7 +1,8 @@
-import Keycloak from "keycloak-js";
+import Keycloak from 'keycloak-js';
 
 export const kc = new Keycloak({
-    url: 'http://localhost:8080',
-    realm: 'd2d',
-    clientId: 'admin_console'
+  url: `${process.env.REACT_APP_KEY_CLOAK_URL}`,
+  realm: `${process.env.REACT_APP_KEY_CLOAK_REALM}`,
+  clientId: `${process.env.REACT_APP_KEY_CLOAK_CLIENT}`,
+  onLoad: 'login-required'
 });

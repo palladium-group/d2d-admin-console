@@ -5,50 +5,54 @@ import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'store';
 
 // assets
-import { IconChartArcs, IconClipboardList, IconChartInfographic } from '@tabler/icons';
+import {
+  IconChartArcs,
+  IconClipboardList,
+  IconChartInfographic
+} from '@tabler/icons';
 
 const icons = {
-    widget: IconChartArcs,
-    statistics: IconChartArcs,
-    data: IconClipboardList,
-    chart: IconChartInfographic
+  widget: IconChartArcs,
+  statistics: IconChartArcs,
+  data: IconClipboardList,
+  chart: IconChartInfographic
 };
 
 // ==============================|| MENU ITEMS - API ||============================== //
 
 export const Menu = () => {
-    const { menu } = useSelector((state) => state.menu);
+  const { menu } = useSelector((state) => state.menu);
 
-    const SubChildrenLis = (subChildrenLis) =>
-        subChildrenLis?.map((subList) => ({
-            ...subList,
-            title: <FormattedMessage id={`${subList.title}`} />,
-            icon: icons[subList.icon]
-        }));
+  const SubChildrenLis = (subChildrenLis) =>
+    subChildrenLis?.map((subList) => ({
+      ...subList,
+      title: <FormattedMessage id={`${subList.title}`} />,
+      icon: icons[subList.icon]
+    }));
 
-    const menuItem = (subList) => {
-        const list = {
-            ...subList,
-            title: <FormattedMessage id={`${subList.title}`} />,
-            icon: icons[subList.icon]
-        };
-
-        if (subList.type === 'collapse') {
-            list.children = SubChildrenLis(subList.children);
-        }
-        return list;
+  const menuItem = (subList) => {
+    const list = {
+      ...subList,
+      title: <FormattedMessage id={`${subList.title}`} />,
+      icon: icons[subList.icon]
     };
 
-    const withoutMenu = menu?.children?.filter((item) => item.id !== 'no-menu');
+    if (subList.type === 'collapse') {
+      list.children = SubChildrenLis(subList.children);
+    }
+    return list;
+  };
 
-    const ChildrenList = withoutMenu?.map((subList) => menuItem(subList));
+  const withoutMenu = menu?.children?.filter((item) => item.id !== 'no-menu');
 
-    const menuList = {
-        ...menu,
-        title: <FormattedMessage id={`${menu.title}`} />,
-        icon: icons[menu.icon],
-        children: ChildrenList
-    };
+  const ChildrenList = withoutMenu?.map((subList) => menuItem(subList));
 
-    return menuList;
+  const menuList = {
+    ...menu,
+    title: <FormattedMessage id={`${menu.title}`} />,
+    icon: icons[menu.icon],
+    children: ChildrenList
+  };
+
+  return menuList;
 };

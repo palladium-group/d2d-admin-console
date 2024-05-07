@@ -7,18 +7,18 @@ import useLocalStorage from 'hooks/useLocalStorage';
 
 // initial state
 const initialState = {
-    ...defaultConfig,
-    onChangeLayout: () => {},
-    onChangeDrawer: () => {},
-    onChangeMenuType: () => {},
-    onChangePresetColor: () => {},
-    onChangeLocale: () => {},
-    onChangeRTL: () => {},
-    onChangeContainer: () => {},
-    onChangeFontFamily: () => {},
-    onChangeBorderRadius: () => {},
-    onChangeOutlinedField: () => {},
-    onReset: () => {}
+  ...defaultConfig,
+  onChangeLayout: () => {},
+  onChangeDrawer: () => {},
+  onChangeMenuType: () => {},
+  onChangePresetColor: () => {},
+  onChangeLocale: () => {},
+  onChangeRTL: () => {},
+  onChangeContainer: () => {},
+  onChangeFontFamily: () => {},
+  onChangeBorderRadius: () => {},
+  onChangeOutlinedField: () => {},
+  onReset: () => {}
 };
 
 // ==============================|| CONFIG CONTEXT & PROVIDER ||============================== //
@@ -26,116 +26,116 @@ const initialState = {
 const ConfigContext = createContext(initialState);
 
 function ConfigProvider({ children }) {
-    const [config, setConfig] = useLocalStorage('berry-config', {
-        layout: initialState.layout,
-        drawerType: initialState.drawerType,
-        fontFamily: initialState.fontFamily,
-        borderRadius: initialState.borderRadius,
-        outlinedFilled: initialState.outlinedFilled,
-        navType: initialState.navType,
-        presetColor: initialState.presetColor,
-        locale: initialState.locale,
-        rtlLayout: initialState.rtlLayout
+  const [config, setConfig] = useLocalStorage('berry-config', {
+    layout: initialState.layout,
+    drawerType: initialState.drawerType,
+    fontFamily: initialState.fontFamily,
+    borderRadius: initialState.borderRadius,
+    outlinedFilled: initialState.outlinedFilled,
+    navType: initialState.navType,
+    presetColor: initialState.presetColor,
+    locale: initialState.locale,
+    rtlLayout: initialState.rtlLayout
+  });
+
+  const onChangeLayout = (layout) => {
+    setConfig({
+      ...config,
+      layout
     });
+  };
 
-    const onChangeLayout = (layout) => {
-        setConfig({
-            ...config,
-            layout
-        });
-    };
+  const onChangeDrawer = (drawerType) => {
+    setConfig({
+      ...config,
+      drawerType
+    });
+  };
 
-    const onChangeDrawer = (drawerType) => {
-        setConfig({
-            ...config,
-            drawerType
-        });
-    };
+  const onChangeMenuType = (navType) => {
+    setConfig({
+      ...config,
+      navType
+    });
+  };
 
-    const onChangeMenuType = (navType) => {
-        setConfig({
-            ...config,
-            navType
-        });
-    };
+  const onChangePresetColor = (presetColor) => {
+    setConfig({
+      ...config,
+      presetColor
+    });
+  };
 
-    const onChangePresetColor = (presetColor) => {
-        setConfig({
-            ...config,
-            presetColor
-        });
-    };
+  const onChangeLocale = (locale) => {
+    setConfig({
+      ...config,
+      locale
+    });
+  };
 
-    const onChangeLocale = (locale) => {
-        setConfig({
-            ...config,
-            locale
-        });
-    };
+  const onChangeRTL = (rtlLayout) => {
+    setConfig({
+      ...config,
+      rtlLayout
+    });
+  };
 
-    const onChangeRTL = (rtlLayout) => {
-        setConfig({
-            ...config,
-            rtlLayout
-        });
-    };
+  const onChangeContainer = (container) => {
+    setConfig({
+      ...config,
+      container
+    });
+  };
 
-    const onChangeContainer = (container) => {
-        setConfig({
-            ...config,
-            container
-        });
-    };
+  const onChangeFontFamily = (fontFamily) => {
+    setConfig({
+      ...config,
+      fontFamily
+    });
+  };
 
-    const onChangeFontFamily = (fontFamily) => {
-        setConfig({
-            ...config,
-            fontFamily
-        });
-    };
+  const onChangeBorderRadius = (event, newValue) => {
+    setConfig({
+      ...config,
+      borderRadius: newValue
+    });
+  };
 
-    const onChangeBorderRadius = (event, newValue) => {
-        setConfig({
-            ...config,
-            borderRadius: newValue
-        });
-    };
+  const onChangeOutlinedField = (outlinedFilled) => {
+    setConfig({
+      ...config,
+      outlinedFilled
+    });
+  };
 
-    const onChangeOutlinedField = (outlinedFilled) => {
-        setConfig({
-            ...config,
-            outlinedFilled
-        });
-    };
+  const onReset = () => {
+    setConfig({ ...defaultConfig });
+  };
 
-    const onReset = () => {
-        setConfig({ ...defaultConfig });
-    };
-
-    return (
-        <ConfigContext.Provider
-            value={{
-                ...config,
-                onChangeLayout,
-                onChangeDrawer,
-                onChangeMenuType,
-                onChangePresetColor,
-                onChangeLocale,
-                onChangeRTL,
-                onChangeContainer,
-                onChangeFontFamily,
-                onChangeBorderRadius,
-                onChangeOutlinedField,
-                onReset
-            }}
-        >
-            {children}
-        </ConfigContext.Provider>
-    );
+  return (
+    <ConfigContext.Provider
+      value={{
+        ...config,
+        onChangeLayout,
+        onChangeDrawer,
+        onChangeMenuType,
+        onChangePresetColor,
+        onChangeLocale,
+        onChangeRTL,
+        onChangeContainer,
+        onChangeFontFamily,
+        onChangeBorderRadius,
+        onChangeOutlinedField,
+        onReset
+      }}
+    >
+      {children}
+    </ConfigContext.Provider>
+  );
 }
 
 ConfigProvider.propTypes = {
-    children: PropTypes.node
+  children: PropTypes.node
 };
 
 export { ConfigProvider, ConfigContext };

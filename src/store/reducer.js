@@ -19,24 +19,24 @@ import menuReducer from './slices/menu';
 // ==============================|| COMBINE REDUCER ||============================== //
 
 const reducer = combineReducers({
-    snackbar: snackbarReducer,
-    cart: persistReducer(
-        {
-            key: 'cart',
-            storage,
-            keyPrefix: 'berry-'
-        },
-        cartReducer
-    ),
-    kanban: kanbanReducer,
-    customer: customerReducer,
-    contact: contactReducer,
-    product: productReducer,
-    chat: chatReducer,
-    calendar: calendarReducer,
-    mail: mailReducer,
-    user: userReducer,
-    menu: menuReducer
+  snackbar: snackbarReducer,
+  cart: persistReducer(
+    {
+      key: 'cart',
+      storage,
+      keyPrefix: 'berry-'
+    },
+    cartReducer
+  ),
+  kanban: kanbanReducer,
+  customer: customerReducer,
+  contact: contactReducer,
+  product: productReducer,
+  chat: chatReducer,
+  calendar: calendarReducer,
+  mail: mailReducer,
+  user: userReducer,
+  menu: menuReducer
 });
 
 export default reducer;
