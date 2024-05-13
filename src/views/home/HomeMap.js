@@ -1,14 +1,11 @@
 import React from 'react';
 import L from 'leaflet';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import 'leaflet/dist/leaflet.css';
-
-export const addressPoints = [
-  [-23.074212, 29.760491, '571'],
-  [-29.201315, 26.24207, '486'],
-  [-25.802356, 28.258748, '807']
-];
+import useKeyCloakAuth from '../../hooks/useKeyCloakAuth';
+import { useQuery } from '@tanstack/react-query';
+import { getFacilityByOrgUnit } from '../../api/d2d-api';
 
 const customIcon = new L.Icon({
   iconUrl: require('./location.svg').default,
@@ -16,6 +13,18 @@ const customIcon = new L.Icon({
 });
 
 const HomeMap = () => {
+  const user = useKeyCloakAuth();
+  const { data: { data = [] } = {} } = useQuery({
+    queryKey: ['getFacilityByOrgUnit', user.OrgUnit, user.OrgUnitValue],
+    queryFn: async (queryKey) => {
+      const data = await getFacilityByOrgUnit(queryKey);
+      return data;
+    },
+    enabled: !!user.OrgUnit && !!user.OrgUnitValue
+  });
+
+  console.log(data);
+
   return (
     <MapContainer
       style={{ height: '500px' }}
@@ -28,14 +37,21 @@ const HomeMap = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <MarkerClusterGroup chunkedLoading>
-        {addressPoints.map((address, index) => (
-          <Marker
-            key={index}
-            position={[address[0], address[1]]}
-            title={address[2]}
-            icon={customIcon}
-          ></Marker>
-        ))}
+        {data.map((address, index) =>
+          address.latitude !== null && address.longitude !== null ? (
+            <Marker
+              key={index}
+              position={[address.latitude, address.longitude]}
+              title={address.facilityName}
+              icon={customIcon}
+            >
+              <Popup>
+                Facility Name: {address.facilityName} <br /> Easily
+                customizable.
+              </Popup>
+            </Marker>
+          ) : null
+        )}
       </MarkerClusterGroup>
     </MapContainer>
   );

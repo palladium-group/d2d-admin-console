@@ -36,6 +36,7 @@ const App = () => {
             OrgUnitValue: kc.tokenParsed.OrgUnitValue
           };
           SetUserInformation(user);
+          console.log(user);
         } else {
           SetUserInformation(null);
           console.log(`login failed`);

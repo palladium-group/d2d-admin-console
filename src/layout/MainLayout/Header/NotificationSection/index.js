@@ -82,7 +82,7 @@ const NotificationSection = () => {
           }
         }}
       >
-        {user?.name} {user?.OrgUnit}: {user?.OrgUnitValue}
+        {user?.name}
       </Box>
     </>
   );

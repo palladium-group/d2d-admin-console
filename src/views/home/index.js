@@ -6,7 +6,7 @@ import { useTheme, styled } from '@mui/material/styles';
 // import D2DCardList from "./D2DCardList";
 import { gridSpacing } from '../../store/constant';
 import { Grid } from '@mui/material';
-// import RunDeckInfo from './RunDeckInfo';
+import RunDeckInfo from './RunDeckInfo';
 import HomeMap from './HomeMap';
 // custom style
 
@@ -21,12 +21,18 @@ const Home = () => {
   return (
     <React.Fragment>
       <Grid container spacing={gridSpacing}>
-        {/*<Grid item md={12}>*/}
-        {/*  <SectionWrapper*/}
-        {/*    sx={{ bgcolor: theme.palette.mode === 'dark' ? 'dark.dark' : 'background.default' }}>*/}
-        {/*    <RunDeckInfo />*/}
-        {/*  </SectionWrapper>*/}
-        {/*</Grid>*/}
+        <Grid item md={12}>
+          <SectionWrapper
+            sx={{
+              bgcolor:
+                theme.palette.mode === 'dark'
+                  ? 'dark.dark'
+                  : 'background.default'
+            }}
+          >
+            <RunDeckInfo />
+          </SectionWrapper>
+        </Grid>
 
         <Grid item md={12}>
           <SectionWrapper
