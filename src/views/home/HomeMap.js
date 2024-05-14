@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import useKeyCloakAuth from '../../hooks/useKeyCloakAuth';
 import { useQuery } from '@tanstack/react-query';
 import { getFacilityByOrgUnit } from '../../api/d2d-api';
+import FacilityDetails from './FacilityDetails';
 
 const customIcon = new L.Icon({
   iconUrl: require('./location.svg').default,
@@ -22,8 +23,6 @@ const HomeMap = () => {
     },
     enabled: !!user.OrgUnit && !!user.OrgUnitValue
   });
-
-  console.log(data);
 
   return (
     <MapContainer
@@ -46,8 +45,8 @@ const HomeMap = () => {
               icon={customIcon}
             >
               <Popup>
-                Facility Name: {address.facilityName} <br /> Easily
-                customizable.
+                Facility Name: {address.facilityName} <br />{' '}
+                <FacilityDetails facilityId={address.facilityId} />
               </Popup>
             </Marker>
           ) : null
