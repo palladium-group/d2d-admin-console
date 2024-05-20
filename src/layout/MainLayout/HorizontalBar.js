@@ -11,6 +11,7 @@ import {
   useScrollTrigger
 } from '@mui/material';
 import AlarmIcon from '@mui/icons-material/Alarm';
+import { format } from 'date-fns';
 
 // project imports
 import MenuList from './MenuList';
@@ -77,8 +78,12 @@ const CustomAppBar = () => {
               <AlarmIcon />
             </IconButton>
             <Box>
-              <Typography variant="h6">Last Run: time</Typography>
-              <Typography variant="h6">Next Run: time</Typography>
+              <Typography variant="h6">
+                Last Run: {format(new Date(), 'dd/MM/yyyy HH:mm:ss')}
+              </Typography>
+              <Typography variant="h6">
+                Next Run: {format(new Date(), 'dd/MM/yyyy HH:mm:ss')}
+              </Typography>
             </Box>
           </Box>
         </Container>

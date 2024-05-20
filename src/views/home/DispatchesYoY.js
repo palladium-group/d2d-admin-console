@@ -8,26 +8,37 @@ const DispatchesYoY = () => {
   useEffect(() => {
     setOptions({
       title: {
-        text: 'U.S Solar Employment Growth',
-        align: 'left'
-      },
-
-      subtitle: {
-        text: 'By Job Category. Source: <a href="https://irecusa.org/programs/solar-jobs-census/" target="_blank">IREC</a>.',
+        text: 'Number of Dispatches Processed YoY',
         align: 'left'
       },
 
       yAxis: {
         title: {
-          text: 'Number of Employees'
+          text: 'Number of Dispatches'
         }
       },
 
-      xAxis: {
-        accessibility: {
-          rangeDescription: 'Range: 2010 to 2020'
+      xAxis: [
+        {
+          accessibility: {
+            rangeDescription: 'Months'
+          },
+          categories: [
+            'JAN',
+            'FEB',
+            'MAR',
+            'APR',
+            'MAY',
+            'JUN',
+            'JUL',
+            'AUG',
+            'SEP',
+            'OCT',
+            'NOV',
+            'DEC'
+          ]
         }
-      },
+      ],
 
       legend: {
         layout: 'vertical',
@@ -39,8 +50,7 @@ const DispatchesYoY = () => {
         series: {
           label: {
             connectorAllowed: false
-          },
-          pointStart: 2010
+          }
         }
       },
 

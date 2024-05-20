@@ -22,7 +22,7 @@ const MainRoutes = {
   ),
   children: [
     {
-      path: '/facility/:id',
+      path: '/facilities',
       element: <Facility />
     },
     {
