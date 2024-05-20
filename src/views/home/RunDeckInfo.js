@@ -4,6 +4,7 @@ import MainCard from '../../ui-component/cards/MainCard';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useTheme } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
+import DispatchesYoY from './DispatchesYoY';
 
 const RunDeckInfo = () => {
   const theme = useTheme();
@@ -19,7 +20,7 @@ const RunDeckInfo = () => {
 
   return (
     <Container maxWidth={false}>
-      <Grid container spacing={gridSpacing}>
+      <Grid container spacing={gridSpacing} alignItems="stretch">
         <Grid item md={3}>
           <Grid container spacing={gridSpacing}>
             <Grid item md={12}>
@@ -46,8 +47,8 @@ const RunDeckInfo = () => {
                     <Stack
                       direction="row"
                       alignItems="center"
-                      spacing={2}
-                      // sx={{ my: 1.75, mx: 'auto' }}
+                      spacing={3}
+                      sx={{ my: 1.75, mx: 'auto' }}
                     >
                       {primaryIcon}
                       <Typography variant="h3">{primary}%</Typography>
@@ -91,11 +92,17 @@ const RunDeckInfo = () => {
                     <Stack
                       direction="row"
                       alignItems="center"
-                      spacing={0.5}
+                      spacing={3}
                       sx={{ my: 1.75, mx: 'auto' }}
                     >
                       {primaryIcon}
                       <Typography variant="h3">{primary}%</Typography>
+                      <Divider
+                        orientation="vertical"
+                        variant="middle"
+                        flexItem
+                      />
+                      <Typography variant="h3">144/220</Typography>
                     </Stack>
                   </Grid>
                   <Grid item sm={12}>
@@ -108,7 +115,15 @@ const RunDeckInfo = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={9}></Grid>
+        <Grid item md={9}>
+          <Grid container spacing={gridSpacing}>
+            <Grid item md={12}>
+              <MainCard>
+                <DispatchesYoY />
+              </MainCard>
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
     </Container>
   );

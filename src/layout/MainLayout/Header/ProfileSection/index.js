@@ -20,7 +20,7 @@ import {
   // OutlinedInput,
   Paper,
   Popper,
-  // Stack,
+  Stack,
   // Switch,
   Typography
 } from '@mui/material';
@@ -46,12 +46,14 @@ import {
 } from '@tabler/icons';
 import useConfig from 'hooks/useConfig';
 import { kc } from '../../../../keycloak';
+import useKeyCloakAuth from '../../../../hooks/useKeyCloakAuth';
 
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
   const theme = useTheme();
   const { borderRadius } = useConfig();
+  const user = useKeyCloakAuth();
   // const navigate = useNavigate();
 
   // const [sdm, setSdm] = useState(true);
@@ -170,6 +172,28 @@ const ProfileSection = () => {
                     boxShadow
                     shadow={theme.shadows[16]}
                   >
+                    <Box sx={{ p: 2, pb: 0, maxWidth: 250 }}>
+                      <Stack>
+                        <Stack
+                          direction="row"
+                          spacing={0.5}
+                          alignItems="center"
+                        >
+                          <Typography
+                            component="span"
+                            variant="h4"
+                            sx={{
+                              fontWeight: 400,
+                              whiteSpace: 'normal',
+                              wordBreak: 'break-word'
+                            }}
+                          >
+                            Hi, {user.name} you are limited to{' '}
+                            {user.OrgUnitValue}.
+                          </Typography>
+                        </Stack>
+                      </Stack>
+                    </Box>
                     <PerfectScrollbar
                       style={{
                         height: '100%',

@@ -2,7 +2,15 @@ import * as React from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { AppBar, Box, Container, useScrollTrigger } from '@mui/material';
+import {
+  AppBar,
+  Box,
+  Container,
+  IconButton,
+  Typography,
+  useScrollTrigger
+} from '@mui/material';
+import AlarmIcon from '@mui/icons-material/Alarm';
 
 // project imports
 import MenuList from './MenuList';
@@ -56,8 +64,22 @@ const CustomAppBar = () => {
         }}
       >
         <Container maxWidth={container ? 'lg' : false}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
             <MenuList />
+
+            <Box sx={{ flexGrow: 1 }} />
+            <IconButton sx={{ color: '#72BB53' }}>
+              <AlarmIcon />
+            </IconButton>
+            <Box>
+              <Typography variant="h6">Last Run: time</Typography>
+              <Typography variant="h6">Next Run: time</Typography>
+            </Box>
           </Box>
         </Container>
       </AppBar>

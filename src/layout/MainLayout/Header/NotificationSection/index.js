@@ -23,7 +23,6 @@ import {
   // Typography,
   // useMediaQuery
 } from '@mui/material';
-import useKeyCloakAuth from '../../../../hooks/useKeyCloakAuth';
 
 // third-party
 // import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -40,7 +39,6 @@ import useKeyCloakAuth from '../../../../hooks/useKeyCloakAuth';
 
 const NotificationSection = () => {
   const theme = useTheme();
-  const user = useKeyCloakAuth();
   // const matchesXs = useMediaQuery(theme.breakpoints.down('md'));
 
   // const [open, setOpen] = useState(false);
@@ -81,9 +79,7 @@ const NotificationSection = () => {
             mr: 2
           }
         }}
-      >
-        {user?.name}
-      </Box>
+      ></Box>
     </>
   );
 };
