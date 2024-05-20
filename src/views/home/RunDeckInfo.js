@@ -1,160 +1,114 @@
+import { Container, Divider, Grid, Stack, Typography } from '@mui/material';
+import { gridSpacing } from '../../store/constant';
+import MainCard from '../../ui-component/cards/MainCard';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useTheme } from '@mui/material/styles';
-import { Container, Grid, Typography, Stack } from '@mui/material';
-
-import SubCard from 'ui-component/cards/SubCard';
-import Avatar from 'ui-component/extended/Avatar';
-
-import GridViewIcon from '@mui/icons-material/GridView';
-import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
-// import WebOutlinedIcon from '@mui/icons-material/WebOutlined';
+import { grey } from '@mui/material/colors';
 
 const RunDeckInfo = () => {
   const theme = useTheme();
-  const cardSX = {
-    overflow: 'hidden',
-    position: 'relative',
-    border: 'none',
-    '&:after': {
-      content: '""',
-      position: 'absolute',
-      width: 150,
-      height: 150,
-      border: `35px solid ${theme.palette.background.paper}`,
-      opacity: theme.palette.mode === 'dark' ? 0.1 : 0.4,
-      borderRadius: '50%',
-      top: -72,
-      right: -63
-    },
-    '&:before': {
-      content: '""',
-      position: 'absolute',
-      width: 150,
-      height: 150,
-      border: `2px solid ${theme.palette.background.paper}`,
-      opacity: theme.palette.mode === 'dark' ? 0.05 : 0.21,
-      borderRadius: '50%',
-      top: -97,
-      right: -3
-    },
-    '& .MuiCardContent-root': {
-      padding: '20px 38px 20px 30px'
-    }
-  };
+  const color = theme.palette.error.main;
+  const IconPrimary = ArrowDownwardIcon;
+  const primaryIcon =
+    ArrowDownwardIcon !== undefined ? (
+      <IconPrimary fontSize="large" sx={{ width: 20, height: 20, color }} />
+    ) : null;
+  const primary = 76;
+  const secondary = '8% less Last 3 Months';
+  const greyColor = grey[600];
+
   return (
-    <Container>
-      <Grid
-        container
-        justifyContent="center"
-        spacing={{ xs: 3, sm: 5 }}
-        sx={{ textAlign: 'center' }}
-      >
-        <Grid item md={5} sm={6} xs={12}>
-          <SubCard sx={{ ...cardSX }}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Avatar
-                variant="rounded"
-                sx={{
-                  background: theme.palette.background.paper,
-                  color: theme.palette.primary.main,
-                  opacity: theme.palette.mode === 'dark' ? 1 : 0.5,
-                  height: 60,
-                  width: 60,
-                  borderRadius: '12px'
-                }}
-              >
-                <GridViewIcon sx={{ fontSize: '2.25rem' }} />
-              </Avatar>
-              <Stack alignItems="flex-start">
-                <Typography
-                  variant="h1"
-                  sx={{
-                    fontWeight: 800,
-                    fontSize: '2.5rem',
-                    zIndex: '99',
-                    color:
-                      theme.palette.mode === 'dark'
-                        ? theme.palette.dark[900]
-                        : theme.palette.grey[900]
-                  }}
+    <Container maxWidth={false}>
+      <Grid container spacing={gridSpacing}>
+        <Grid item md={3}>
+          <Grid container spacing={gridSpacing}>
+            <Grid item md={12}>
+              <MainCard>
+                <Grid
+                  container
+                  justifyContent="space-between"
+                  direction="column"
+                  alignItems="left"
                 >
-                  Last Processing
-                </Typography>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    fontWeight: 500,
-                    fontSize: '1.120rem',
-                    textAlign: 'end',
-                    color:
-                      theme.palette.mode === 'dark'
-                        ? theme.palette.dark[900]
-                        : theme.palette.grey[900]
-                  }}
+                  <Grid item sm={12}>
+                    <Typography variant="h5" color="inherit">
+                      Facilities with Recent Dispatches
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      color={greyColor}
+                      gutterBottom
+                    >
+                      End of March
+                    </Typography>
+                  </Grid>
+                  <Grid item sm={12}>
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      spacing={2}
+                      // sx={{ my: 1.75, mx: 'auto' }}
+                    >
+                      {primaryIcon}
+                      <Typography variant="h3">{primary}%</Typography>
+                      <Divider
+                        orientation="vertical"
+                        variant="middle"
+                        flexItem
+                      />
+                      <Typography variant="h3">144/220</Typography>
+                    </Stack>
+                  </Grid>
+                  <Grid item sm={12}>
+                    <Typography variant="body2" color="textSecondary">
+                      {secondary}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </MainCard>
+            </Grid>
+            <Grid item md={12}>
+              <MainCard>
+                <Grid
+                  container
+                  justifyContent="space-between"
+                  direction="column"
+                  alignItems="left"
                 >
-                  2024-04-25 11:50
-                </Typography>
-              </Stack>
-            </Stack>
-          </SubCard>
+                  <Grid item sm={12}>
+                    <Typography variant="h5" color="inherit" gutterBottom>
+                      Facilities with Recent Dispatches
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      color={greyColor}
+                      gutterBottom
+                    >
+                      End of April
+                    </Typography>
+                  </Grid>
+                  <Grid item sm={12}>
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      spacing={0.5}
+                      sx={{ my: 1.75, mx: 'auto' }}
+                    >
+                      {primaryIcon}
+                      <Typography variant="h3">{primary}%</Typography>
+                    </Stack>
+                  </Grid>
+                  <Grid item sm={12}>
+                    <Typography variant="body2" color="textSecondary">
+                      {secondary}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </MainCard>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item md={2} sm={6} xs={12}></Grid>
-        <Grid item md={5} sm={6} xs={12}>
-          <SubCard sx={{ ...cardSX }}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Avatar
-                variant="rounded"
-                sx={{
-                  background: theme.palette.background.paper,
-                  color: theme.palette.primary.main,
-                  opacity: theme.palette.mode === 'dark' ? 1 : 0.5,
-                  height: 60,
-                  width: 60,
-                  borderRadius: '12px'
-                }}
-              >
-                <WidgetsOutlinedIcon sx={{ fontSize: '2.25rem' }} />
-              </Avatar>
-              <Stack alignItems="flex-start">
-                <Typography
-                  variant="h1"
-                  sx={{
-                    fontWeight: 800,
-                    fontSize: '2.5rem',
-                    zIndex: '99',
-                    color:
-                      theme.palette.mode === 'dark'
-                        ? theme.palette.dark[900]
-                        : theme.palette.grey[900]
-                  }}
-                >
-                  Next Processing
-                </Typography>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    fontWeight: 500,
-                    fontSize: '1.120rem',
-                    textAlign: 'end',
-                    color:
-                      theme.palette.mode === 'dark'
-                        ? theme.palette.dark[900]
-                        : theme.palette.grey[900]
-                  }}
-                >
-                  2024-04-26 11:50
-                </Typography>
-              </Stack>
-            </Stack>
-          </SubCard>
-        </Grid>
+        <Grid item md={9}></Grid>
       </Grid>
     </Container>
   );

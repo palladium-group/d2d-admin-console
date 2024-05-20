@@ -1,6 +1,6 @@
 import React from 'react';
 // material-ui
-import { useTheme, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 // project imports
 // import DispatchSection from "./DispatchSection";
 // import D2DCardList from "./D2DCardList";
@@ -16,51 +16,22 @@ const SectionWrapper = styled('div')({
 });
 
 const Home = () => {
-  const theme = useTheme();
+  // const theme = useTheme();
 
   return (
-    <React.Fragment>
-      <Grid container spacing={gridSpacing}>
-        <Grid item md={12}>
-          <SectionWrapper
-            sx={{
-              bgcolor:
-                theme.palette.mode === 'dark'
-                  ? 'dark.dark'
-                  : 'background.default'
-            }}
-          >
-            <RunDeckInfo />
-          </SectionWrapper>
-        </Grid>
-
-        <Grid item md={12}>
-          <SectionWrapper
-            sx={{
-              bgcolor:
-                theme.palette.mode === 'dark'
-                  ? 'dark.dark'
-                  : 'background.default'
-            }}
-          >
-            <HomeMap />
-          </SectionWrapper>
-        </Grid>
-
-        {/*<Grid item md={12}>*/}
-        {/*    <SectionWrapper sx={{ bgcolor: theme.palette.mode === 'dark' ? 'dark.dark' : 'background.default' }}>*/}
-        {/*        <D2DCardList />*/}
-        {/*    </SectionWrapper>*/}
-
-        {/*</Grid>*/}
-
-        {/*<Grid item md={12}>*/}
-        {/*    <SectionWrapper sx={{ bgcolor: theme.palette.mode === 'dark' ? 'dark.dark' : 'background.default' }}>*/}
-        {/*        <DispatchSection />*/}
-        {/*    </SectionWrapper>*/}
-        {/*</Grid>*/}
+    <Grid container spacing={gridSpacing}>
+      <Grid item md={12}>
+        <SectionWrapper>
+          <RunDeckInfo />
+        </SectionWrapper>
       </Grid>
-    </React.Fragment>
+
+      <Grid item md={12}>
+        <SectionWrapper>
+          <HomeMap />
+        </SectionWrapper>
+      </Grid>
+    </Grid>
   );
 };
 export default Home;
