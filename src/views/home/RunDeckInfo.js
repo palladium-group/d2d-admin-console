@@ -20,18 +20,23 @@ const RunDeckInfo = () => {
 
   return (
     <Container maxWidth={false}>
-      <Grid container spacing={gridSpacing} alignItems="stretch">
-        <Grid item md={3}>
-          <Grid container spacing={gridSpacing}>
-            <Grid item md={12}>
-              <MainCard>
+      <Grid
+        container
+        spacing={gridSpacing}
+        style={{ display: 'flex', alignItems: 'stretch' }}
+      >
+        <Grid item md={3} style={{ display: 'flex', flexDirection: 'column' }}>
+          <Grid container spacing={gridSpacing} style={{ flex: 1 }}>
+            <Grid item md={12} style={{ flex: 1 }}>
+              <MainCard sx={{ height: '100%' }}>
                 <Grid
                   container
                   justifyContent="space-between"
                   direction="column"
                   alignItems="left"
+                  style={{ height: '100%' }}
                 >
-                  <Grid item sm={12}>
+                  <Grid item>
                     <Typography variant="h5" color="inherit">
                       Facilities with Recent Dispatches
                     </Typography>
@@ -43,7 +48,7 @@ const RunDeckInfo = () => {
                       End of March
                     </Typography>
                   </Grid>
-                  <Grid item sm={12}>
+                  <Grid item>
                     <Stack
                       direction="row"
                       alignItems="center"
@@ -60,7 +65,7 @@ const RunDeckInfo = () => {
                       <Typography variant="h3">144/220</Typography>
                     </Stack>
                   </Grid>
-                  <Grid item sm={12}>
+                  <Grid item>
                     <Typography variant="body2" color="textSecondary">
                       {secondary}
                     </Typography>
@@ -68,15 +73,16 @@ const RunDeckInfo = () => {
                 </Grid>
               </MainCard>
             </Grid>
-            <Grid item md={12}>
-              <MainCard>
+            <Grid item md={12} style={{ flex: 1 }}>
+              <MainCard sx={{ height: '100%' }}>
                 <Grid
                   container
                   justifyContent="space-between"
                   direction="column"
                   alignItems="left"
+                  style={{ height: '100%' }}
                 >
-                  <Grid item sm={12}>
+                  <Grid item>
                     <Typography variant="h5" color="inherit" gutterBottom>
                       Facilities with Recent Dispatches
                     </Typography>
@@ -88,7 +94,7 @@ const RunDeckInfo = () => {
                       End of April
                     </Typography>
                   </Grid>
-                  <Grid item sm={12}>
+                  <Grid item>
                     <Stack
                       direction="row"
                       alignItems="center"
@@ -105,7 +111,7 @@ const RunDeckInfo = () => {
                       <Typography variant="h3">144/220</Typography>
                     </Stack>
                   </Grid>
-                  <Grid item sm={12}>
+                  <Grid item>
                     <Typography variant="body2" color="textSecondary">
                       {secondary}
                     </Typography>
@@ -115,10 +121,14 @@ const RunDeckInfo = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={9}>
-          <Grid container spacing={gridSpacing}>
-            <Grid item md={12}>
-              <MainCard>
+        <Grid
+          item
+          md={9}
+          style={{ display: 'flex', flexDirection: 'column', flex: 1 }}
+        >
+          <Grid container spacing={gridSpacing} style={{ flex: 1 }}>
+            <Grid item md={12} style={{ flex: 1 }}>
+              <MainCard sx={{ height: '100%' }}>
                 <DispatchesYoY />
               </MainCard>
             </Grid>
@@ -128,4 +138,5 @@ const RunDeckInfo = () => {
     </Container>
   );
 };
+
 export default RunDeckInfo;
