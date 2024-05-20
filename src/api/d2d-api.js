@@ -14,6 +14,12 @@ export const getRunDeckInfo = async () => {
   );
 };
 
+export const getNextExecutionTime = async () => {
+  return await axios.get(
+    `https://rundeck.chi-sa.org/api/46/job/4094e4e6-1784-469e-bdaa-397096a49679/info?authtoken=4TU6fBXNWL6i2y9m3TIkTWoiIJOAaQQC`
+  );
+};
+
 export const getFacilityByOrgUnit = async ({ queryKey }) => {
   const [, orgUnit, orgUnitValue] = queryKey;
   return await axios.get(`${apiRoutes.facilities}/${orgUnit}/${orgUnitValue}`);
