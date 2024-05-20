@@ -2,11 +2,15 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useEffect, useState } from 'react';
 
-const DispatchesYoY = () => {
+const DispatchesYoY = ({ height }) => {
   const [options, setOptions] = useState({});
 
+  console.log(height);
   useEffect(() => {
     setOptions({
+      chart: {
+        height: height
+      },
       title: {
         text: 'Number of Dispatches Processed YoY',
         align: 'left'
