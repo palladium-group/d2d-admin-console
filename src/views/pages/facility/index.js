@@ -3,16 +3,29 @@ import {
   MaterialReactTable,
   useMaterialReactTable
 } from 'material-react-table';
-import { Box, IconButton } from '@mui/material';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { Box, IconButton, Tooltip } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 import { useNavigate } from 'react-router-dom';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { apiRoutes } from '../../../apiRoutes';
+import useKeyCloakAuth from '../../../hooks/useKeyCloakAuth';
 
 const Facility = () => {
+  const user = useKeyCloakAuth();
   const navigate = useNavigate();
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [globalFilter, setGlobalFilter] = useState('');
+  const [sorting, setSorting] = useState([]);
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10
+  });
+  // const [totalRowCount, setTotalRowCount] = useState(0);
 
   const {
-    data: { data = [] } = {},
+    data = {},
     isError,
     isRefetching,
     isLoading,
@@ -20,28 +33,15 @@ const Facility = () => {
   } = useQuery({
     queryKey: [
       'table-data',
-      columnFilters, //refetch when columnFilters changes
-      globalFilter, //refetch when globalFilter changes
-      pagination.pageIndex, //refetch when pagination.pageIndex changes
-      pagination.pageSize, //refetch when pagination.pageSize changes
-      sorting //refetch when sorting changes
+      columnFilters,
+      globalFilter,
+      pagination.pageIndex,
+      pagination.pageSize,
+      sorting
     ],
     queryFn: async () => {
       const fetchURL = new URL(
-        `${apiRoutes.project}/GetProjects/${user?.tokenParsed?.UserLevel}/${user?.tokenParsed?.email}`
-      );
-
-      //read our state and pass it to the API as query params
-      /*fetchURL.searchParams.set(
-        "implementingOffices",
-        JSON.stringify(user?.tokenParsed?.Office)
-      );*/
-
-      const implementingOffice =
-        localStorage.getItem('office_setting') ?? user?.tokenParsed?.Office;
-      fetchURL.searchParams.set(
-        'implementingOffices',
-        JSON.stringify(['' + implementingOffice + ''])
+        `${apiRoutes.manifest}/Facility/Latest/${user?.OrgUnit}/${user?.OrgUnitValue}?page=1&pageSize=1000`
       );
 
       fetchURL.searchParams.set(
@@ -62,56 +62,64 @@ const Facility = () => {
       //use whatever fetch library you want, fetch, axios, etc
       const response = await fetch(fetchURL.href);
       const json = await response.json();
-      setTotalRowCount(json.pageInfo.totalItems);
+      // setTotalRowCount(json.pageInfo.totalItems);
 
       return json;
     }
   });
 
+  console.log(data);
+
   const columns = useMemo(
     () => [
       {
+        header: 'Province',
+        accessorKey: 'Province',
+        accessorFn: (row) => row?.orgHierarchy?.provinceName
+      },
+      {
+        accessorKey: 'District',
+        header: 'District',
+        accessorFn: (row) => row?.orgHierarchy?.districtName
+      },
+      {
+        accessorKey: 'Sub District',
+        header: 'Sub District',
+        accessorFn: (row) => row?.orgHierarchy?.subDistrictName
+      },
+      {
         accessorKey: 'facilityName',
-        header: 'Province'
-      },
-      {
-        accessorKey: 'count',
-        header: 'District'
-      },
-      {
-        accessorKey: 'lastVisitDate',
-        header: 'Sub District'
-      },
-      {
-        accessorKey: 'facility',
         header: 'Facility'
       },
       {
-        accessorKey: 'dispatch',
-        header: 'Dispatch File Name'
+        accessorKey: 'Dispatch File Name',
+        header: 'Dispatch File Name',
+        accessorFn: (row) => row?.dispatch?.name
       },
       {
-        accessorKey: 'createdBy',
-        header: 'Created By'
+        accessorKey: 'Created By',
+        header: 'Created By',
+        accessorFn: (row) => row?.dispatch?.owner
       },
       {
-        accessorKey: 'dateProcessed',
-        header: 'Date Processed'
+        accessorKey: 'Date Processed',
+        header: 'Date Processed',
+        accessorFn: (row) => row?.dispatch?.dateProcessed
       },
+      // {
+      //   accessorKey: 'lastVisitDate',
+      //   header: 'Last ART Visit Date'
+      // },
+      // {
+      //   accessorKey: 'dispatchStatus',
+      //   header: 'Dispatch Status'
+      // },
+      // {
+      //   accessorKey: 'validationOutcome',
+      //   header: 'Validation Outcome'
+      // },
       {
-        accessorKey: 'lastARTVisitDate',
-        header: 'Last ART Visit Date'
-      },
-      {
-        accessorKey: 'dispatchStatus',
-        header: 'Dispatch Status'
-      },
-      {
-        accessorKey: 'validationOutcome',
-        header: 'Validation Outcome'
-      },
-      {
-        accessorKey: 'patientCount',
+        accessorKey: 'patients',
         header: 'Patient Count'
       }
     ],
@@ -119,47 +127,53 @@ const Facility = () => {
   );
   const table = useMaterialReactTable({
     columns,
-    data: data,
+    data,
+    enableRowActions: true,
+    enablePagination: true,
+    positionActionsColumn: 'last',
+    initialState: {
+      showColumnFilters: true
+    },
+    manualFiltering: true,
+    manualPagination: true,
+    manualSorting: true,
     muiToolbarAlertBannerProps: isError
       ? {
           color: 'error',
           children: 'Error loading data'
         }
       : undefined,
-    enableColumnFilterModes: false,
-    enableColumnOrdering: false,
-    enableGrouping: false,
-    enableColumnPinning: false,
-    enableFacetedValues: false,
-    enableRowActions: true,
-    enableRowSelection: false,
-    initialState: {
-      showColumnFilters: false,
-      showGlobalFilter: false,
-      columnPinning: {
-        left: ['mrt-row-expand', 'mrt-row-select'],
-        right: ['mrt-row-actions']
-      }
-    },
-    paginationDisplayMode: 'pages',
-    positionToolbarAlertBanner: 'bottom',
-    muiSearchTextFieldProps: {
-      size: 'small',
-      variant: 'outlined'
-    },
-    muiPaginationProps: {
-      color: 'secondary',
-      rowsPerPageOptions: [10, 20, 30],
-      shape: 'rounded',
-      variant: 'outlined'
-    },
+    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
+    onSortingChange: setSorting,
     renderRowActions: ({ row }) => (
       <Box>
-        <IconButton onClick={() => navigate(`/facility/${row.original.id}`)}>
-          <AddOutlinedIcon />
+        <IconButton
+          onClick={() => navigate(`/facility-details/${row.original.id}`)}
+        >
+          <LinkOutlinedIcon />
         </IconButton>
       </Box>
-    )
+    ),
+    renderTopToolbarCustomActions: () => (
+      <Tooltip arrow title="Refresh Data">
+        <IconButton onClick={() => refetch()}>
+          <RefreshIcon />
+        </IconButton>
+      </Tooltip>
+    ),
+    //rowCount: meta?.totalRowCount ?? 0,
+    // rowCount: totalRowCount,
+    state: {
+      columnFilters,
+      globalFilter,
+      isLoading,
+      pagination,
+      showAlertBanner: isError,
+      showProgressBars: isRefetching,
+      sorting
+    }
   });
   return (
     <MainCard>

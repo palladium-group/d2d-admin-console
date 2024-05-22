@@ -16,9 +16,9 @@ import { format } from 'date-fns';
 // project imports
 import MenuList from './MenuList';
 import useConfig from 'hooks/useConfig';
-import { useQuery } from '@tanstack/react-query';
-import { getNextExecutionTime } from '../../api/d2d-api';
-import { useEffect } from 'react';
+// import { useQuery } from '@tanstack/react-query';
+// import { getNextExecutionTime } from '../../api/d2d-api';
+// import { useEffect } from 'react';
 
 // ==============================|| HORIZONTAL MENU LIST ||============================== //
 
@@ -45,14 +45,14 @@ function ElevationScroll({ children, window }) {
 const CustomAppBar = () => {
   const theme = useTheme();
   const { container } = useConfig();
-  const { isLoading, isError, data } = useQuery({
-    queryKey: ['getNextExecutionTime'],
-    queryFn: () => getNextExecutionTime().then((res) => res.json())
-  });
-
-  useEffect(() => {
-    console.log(data);
-  }, [isLoading, isError, data]);
+  // const { isLoading, isError, data } = useQuery({
+  //   queryKey: ['getNextExecutionTime'],
+  //   queryFn: () => getNextExecutionTime().then((res) => res.json())
+  // });
+  //
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [isLoading, isError, data]);
 
   return (
     <ElevationScroll>
