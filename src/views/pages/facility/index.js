@@ -10,6 +10,64 @@ import { useMemo } from 'react';
 
 const Facility = () => {
   const navigate = useNavigate();
+
+  const {
+    data: { data = [] } = {},
+    isError,
+    isRefetching,
+    isLoading,
+    refetch
+  } = useQuery({
+    queryKey: [
+      'table-data',
+      columnFilters, //refetch when columnFilters changes
+      globalFilter, //refetch when globalFilter changes
+      pagination.pageIndex, //refetch when pagination.pageIndex changes
+      pagination.pageSize, //refetch when pagination.pageSize changes
+      sorting //refetch when sorting changes
+    ],
+    queryFn: async () => {
+      const fetchURL = new URL(
+        `${apiRoutes.project}/GetProjects/${user?.tokenParsed?.UserLevel}/${user?.tokenParsed?.email}`
+      );
+
+      //read our state and pass it to the API as query params
+      /*fetchURL.searchParams.set(
+        "implementingOffices",
+        JSON.stringify(user?.tokenParsed?.Office)
+      );*/
+
+      const implementingOffice =
+        localStorage.getItem('office_setting') ?? user?.tokenParsed?.Office;
+      fetchURL.searchParams.set(
+        'implementingOffices',
+        JSON.stringify(['' + implementingOffice + ''])
+      );
+
+      fetchURL.searchParams.set(
+        'start',
+        `${pagination.pageIndex * pagination.pageSize}`
+      );
+      fetchURL.searchParams.set('size', `${pagination.pageSize}`);
+
+      fetchURL.searchParams.set(
+        'filters',
+        columnFilters && columnFilters.length > 0
+          ? JSON.stringify(columnFilters)
+          : []
+      );
+      fetchURL.searchParams.set('globalFilter', globalFilter ?? '');
+      fetchURL.searchParams.set('sorting', JSON.stringify(sorting ?? []));
+
+      //use whatever fetch library you want, fetch, axios, etc
+      const response = await fetch(fetchURL.href);
+      const json = await response.json();
+      setTotalRowCount(json.pageInfo.totalItems);
+
+      return json;
+    }
+  });
+
   const columns = useMemo(
     () => [
       {
@@ -61,7 +119,13 @@ const Facility = () => {
   );
   const table = useMaterialReactTable({
     columns,
-    data: {},
+    data: data,
+    muiToolbarAlertBannerProps: isError
+      ? {
+          color: 'error',
+          children: 'Error loading data'
+        }
+      : undefined,
     enableColumnFilterModes: false,
     enableColumnOrdering: false,
     enableGrouping: false,

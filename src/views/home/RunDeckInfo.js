@@ -13,6 +13,9 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useTheme } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
 import DispatchesYoY from './DispatchesYoY';
+import useKeyCloakAuth from '../../hooks/useKeyCloakAuth';
+import { useQuery } from '@tanstack/react-query';
+import { getDashboardSummary } from '../../api/d2d-api';
 
 const RunDeckInfo = () => {
   const theme = useTheme();
@@ -22,18 +25,45 @@ const RunDeckInfo = () => {
     ArrowDownwardIcon !== undefined ? (
       <IconPrimary fontSize="large" sx={{ width: 20, height: 20, color }} />
     ) : null;
-  const primary = 76;
   const secondary = '8% less Last 3 Months';
   const greyColor = grey[600];
 
   const leftColumnRef = useRef(null);
   const [leftColumnHeight, setLeftColumnHeight] = useState(300);
+  const [numberOfFacilities, setNumberOfFacilities] = useState(0);
+  const [recentQuarterCount, setRecentQuarterCount] = useState(0);
+  const [monthlyPercent, setMonthlyPercent] = useState(0);
+  const [quarterPercent, setQuarterPercent] = useState(0);
+
+  const user = useKeyCloakAuth();
+  const { data: { data = [] } = {} } = useQuery({
+    queryKey: ['getDashboardSummary', user.OrgUnit, user.OrgUnitValue],
+    queryFn: async (queryKey) => {
+      const data = await getDashboardSummary(queryKey);
+      return data;
+    },
+    enabled: !!user.OrgUnit && !!user.OrgUnitValue
+  });
 
   useEffect(() => {
     if (leftColumnRef.current) {
       setLeftColumnHeight(leftColumnRef.current.offsetHeight);
     }
-  }, [leftColumnRef]);
+
+    if (data) {
+      setNumberOfFacilities(data.expected);
+      setRecentQuarterCount(data.recentQuarterCount);
+      const quarter = Number(
+        (data.recentQuarterCount / data.expected) * 100
+      ).toFixed(1);
+      const monthly = Number(
+        (data.recentMonthCount / data.expected) * 100
+      ).toFixed(1);
+      setMonthlyPercent(monthly);
+      setQuarterPercent(quarter);
+      console.log(data);
+    }
+  }, [leftColumnRef, data]);
 
   return (
     <Container maxWidth={false}>
@@ -77,13 +107,15 @@ const RunDeckInfo = () => {
                         sx={{ my: 1.75, mx: 'auto' }}
                       >
                         {primaryIcon}
-                        <Typography variant="h3">{primary}%</Typography>
+                        <Typography variant="h3">{quarterPercent}%</Typography>
                         <Divider
                           orientation="vertical"
                           variant="middle"
                           flexItem
                         />
-                        <Typography variant="h3">144/220</Typography>
+                        <Typography variant="h3">
+                          {recentQuarterCount}/{numberOfFacilities}
+                        </Typography>
                       </Stack>
                     </Grid>
                     <Grid item>
@@ -125,13 +157,15 @@ const RunDeckInfo = () => {
                         sx={{ my: 1.75, mx: 'auto' }}
                       >
                         {primaryIcon}
-                        <Typography variant="h3">{primary}%</Typography>
+                        <Typography variant="h3">{monthlyPercent}%</Typography>
                         <Divider
                           orientation="vertical"
                           variant="middle"
                           flexItem
                         />
-                        <Typography variant="h3">144/220</Typography>
+                        <Typography variant="h3">
+                          {recentQuarterCount}/{numberOfFacilities}
+                        </Typography>
                       </Stack>
                     </Grid>
                     <Grid item>

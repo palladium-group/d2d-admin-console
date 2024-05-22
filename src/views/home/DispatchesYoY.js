@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 const DispatchesYoY = ({ height }) => {
   const [options, setOptions] = useState({});
 
-  console.log(height);
   useEffect(() => {
     setOptions({
       chart: {

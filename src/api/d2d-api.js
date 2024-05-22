@@ -31,3 +31,17 @@ export const getFacilityDetails = async ({ queryKey }) => {
     `${apiRoutes.manifest}/Facility/${facilityId}?historyPageSize=1`
   );
 };
+
+export const getDashboardSummary = async ({ queryKey }) => {
+  const [, orgUnit, orgUnitValue] = queryKey;
+  return await axios.get(
+    `${apiRoutes.dashboard}/Summary/${orgUnit}/${orgUnitValue}`
+  );
+};
+
+export const getManifestLatest = async ({ queryKey }) => {
+  const [, orgUnit, orgUnitValue] = queryKey;
+  return await axios.get(
+    `${apiRoutes.manifest}/Facility/Latest/${orgUnit}/${orgUnitValue}`
+  );
+};
