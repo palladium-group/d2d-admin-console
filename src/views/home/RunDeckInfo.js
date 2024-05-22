@@ -195,7 +195,7 @@ const RunDeckInfo = () => {
                 maxHeight: leftColumnHeight
               }}
             >
-              <DispatchesYoY height={leftColumnHeight} />
+              <DispatchesYoY height={leftColumnHeight} data={data} />
             </MainCard>
           </Grid>
         </Grid>
