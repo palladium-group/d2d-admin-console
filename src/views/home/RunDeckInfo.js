@@ -5,7 +5,8 @@ import {
   Grid,
   Stack,
   Typography,
-  Box
+  Box,
+  CircularProgress
 } from '@mui/material';
 import { gridSpacing } from '../../store/constant';
 import MainCard from '../../ui-component/cards/MainCard';
@@ -36,7 +37,7 @@ const RunDeckInfo = () => {
   const [quarterPercent, setQuarterPercent] = useState(0);
 
   const user = useKeyCloakAuth();
-  const { data: { data = [] } = {} } = useQuery({
+  const { data: { data = [] } = {}, isLoading } = useQuery({
     queryKey: ['getDashboardSummary', user.OrgUnit, user.OrgUnitValue],
     queryFn: async (queryKey) => {
       const data = await getDashboardSummary(queryKey);
@@ -61,7 +62,6 @@ const RunDeckInfo = () => {
       ).toFixed(1);
       setMonthlyPercent(monthly);
       setQuarterPercent(quarter);
-      console.log(data);
     }
   }, [leftColumnRef, data]);
 
@@ -78,102 +78,126 @@ const RunDeckInfo = () => {
             <Grid container spacing={gridSpacing} style={{ flexGrow: 1 }}>
               <Grid item md={12} style={{ flexGrow: 1, display: 'flex' }}>
                 <MainCard
-                  sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}
+                  sx={{
+                    flexGrow: 1,
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}
                 >
-                  <Grid
-                    container
-                    justifyContent="space-between"
-                    direction="column"
-                    alignItems="left"
-                    sx={{ flexGrow: 1 }}
-                  >
-                    <Grid item>
-                      <Typography variant="h5" color="inherit">
-                        Facilities with Recent Dispatches
-                      </Typography>
-                      <Typography
-                        variant="subtitle2"
-                        color={greyColor}
-                        gutterBottom
-                      >
-                        End of March
-                      </Typography>
-                    </Grid>
-                    <Grid item sx={{ flexGrow: 1 }}>
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        spacing={3}
-                        sx={{ my: 1.75, mx: 'auto' }}
-                      >
-                        {primaryIcon}
-                        <Typography variant="h3">{quarterPercent}%</Typography>
-                        <Divider
-                          orientation="vertical"
-                          variant="middle"
-                          flexItem
-                        />
-                        <Typography variant="h3">
-                          {recentQuarterCount}/{numberOfFacilities}
+                  {isLoading ? (
+                    <Box display="flex" justifyContent="center" my={6}>
+                      <CircularProgress />
+                    </Box>
+                  ) : (
+                    <Grid
+                      container
+                      justifyContent="space-between"
+                      direction="column"
+                      alignItems="left"
+                      sx={{ flexGrow: 1 }}
+                    >
+                      <Grid item>
+                        <Typography variant="h5" color="inherit">
+                          Facilities with Recent Dispatches
                         </Typography>
-                      </Stack>
+                        <Typography
+                          variant="subtitle2"
+                          color={greyColor}
+                          gutterBottom
+                        >
+                          End of March
+                        </Typography>
+                      </Grid>
+                      <Grid item sx={{ flexGrow: 1 }}>
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          spacing={3}
+                          sx={{ my: 1.75, mx: 'auto' }}
+                        >
+                          {primaryIcon}
+                          <Typography variant="h3">
+                            {quarterPercent}%
+                          </Typography>
+                          <Divider
+                            orientation="vertical"
+                            variant="middle"
+                            flexItem
+                          />
+                          <Typography variant="h3">
+                            {recentQuarterCount}/{numberOfFacilities}
+                          </Typography>
+                        </Stack>
+                      </Grid>
+                      <Grid item>
+                        <Typography variant="body2" color="textSecondary">
+                          {secondary}
+                        </Typography>
+                      </Grid>
                     </Grid>
-                    <Grid item>
-                      <Typography variant="body2" color="textSecondary">
-                        {secondary}
-                      </Typography>
-                    </Grid>
-                  </Grid>
+                  )}
                 </MainCard>
               </Grid>
               <Grid item md={12} style={{ flexGrow: 1, display: 'flex' }}>
                 <MainCard
-                  sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}
+                  sx={{
+                    flexGrow: 1,
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}
                 >
-                  <Grid
-                    container
-                    justifyContent="space-between"
-                    direction="column"
-                    alignItems="left"
-                    sx={{ flexGrow: 1 }}
-                  >
-                    <Grid item>
-                      <Typography variant="h5" color="inherit" gutterBottom>
-                        Facilities with Recent Dispatches
-                      </Typography>
-                      <Typography
-                        variant="subtitle2"
-                        color={greyColor}
-                        gutterBottom
-                      >
-                        End of April
-                      </Typography>
-                    </Grid>
-                    <Grid item sx={{ flexGrow: 1 }}>
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        spacing={3}
-                        sx={{ my: 1.75, mx: 'auto' }}
-                      >
-                        {primaryIcon}
-                        <Typography variant="h3">{monthlyPercent}%</Typography>
-                        <Divider
-                          orientation="vertical"
-                          variant="middle"
-                          flexItem
-                        />
-                        <Typography variant="h3">
-                          {recentQuarterCount}/{numberOfFacilities}
+                  {isLoading ? (
+                    <Box display="flex" justifyContent="center" my={6}>
+                      <CircularProgress />
+                    </Box>
+                  ) : (
+                    <Grid
+                      container
+                      justifyContent="space-between"
+                      direction="column"
+                      alignItems="left"
+                      sx={{ flexGrow: 1 }}
+                    >
+                      <Grid item>
+                        <Typography variant="h5" color="inherit" gutterBottom>
+                          Facilities with Recent Dispatches
                         </Typography>
-                      </Stack>
+                        <Typography
+                          variant="subtitle2"
+                          color={greyColor}
+                          gutterBottom
+                        >
+                          End of April
+                        </Typography>
+                      </Grid>
+                      <Grid item sx={{ flexGrow: 1 }}>
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          spacing={3}
+                          sx={{ my: 1.75, mx: 'auto' }}
+                        >
+                          {primaryIcon}
+                          <Typography variant="h3">
+                            {monthlyPercent}%
+                          </Typography>
+                          <Divider
+                            orientation="vertical"
+                            variant="middle"
+                            flexItem
+                          />
+                          <Typography variant="h3">
+                            {recentQuarterCount}/{numberOfFacilities}
+                          </Typography>
+                        </Stack>
+                      </Grid>
+                      <Grid item>
+                        <Typography variant="body2" color="textSecondary">
+                          {secondary}
+                        </Typography>
+                      </Grid>
                     </Grid>
-                    <Grid item>
-                      <Typography variant="body2" color="textSecondary">
-                        {secondary}
-                      </Typography>
-                    </Grid>
-                  </Grid>
+                  )}
                 </MainCard>
               </Grid>
             </Grid>
