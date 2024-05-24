@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 const DispatchesYoY = ({ height, data }) => {
   const [options, setOptions] = useState({});
-  console.log(data.facilitiesProcessed);
+  console.log(data.facilitiesProcessedByYear);
 
   useEffect(() => {
     setOptions({
@@ -58,16 +58,7 @@ const DispatchesYoY = ({ height, data }) => {
         }
       },
 
-      series: [
-        {
-          name: 2024,
-          data: [122, 133, 134]
-        },
-        {
-          name: 2023,
-          data: []
-        }
-      ],
+      series: data.facilitiesProcessedByYear,
       responsive: {
         rules: [
           {
