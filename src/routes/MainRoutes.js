@@ -10,6 +10,9 @@ const Facility = Loadable(lazy(() => import('views/pages/facility')));
 const FacilityDetails = Loadable(
   lazy(() => import('views/pages/facility/FacilityDetails'))
 );
+const NotificationDetail = Loadable(
+  lazy(() => import('views/notifications/NotificationDetail'))
+);
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -28,6 +31,10 @@ const MainRoutes = {
     {
       path: '/facility-details/:id',
       element: <FacilityDetails />
+    },
+    {
+      path: '/notification/:id',
+      element: <NotificationDetail />
     }
   ]
 };

@@ -11,6 +11,7 @@ import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { apiRoutes } from '../../../apiRoutes';
 import useKeyCloakAuth from '../../../hooks/useKeyCloakAuth';
+import { format } from 'date-fns';
 
 const Facility = () => {
   const user = useKeyCloakAuth();
@@ -22,7 +23,6 @@ const Facility = () => {
     pageIndex: 0,
     pageSize: 10
   });
-  // const [totalRowCount, setTotalRowCount] = useState(0);
 
   const {
     data = {},
@@ -56,19 +56,13 @@ const Facility = () => {
           ? JSON.stringify(columnFilters)
           : []
       );
-      fetchURL.searchParams.set('globalFilter', globalFilter ?? '');
-      fetchURL.searchParams.set('sorting', JSON.stringify(sorting ?? []));
 
-      //use whatever fetch library you want, fetch, axios, etc
       const response = await fetch(fetchURL.href);
       const json = await response.json();
-      // setTotalRowCount(json.pageInfo.totalItems);
 
       return json;
     }
   });
-
-  console.log(data);
 
   const columns = useMemo(
     () => [
@@ -94,17 +88,21 @@ const Facility = () => {
       {
         accessorKey: 'Dispatch File Name',
         header: 'Dispatch File Name',
-        accessorFn: (row) => row?.dispatch?.name
+        accessorFn: (row) => row?.dispatch?.name,
+        enableColumnFilter: false
       },
       {
         accessorKey: 'Created By',
         header: 'Created By',
-        accessorFn: (row) => row?.dispatch?.owner
+        accessorFn: (row) => row?.dispatch?.owner,
+        enableColumnFilter: false
       },
       {
         accessorKey: 'Date Processed',
         header: 'Date Processed',
-        accessorFn: (row) => row?.dispatch?.dateProcessed
+        accessorFn: (row) =>
+          format(new Date(row?.dispatch?.dateProcessed), 'dd-MMM-yyyy'),
+        enableColumnFilter: false
       },
       // {
       //   accessorKey: 'lastVisitDate',
@@ -120,7 +118,8 @@ const Facility = () => {
       // },
       {
         accessorKey: 'patients',
-        header: 'Patient Count'
+        header: 'Patient Count',
+        enableColumnFilter: false
       }
     ],
     []
@@ -134,9 +133,9 @@ const Facility = () => {
     initialState: {
       showColumnFilters: true
     },
-    manualFiltering: true,
+    manualFiltering: false,
     manualPagination: true,
-    manualSorting: true,
+    manualSorting: false,
     muiToolbarAlertBannerProps: isError
       ? {
           color: 'error',

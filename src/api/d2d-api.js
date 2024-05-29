@@ -39,6 +39,25 @@ export const getDashboardSummary = async ({ queryKey }) => {
   );
 };
 
+export const getOwnerNotifications = async ({ queryKey }) => {
+  const [, ownerId] = queryKey;
+  return await axios.get(
+    `${apiRoutes.dashboard}/Notifications/Owner/${ownerId}?page=1&pageSize=1000`
+  );
+};
+
+export const getNotificationById = async ({ queryKey }) => {
+  const [, id] = queryKey;
+  return await axios.get(`${apiRoutes.dashboard}/Notification/${id}`);
+};
+
+export const notificationAcknowledged = async (values) => {
+  return await axios.post(
+    `${apiRoutes.dashboard}/Notification/Acknowledged`,
+    values
+  );
+};
+
 export const getManifestLatest = async ({ queryKey }) => {
   const [, orgUnit, orgUnitValue] = queryKey;
   return await axios.get(
