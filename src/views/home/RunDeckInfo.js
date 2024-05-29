@@ -66,7 +66,7 @@ const RunDeckInfo = () => {
   }, [leftColumnRef, data]);
 
   return (
-    <Container maxWidth={false}>
+    <Container>
       <Box display="flex" height="100%">
         <Grid container spacing={gridSpacing} style={{ flexGrow: 1 }}>
           <Grid

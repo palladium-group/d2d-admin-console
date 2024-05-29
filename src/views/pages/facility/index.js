@@ -1,28 +1,22 @@
-import MainCard from '../../../ui-component/cards/MainCard';
+import React, { useMemo, useState } from 'react';
 import {
   MaterialReactTable,
   useMaterialReactTable
 } from 'material-react-table';
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Box, Container, Dialog, IconButton, Tooltip } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
-import { useNavigate } from 'react-router-dom';
-import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { apiRoutes } from '../../../apiRoutes';
 import useKeyCloakAuth from '../../../hooks/useKeyCloakAuth';
 import { format } from 'date-fns';
+import MainCard from '../../../ui-component/cards/MainCard';
+import FacilityDetails from './FacilityDetails';
 
 const Facility = () => {
   const user = useKeyCloakAuth();
-  const navigate = useNavigate();
-  const [columnFilters, setColumnFilters] = useState([]);
-  const [globalFilter, setGlobalFilter] = useState('');
-  const [sorting, setSorting] = useState([]);
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 10
-  });
+  const [openDialog, setOpenDialog] = useState(false);
+  const [facilityId, setFacilityId] = useState();
 
   const {
     data = {},
@@ -31,32 +25,11 @@ const Facility = () => {
     isLoading,
     refetch
   } = useQuery({
-    queryKey: [
-      'table-data',
-      columnFilters,
-      globalFilter,
-      pagination.pageIndex,
-      pagination.pageSize,
-      sorting
-    ],
+    queryKey: ['table-data'],
     queryFn: async () => {
       const fetchURL = new URL(
-        `${apiRoutes.manifest}/Facility/Latest/${user?.OrgUnit}/${user?.OrgUnitValue}?page=1&pageSize=1000`
+        `${apiRoutes.manifest}/Facility/Latest/${user?.OrgUnit}/${user?.OrgUnitValue}?page=1&pageSize=5000`
       );
-
-      fetchURL.searchParams.set(
-        'start',
-        `${pagination.pageIndex * pagination.pageSize}`
-      );
-      fetchURL.searchParams.set('size', `${pagination.pageSize}`);
-
-      fetchURL.searchParams.set(
-        'filters',
-        columnFilters && columnFilters.length > 0
-          ? JSON.stringify(columnFilters)
-          : []
-      );
-
       const response = await fetch(fetchURL.href);
       const json = await response.json();
 
@@ -66,21 +39,6 @@ const Facility = () => {
 
   const columns = useMemo(
     () => [
-      {
-        header: 'Province',
-        accessorKey: 'Province',
-        accessorFn: (row) => row?.orgHierarchy?.provinceName
-      },
-      {
-        accessorKey: 'District',
-        header: 'District',
-        accessorFn: (row) => row?.orgHierarchy?.districtName
-      },
-      {
-        accessorKey: 'Sub District',
-        header: 'Sub District',
-        accessorFn: (row) => row?.orgHierarchy?.subDistrictName
-      },
       {
         accessorKey: 'facilityName',
         header: 'Facility'
@@ -93,7 +51,7 @@ const Facility = () => {
       },
       {
         accessorKey: 'Created By',
-        header: 'Created By',
+        header: 'Uploaded By',
         accessorFn: (row) => row?.dispatch?.owner,
         enableColumnFilter: false
       },
@@ -104,18 +62,6 @@ const Facility = () => {
           format(new Date(row?.dispatch?.dateProcessed), 'dd-MMM-yyyy'),
         enableColumnFilter: false
       },
-      // {
-      //   accessorKey: 'lastVisitDate',
-      //   header: 'Last ART Visit Date'
-      // },
-      // {
-      //   accessorKey: 'dispatchStatus',
-      //   header: 'Dispatch Status'
-      // },
-      // {
-      //   accessorKey: 'validationOutcome',
-      //   header: 'Validation Outcome'
-      // },
       {
         accessorKey: 'patients',
         header: 'Patient Count',
@@ -134,7 +80,7 @@ const Facility = () => {
       showColumnFilters: true
     },
     manualFiltering: false,
-    manualPagination: true,
+    manualPagination: false,
     manualSorting: false,
     muiToolbarAlertBannerProps: isError
       ? {
@@ -142,14 +88,13 @@ const Facility = () => {
           children: 'Error loading data'
         }
       : undefined,
-    onColumnFiltersChange: setColumnFilters,
-    onGlobalFilterChange: setGlobalFilter,
-    onPaginationChange: setPagination,
-    onSortingChange: setSorting,
     renderRowActions: ({ row }) => (
       <Box>
         <IconButton
-          onClick={() => navigate(`/facility-details/${row.original.id}`)}
+          onClick={() => {
+            setOpenDialog(true);
+            setFacilityId(row.original.id);
+          }}
         >
           <LinkOutlinedIcon />
         </IconButton>
@@ -162,22 +107,31 @@ const Facility = () => {
         </IconButton>
       </Tooltip>
     ),
-    //rowCount: meta?.totalRowCount ?? 0,
-    // rowCount: totalRowCount,
     state: {
-      columnFilters,
-      globalFilter,
       isLoading,
-      pagination,
       showAlertBanner: isError,
-      showProgressBars: isRefetching,
-      sorting
+      showProgressBars: isRefetching
     }
   });
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
   return (
-    <MainCard>
-      <MaterialReactTable table={table} />;
-    </MainCard>
+    <Container>
+      <MainCard>
+        <MaterialReactTable table={table} />;
+      </MainCard>
+      <Dialog
+        open={openDialog}
+        fullWidth={true}
+        onClose={handleClose}
+        maxWidth="lg"
+      >
+        <FacilityDetails facilityId={facilityId} />
+      </Dialog>
+    </Container>
   );
 };
 export default Facility;

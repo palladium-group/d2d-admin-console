@@ -2,12 +2,12 @@
 import { styled, useTheme } from '@mui/material/styles';
 import { Box, Grid } from '@mui/material';
 
-import MailDetails from '../application/mail/MailDetails';
+import MailDetails from '../../application/mail/MailDetails';
 // import MailList from '../application/mail/MailList';
 
 import { appDrawerWidth as drawerWidth, gridSpacing } from 'store/constant';
 import { useQuery } from '@tanstack/react-query';
-import { getNotificationById } from '../../api/d2d-api';
+import { getNotificationById } from '../../../api/d2d-api';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
