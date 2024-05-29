@@ -9,7 +9,7 @@ import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 import { useQuery } from '@tanstack/react-query';
 import { apiRoutes } from '../../../apiRoutes';
 import useKeyCloakAuth from '../../../hooks/useKeyCloakAuth';
-import { format } from 'date-fns';
+import { formatDistanceToNow, parseISO } from 'date-fns';
 import MainCard from '../../../ui-component/cards/MainCard';
 import FacilityDetails from './FacilityDetails';
 
@@ -58,13 +58,18 @@ const Facility = () => {
       {
         accessorKey: 'Date Processed',
         header: 'Date Processed',
-        accessorFn: (row) =>
-          format(new Date(row?.dispatch?.dateProcessed), 'dd-MMM-yyyy'),
+        accessorFn: (row) => {
+          const date = parseISO(row?.dispatch?.dateProcessed);
+          return formatDistanceToNow(date, { addSuffix: true });
+        },
         enableColumnFilter: false
       },
       {
-        accessorKey: 'patients',
-        header: 'Patient Count',
+        accessorKey: 'Status',
+        header: 'Status',
+        accessorFn: (row) => {
+          return row?.manifest?.isAccepted ? 'SUCCESS' : 'FAILURE';
+        },
         enableColumnFilter: false
       }
     ],
