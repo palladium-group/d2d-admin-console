@@ -12,6 +12,7 @@ import useKeyCloakAuth from '../../../hooks/useKeyCloakAuth';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import MainCard from '../../../ui-component/cards/MainCard';
 import FacilityDetails from './FacilityDetails';
+import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutlined';
 
 const Facility = () => {
   const user = useKeyCloakAuth();
@@ -98,7 +99,7 @@ const Facility = () => {
         <IconButton
           onClick={() => {
             setOpenDialog(true);
-            setFacilityId(row.original.id);
+            setFacilityId(row.original.facilityId);
           }}
         >
           <LinkOutlinedIcon />
@@ -134,6 +135,18 @@ const Facility = () => {
         onClose={handleClose}
         maxWidth="lg"
       >
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500]
+          }}
+        >
+          <CloseFullscreenOutlinedIcon />
+        </IconButton>
         <FacilityDetails facilityId={facilityId} />
       </Dialog>
     </Container>
