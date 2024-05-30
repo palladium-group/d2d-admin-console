@@ -36,7 +36,22 @@ const CustomTimelineOppositeContent = styled(Box)({
 
 const FacilityDetails = ({ facilityId }) => {
   const [facilityData, setFacilityData] = useState();
-  // const [series, setSeries] = useState([]);
+  const [series, setSeries] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const monthNames = [
+    'JAN',
+    'FEB',
+    'MAR',
+    'APR',
+    'MAY',
+    'JUN',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC'
+  ];
   const {
     data: { data = {} } = {},
     isLoading,
@@ -53,9 +68,60 @@ const FacilityDetails = ({ facilityId }) => {
   useEffect(() => {
     if (!isLoading && !isError && data) {
       setFacilityData(data);
+
+      const seriesData = [];
+      const today = new Date();
+      const currentMonth = today.getMonth();
+      const currentYear = today.getFullYear();
+
+      const category = [];
+      let startYear;
+      if (currentMonth < 11) {
+        const startMonth = 11 - (currentMonth + 2);
+        for (let i = startMonth; i <= 11; i++) {
+          startYear = currentYear - 1;
+          category.push(monthNames[i] + ' ' + startYear);
+        }
+        for (let j = 0; j <= currentMonth; j++) {
+          category.push(monthNames[j] + ' ' + currentYear);
+        }
+      } else {
+        for (let j = 0; j <= currentMonth; j++) {
+          category.push(monthNames[j] + ' ' + currentYear);
+        }
+      }
+
+      const visits = [];
+      const patients = [];
+      for (let i = 0; i < 12; i++) {
+        const res = data.history.filter(
+          (obj) => formatDateToMonthYear(obj.date) === category[i]
+        );
+        if (res.length > 0) {
+          visits.push(res[0].visits);
+          patients.push(res[0].patients);
+        } else {
+          visits.push(0);
+          patients.push(0);
+        }
+      }
+      seriesData.push(
+        { name: 'Visits', data: visits },
+        { name: 'Patients', data: patients }
+      );
+      console.log(seriesData);
+      setSeries(seriesData);
+      setCategories(category);
     }
   }, [data, isLoading, isError]);
   const [options, setOptions] = useState({});
+
+  function formatDateToMonthYear(dateStr) {
+    const date = new Date(dateStr);
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    return `${month} ${year}`;
+  }
 
   useEffect(() => {
     setOptions({
@@ -79,20 +145,7 @@ const FacilityDetails = ({ facilityId }) => {
         accessibility: {
           rangeDescription: 'Months'
         },
-        categories: [
-          'JAN',
-          'FEB',
-          'MAR',
-          'APR',
-          'MAY',
-          'JUN',
-          'JUL',
-          'AUG',
-          'SEP',
-          'OCT',
-          'NOV',
-          'DEC'
-        ]
+        categories: categories
       },
 
       legend: {
@@ -109,22 +162,7 @@ const FacilityDetails = ({ facilityId }) => {
         }
       },
 
-      series: [
-        {
-          name: 'Patients',
-          data: [
-            43934, 48656, 65165, 81827, 112143, 142383, 171533, 165174, 155157,
-            161454, 154610
-          ]
-        },
-        {
-          name: 'Visits',
-          data: [
-            24916, 37941, 29742, 29851, 32490, 30282, 38121, 36885, 33726,
-            34243, 31050
-          ]
-        }
-      ],
+      series: series,
 
       responsive: {
         rules: [
@@ -143,7 +181,7 @@ const FacilityDetails = ({ facilityId }) => {
         ]
       }
     });
-  }, []);
+  }, [categories, series]);
 
   return (
     <React.Fragment>
