@@ -2,7 +2,7 @@ import { IconBuildingHospital } from '@tabler/icons';
 
 const facilities = {
   id: 'facilities',
-  title: 'facilities',
+  title: 'Facilities',
   type: 'group',
   icon: IconBuildingHospital,
   url: '/facilities'
