@@ -3,3 +3,5 @@
 /package-lock.json
 /yarn.lock
 /.cert/
+/build
+.DS_Store
