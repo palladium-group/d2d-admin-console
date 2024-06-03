@@ -294,7 +294,9 @@ const RunDeckInfo = () => {
                           color={greyColor}
                           gutterBottom
                         >
-                          End of {format(new Date(lastMonthDate), 'MMM')}
+                          End of{' '}
+                          {lastMonthDate &&
+                            format(new Date(lastMonthDate), 'MMM')}
                         </Typography>
                       </Grid>
                       <Grid item sx={{ flexGrow: 1 }}>
