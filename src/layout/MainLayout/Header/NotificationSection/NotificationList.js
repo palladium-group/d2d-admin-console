@@ -132,11 +132,12 @@ const NotificationList = ({ data }) => {
             </ListItem>
             <Grid container direction="column" className="list-container">
               <Grid item xs={12}>
-                <Typography
-                  variant="subtitle2"
-                  component="div"
-                  dangerouslySetInnerHTML={{ __html: val.emailBody }}
-                />
+                {val.previewText}
+                {/*<Typography*/}
+                {/*  variant="subtitle2"*/}
+                {/*  component="div"*/}
+                {/*  dangerouslySetInnerHTML={{ __html: val.emailBody }}*/}
+                {/*/>*/}
               </Grid>
               <Grid item xs={12}>
                 <Grid container>

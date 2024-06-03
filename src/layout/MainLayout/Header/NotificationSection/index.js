@@ -41,6 +41,8 @@ const NotificationSection = () => {
   const matchesXs = useMediaQuery(theme.breakpoints.down('md'));
 
   const [open, setOpen] = useState(false);
+  const [notifications, setNotifications] = useState(false);
+  const [notificationsCount, setNotificationsCount] = useState(false);
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
@@ -58,22 +60,30 @@ const NotificationSection = () => {
   };
 
   const prevOpen = useRef(open);
-  useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
-    }
-    prevOpen.current = open;
-  }, [open]);
 
   const user = useKeyCloakAuth();
-  console.log(user);
-  const { data: { data = [] } = {} } = useQuery({
-    queryKey: ['getOwnerNotifications', 'chris'],
+  const { data: { data = [] } = {}, isLoading } = useQuery({
+    queryKey: ['getOwnerNotifications', user.tokenParsed.preferred_username],
     queryFn: async (queryKey) => {
       const data = await getOwnerNotifications(queryKey);
       return data;
     }
   });
+
+  useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+    prevOpen.current = open;
+
+    if (!isLoading) {
+      const unreadNotification = data.filter(
+        (obj) => obj.notificationRead === false
+      );
+      setNotifications(unreadNotification);
+      setNotificationsCount(unreadNotification.length);
+    }
+  }, [open, isLoading, data]);
 
   return (
     <>
@@ -87,7 +97,7 @@ const NotificationSection = () => {
         }}
       >
         <Badge
-          badgeContent={data.length}
+          badgeContent={notificationsCount}
           color="error"
           anchorOrigin={{
             vertical: 'top',
@@ -210,7 +220,7 @@ const NotificationSection = () => {
                               <Divider sx={{ my: 0 }} />
                             </Grid>
                           </Grid>
-                          <NotificationList data={data} />
+                          <NotificationList data={notifications} />
                         </PerfectScrollbar>
                       </Grid>
                     </Grid>

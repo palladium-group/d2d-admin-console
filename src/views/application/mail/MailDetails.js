@@ -18,7 +18,7 @@ import 'react-quill/dist/quill.snow.css';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { notificationAcknowledged } from '../../../api/d2d-api';
 import { useEffect } from 'react';
 
@@ -26,6 +26,7 @@ import { useEffect } from 'react';
 
 const MailDetails = ({ data }) => {
   const theme = useTheme();
+  const queryClient = useQueryClient();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
   const emailBody = typeof data.emailBody === 'string' ? data.emailBody : '';
@@ -35,6 +36,9 @@ const MailDetails = ({ data }) => {
 
   useEffect(() => {
     mutation.mutate({ id: data.id });
+    queryClient
+      .invalidateQueries(['getOwnerNotifications'])
+      .then((r) => console.log(r));
   }, [data]);
   return (
     <MainCard
@@ -65,19 +69,19 @@ const MailDetails = ({ data }) => {
                         spacing={matchDownSM ? 0 : 1}
                       >
                         <Typography variant={matchDownSM ? 'h5' : 'h4'}>
-                          D2D
+                          {data.senderName}
                         </Typography>
                         <Typography
                           sx={{ display: { xs: 'block', sm: 'none' } }}
                           variant="subtitle2"
                         >
-                          From: &lt;{'no-reply@d2d-admin'}&gt;
+                          From: &lt;{data.senderEmail}&gt;
                         </Typography>
                       </Stack>
                     </Grid>
                     <Grid item sx={{ display: { xs: 'none', sm: 'block' } }}>
                       <Typography variant="subtitle2">
-                        From: &lt;{'no-reply@d2d-admin'}&gt;
+                        From: &lt;{data.senderEmail}&gt;
                       </Typography>
                     </Grid>
                   </Grid>
@@ -96,6 +100,16 @@ const MailDetails = ({ data }) => {
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12}>
             <Grid container spacing={gridSpacing}>
+              <Grid item xs={12}>
+                <Grid container alignItems="center" spacing={0}>
+                  <Grid item>
+                    <Typography variant={matchDownSM ? 'h4' : 'h3'}>
+                      RE: {data?.emailSubject}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs zeroMinWidth />
+                </Grid>
+              </Grid>
               <Grid item xs={12}>
                 <Grid container spacing={gridSpacing}>
                   <Grid
