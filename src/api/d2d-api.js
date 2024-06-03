@@ -39,6 +39,13 @@ export const getDashboardSummary = async ({ queryKey }) => {
   );
 };
 
+export const getRecencyAsAtDate = async ({ queryKey }) => {
+  const [, date_as_at, orgUnit, orgUnitValue] = queryKey;
+  return await axios.get(
+    `${apiRoutes.dashboard}/Recency/${date_as_at}/${orgUnit}/${orgUnitValue}`
+  );
+};
+
 export const getOwnerNotifications = async ({ queryKey }) => {
   const [, ownerId] = queryKey;
   return await axios.get(
