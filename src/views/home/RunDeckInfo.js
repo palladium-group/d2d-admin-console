@@ -51,6 +51,7 @@ const RunDeckInfo = () => {
   const [lastQuarterDate, setLastQuarterDate] = useState();
   const [secondLastQuarterEndDate, setSecondLastQuarterEndDate] = useState();
   const [lastMonthDate, setLastMonthDate] = useState();
+  const [previousLastMonthDate, setPreviousLastMonthDate] = useState();
 
   const user = useKeyCloakAuth();
   const { data: { data = [] } = {}, isLoading } = useQuery({
@@ -104,6 +105,22 @@ const RunDeckInfo = () => {
       },
       enabled: !!lastMonthDate && !!user.OrgUnit && !!user.OrgUnitValue
     });
+  const {
+    isLoading: isLoadingRecencyPreviousMonth,
+    data: recencyDataPreviousMonthly
+  } = useQuery({
+    queryKey: [
+      'getRecencyAsAtDate',
+      previousLastMonthDate,
+      user.OrgUnit,
+      user.OrgUnitValue
+    ],
+    queryFn: async (queryKey) => {
+      const data = await getRecencyAsAtDate(queryKey);
+      return data;
+    },
+    enabled: !!previousLastMonthDate && !!user.OrgUnit && !!user.OrgUnitValue
+  });
 
   useEffect(() => {
     if (leftColumnRef.current) {
@@ -117,7 +134,9 @@ const RunDeckInfo = () => {
       !isLoadingRecencyMonth &&
       recencyDataMonthly &&
       !isLoadingRecencySecondLastQuarter &&
-      recencyDataSecondLastQuarter
+      recencyDataSecondLastQuarter &&
+      !isLoadingRecencyPreviousMonth &&
+      recencyDataPreviousMonthly
     ) {
       setNumberOfFacilities(data.expected);
       setRecentQuarterCount(recencyData.data);
@@ -131,18 +150,24 @@ const RunDeckInfo = () => {
       const secondLastQuarter = Number(
         (recencyDataSecondLastQuarter.data / data.expected) * 100
       ).toFixed(1);
+      const previousMonth = Number(
+        (recencyDataPreviousMonthly.data / data.expected) * 100
+      ).toFixed(1);
       setMonthlyPercent(monthly);
       setQuarterPercent(quarter);
-      setMonthlyDifference(quarter - monthly);
+      setMonthlyDifference(previousMonth - monthly);
       setQuarterlyDifference(secondLastQuarter - quarter);
     }
     const now = new Date();
     const lastQuarterEndDate = getLastQuarterEndDate(now);
     const lastDate = new Date(lastQuarterEndDate);
     const secondLastQuarterEndDate = getLastQuarterEndDate(new Date(lastDate));
+    const lastMonth = getLastDayOfLastMonth();
+    const previousLastMonth = getLastDayOfLastMonth(new Date(lastMonth));
     setLastQuarterDate(lastQuarterEndDate);
-    setLastMonthDate(getLastDayOfLastMonth());
+    setLastMonthDate(lastMonth);
     setSecondLastQuarterEndDate(secondLastQuarterEndDate);
+    setPreviousLastMonthDate(previousLastMonth);
   }, [
     leftColumnRef,
     data,
@@ -151,7 +176,9 @@ const RunDeckInfo = () => {
     isLoadingRecencyMonth,
     recencyDataMonthly,
     isLoadingRecencySecondLastQuarter,
-    recencyDataSecondLastQuarter
+    recencyDataSecondLastQuarter,
+    isLoadingRecencyPreviousMonth,
+    recencyDataPreviousMonthly
   ]);
 
   function getLastQuarterEndDate(date = new Date()) {
@@ -174,8 +201,7 @@ const RunDeckInfo = () => {
     return format(new Date(lastQuarterEndDate), 'yyyy-MM-dd');
   }
 
-  function getLastDayOfLastMonth() {
-    const now = new Date();
+  function getLastDayOfLastMonth(now = new Date()) {
     // Set the date to the first day of the current month
     const firstDayOfCurrentMonth = new Date(
       now.getFullYear(),
@@ -324,9 +350,9 @@ const RunDeckInfo = () => {
                       <Grid item>
                         <Typography variant="body2" color="textSecondary">
                           {monthlyDifference > 0 &&
-                            `${monthlyDifference}% less than Last 3 months`}
-                          {monthlyDifference < 0 &&
-                            `${monthlyDifference}% more than Last 3 months`}
+                            `${monthlyDifference}% less than previous month`}
+                          {monthlyDifference <= 0 &&
+                            `${monthlyDifference}% more than previous month`}
                         </Typography>
                       </Grid>
                     </Grid>
