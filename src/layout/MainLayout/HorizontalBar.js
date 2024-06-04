@@ -16,9 +16,13 @@ import { format } from 'date-fns';
 // project imports
 import MenuList from './MenuList';
 import useConfig from 'hooks/useConfig';
-// import { useQuery } from '@tanstack/react-query';
-// import { getNextExecutionTime } from '../../api/d2d-api';
-// import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import {
+  getNextExecutionTime,
+  getPreviousExecutionInfo
+} from '../../api/d2d-api';
+import { useEffect, useState } from 'react';
+import { formatDistanceToNow, parseISO } from 'date-fns';
 
 // ==============================|| HORIZONTAL MENU LIST ||============================== //
 
@@ -43,16 +47,54 @@ function ElevationScroll({ children, window }) {
 // ==============================|| HORIZONTAL MENU LIST ||============================== //
 
 const CustomAppBar = () => {
+  const [nextExecutionTime, setNextExecutionTime] = useState();
+  const [previousExecutionTime, setPreviousExecutionTime] = useState();
   const theme = useTheme();
   const { container } = useConfig();
-  // const { isLoading, isError, data } = useQuery({
-  //   queryKey: ['getNextExecutionTime'],
-  //   queryFn: () => getNextExecutionTime().then((res) => res.json())
-  // });
-  //
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [isLoading, isError, data]);
+  const {
+    isLoading,
+    isError,
+    data: { data = {} } = {}
+  } = useQuery({
+    queryKey: ['getNextExecutionTime'],
+    queryFn: async () => {
+      const data = await getNextExecutionTime();
+      return data;
+    }
+  });
+  const {
+    isLoading: isLoadingPreviousExecution,
+    isError: isErrorPreviousExecution,
+    data: { data: previous = {} } = {}
+  } = useQuery({
+    queryKey: ['getPreviousExecutionInfo'],
+    queryFn: async () => {
+      const data = await getPreviousExecutionInfo();
+      return data;
+    }
+  });
+
+  useEffect(() => {
+    if (!isLoading && !isError && data) {
+      setNextExecutionTime(data.nextScheduledExecution);
+    }
+    if (!isLoadingPreviousExecution && !isErrorPreviousExecution && previous) {
+      if (previous.executions.length > 0) {
+        setPreviousExecutionTime(previous.executions[0]['date-ended']['date']);
+      }
+    }
+  }, [
+    isLoading,
+    isError,
+    data,
+    isLoadingPreviousExecution,
+    isErrorPreviousExecution
+  ]);
+
+  function getTimeAgo(dateString) {
+    const date = parseISO(dateString);
+    return formatDistanceToNow(date, { addSuffix: true });
+  }
 
   return (
     <ElevationScroll>
@@ -89,10 +131,15 @@ const CustomAppBar = () => {
             </IconButton>
             <Box>
               <Typography variant="h6">
-                Last Run: {format(new Date(), 'dd/MM/yyyy HH:mm:ss')}
+                Last Run:{' '}
+                {previousExecutionTime &&
+                  format(
+                    new Date(previousExecutionTime),
+                    "dd-MM-yy hh:mm aaaaa'm'"
+                  )}
               </Typography>
               <Typography variant="h6">
-                Next Run: {format(new Date(), 'dd/MM/yyyy HH:mm:ss')}
+                Next Run: {nextExecutionTime && getTimeAgo(nextExecutionTime)}
               </Typography>
             </Box>
           </Box>

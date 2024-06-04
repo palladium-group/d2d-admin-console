@@ -8,15 +8,15 @@ export const getDispatches = async ({ queryKey }) => {
   );
 };
 
-export const getRunDeckInfo = async () => {
+export const getPreviousExecutionInfo = async () => {
   return await axios.get(
-    `https://rundeck.chi-sa.org/api/18/job/4094e4e6-1784-469e-bdaa-397096a49679/info?authtoken=XUFXoFhpjRZbsqxWpuaCWv7i16RXKuCY`
+    `https://rundeck.chi-sa.org/api/14/job/f1e18eb3-da3a-4893-8504-1721e29e145d/executions?authtoken=kiu6jc0f7jiV2xiW0jyOjAYnMFNeZ0Fs&max=1`
   );
 };
 
 export const getNextExecutionTime = async () => {
   return await axios.get(
-    `https://rundeck.chi-sa.org/api/46/job/4094e4e6-1784-469e-bdaa-397096a49679/info?authtoken=4TU6fBXNWL6i2y9m3TIkTWoiIJOAaQQC`
+    `https://rundeck.chi-sa.org/api/46/job/f1e18eb3-da3a-4893-8504-1721e29e145d/info?authtoken=kiu6jc0f7jiV2xiW0jyOjAYnMFNeZ0Fs`
   );
 };
 
