@@ -113,6 +113,7 @@ const FacilityDetails = ({ facilityId }) => {
       setSeries(seriesData);
       setCategories(category);
     }
+    // eslint-disable-next-line
   }, [data, isLoading, isError]);
   const [options, setOptions] = useState({});
 

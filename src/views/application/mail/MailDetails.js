@@ -39,6 +39,7 @@ const MailDetails = ({ data }) => {
     queryClient
       .invalidateQueries(['getOwnerNotifications'])
       .then((r) => console.log(r));
+    // eslint-disable-next-line
   }, [data]);
   return (
     <MainCard

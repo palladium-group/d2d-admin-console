@@ -33,6 +33,7 @@ const DispatchesYoY = ({ height, data }) => {
       }
       setSeries(seriesData);
     }
+    // eslint-disable-next-line
   }, [data]);
 
   useEffect(() => {
