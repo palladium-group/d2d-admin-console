@@ -1,14 +1,12 @@
-const protocol = window.location.protocol;
-if(process.env.NODE_ENV == 'production') 
-  {
-    protocol = 'https:';
-  }
+let protocol = window.location.protocol;
+if (process.env.NODE_ENV == 'production') {
+  protocol = 'https:';
+}
 
-const hostname = window.location.hostname;
-if(process.env.NODE_ENV == 'production') 
-  {
-    hostname = 'd2d-ndoh-api.azurewebsites.net';
-  }
+let hostname = window.location.hostname;
+if (process.env.NODE_ENV == 'production') {
+  hostname = 'd2d-ndoh-api.azurewebsites.net';
+}
 const path = protocol + '//' + hostname;
 
 export const apiRoutes = {
