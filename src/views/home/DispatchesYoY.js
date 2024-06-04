@@ -89,13 +89,13 @@ const DispatchesYoY = ({ height, data }) => {
         rules: [
           {
             condition: {
-              // maxHeight: height
+              maxHeight: height
             },
             chartOptions: {
               legend: {
-                layout: 'horizontal',
-                align: 'center',
-                verticalAlign: 'bottom'
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
               }
             }
           }

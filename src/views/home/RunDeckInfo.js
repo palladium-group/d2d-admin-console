@@ -340,16 +340,16 @@ const RunDeckInfo = () => {
             md={9}
             style={{
               display: 'flex',
-              flexDirection: 'column',
-              maxHeight: leftColumnHeight
+              flexDirection: 'column'
+              // maxHeight: leftColumnHeight
             }}
           >
             <MainCard
               sx={{
                 flexGrow: 1,
                 display: 'flex',
-                flexDirection: 'column',
-                maxHeight: leftColumnHeight
+                flexDirection: 'column'
+                // maxHeight: leftColumnHeight
               }}
             >
               <DispatchesYoY height={leftColumnHeight} data={data} />
