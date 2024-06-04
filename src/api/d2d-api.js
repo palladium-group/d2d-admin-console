@@ -28,7 +28,7 @@ export const getFacilityByOrgUnit = async ({ queryKey }) => {
 export const getFacilityDetails = async ({ queryKey }) => {
   const [, facilityId] = queryKey;
   return await axios.get(
-    `${apiRoutes.manifest}/Facility/${facilityId}?historyPageSize=1`
+    `${apiRoutes.manifest}/Facility/${facilityId}?historyPageSize=1000`
   );
 };
 

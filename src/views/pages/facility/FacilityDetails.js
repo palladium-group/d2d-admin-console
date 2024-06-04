@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import MainCard from '../../../ui-component/cards/MainCard';
-import { Box, CircularProgress, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  Tooltip,
+  Typography
+} from '@mui/material';
 import {
   Timeline,
   TimelineConnector,
@@ -65,6 +71,23 @@ const FacilityDetails = ({ facilityId }) => {
     enabled: !!facilityId
   });
 
+  const createZones = (val = []) => {
+    const zones = [];
+    let currentZone = { value: 0, dashStyle: 'Solid' };
+
+    val.forEach((point, index) => {
+      if (point === null) {
+        currentZone = { value: index, dashStyle: 'Dot' };
+        zones.push(currentZone);
+        currentZone = { value: index + 1, dashStyle: 'Dot' };
+        zones.push(currentZone);
+      }
+    });
+
+    zones.push({ value: val.length - 1 });
+    return zones;
+  };
+
   useEffect(() => {
     if (!isLoading && !isError && data) {
       setFacilityData(data);
@@ -101,15 +124,26 @@ const FacilityDetails = ({ facilityId }) => {
           visits.push(res[0].visits);
           patients.push(res[0].patients);
         } else {
-          visits.push(0);
-          patients.push(0);
+          visits.push(null);
+          patients.push(null);
         }
       }
       seriesData.push(
-        { name: 'Visits', data: visits },
-        { name: 'Patients', data: patients }
+        {
+          name: 'Visits',
+          data: visits,
+          connectNulls: true,
+          zoneAxis: 'x',
+          zones: createZones(visits)
+        },
+        {
+          name: 'Patients',
+          data: patients,
+          connectNulls: true,
+          zoneAxis: 'x',
+          zones: createZones(patients)
+        }
       );
-      console.log(seriesData);
       setSeries(seriesData);
       setCategories(category);
     }
@@ -138,7 +172,9 @@ const FacilityDetails = ({ facilityId }) => {
       yAxis: {
         title: {
           text: 'Number'
-        }
+        },
+        type: 'logarithmic',
+        minorTickInterval: 0.1
       },
 
       xAxis: {
@@ -161,9 +197,7 @@ const FacilityDetails = ({ facilityId }) => {
           }
         }
       },
-
       series: series,
-
       responsive: {
         rules: [
           {
@@ -183,6 +217,25 @@ const FacilityDetails = ({ facilityId }) => {
     });
   }, [categories, series]);
 
+  const TruncatedName = ({ name }) => {
+    return (
+      <Tooltip title={name}>
+        <span
+          style={{
+            display: 'inline-block',
+            maxWidth: '150px', // Adjust the width as needed
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            color: 'blue'
+          }}
+        >
+          {name}
+        </span>
+      </Tooltip>
+    );
+  };
+
   return (
     <React.Fragment>
       {isLoading ? (
@@ -201,7 +254,13 @@ const FacilityDetails = ({ facilityId }) => {
                         Last Submitted On:
                       </Grid>
                       <Grid item md={7}>
-                        {facilityData?.facility?.dispatch?.dateCreated}
+                        {facilityData?.facility?.dispatch?.dateCreated &&
+                          format(
+                            new Date(
+                              facilityData?.facility?.dispatch?.dateCreated
+                            ),
+                            "d MMM  yyyy hh:mm aaaaa'm'"
+                          )}
                       </Grid>
                     </Grid>
                   </Grid>
@@ -248,12 +307,22 @@ const FacilityDetails = ({ facilityId }) => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <Grid container>
+                    <Grid container spacing={2}>
                       <Grid item xs={5}>
                         File Name:
                       </Grid>
-                      <Grid item xs={7}>
-                        {facilityData?.facility?.dispatch?.share?.file}
+                      <Grid
+                        item
+                        xs={7}
+                        style={{
+                          overflowX: 'auto',
+                          whiteSpace: 'nowrap',
+                          color: 'blue'
+                        }}
+                      >
+                        <TruncatedName
+                          name={facilityData?.facility?.dispatch?.name}
+                        />
                       </Grid>
                     </Grid>
                   </Grid>
