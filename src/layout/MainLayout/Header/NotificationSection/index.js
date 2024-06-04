@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -33,11 +33,13 @@ import { IconBell } from '@tabler/icons';
 import { useQuery } from '@tanstack/react-query';
 import { getOwnerNotifications } from '../../../../api/d2d-api';
 import useKeyCloakAuth from '../../../../hooks/useKeyCloakAuth';
+import { useNavigate } from 'react-router-dom';
 
 // ==============================|| NOTIFICATION ||============================== //
 
 const NotificationSection = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const matchesXs = useMediaQuery(theme.breakpoints.down('md'));
 
   const [open, setOpen] = useState(false);
@@ -62,8 +64,9 @@ const NotificationSection = () => {
   const prevOpen = useRef(open);
 
   const user = useKeyCloakAuth();
+  console.log(user);
   const { data: { data = [] } = {}, isLoading } = useQuery({
-    queryKey: ['getOwnerNotifications', user.tokenParsed.preferred_username],
+    queryKey: ['getOwnerNotifications', 'chris'],
     queryFn: async (queryKey) => {
       const data = await getOwnerNotifications(queryKey);
       return data;
@@ -84,6 +87,10 @@ const NotificationSection = () => {
       setNotificationsCount(unreadNotification.length);
     }
   }, [open, isLoading, data]);
+
+  const handleViewAll = () => {
+    navigate('/notifications');
+  };
 
   return (
     <>
@@ -195,16 +202,16 @@ const NotificationSection = () => {
                               {/*/>*/}
                             </Stack>
                           </Grid>
-                          <Grid item>
-                            <Typography
-                              component={Link}
-                              to="#"
-                              variant="subtitle2"
-                              color="primary"
-                            >
-                              Mark as all read
-                            </Typography>
-                          </Grid>
+                          {/*<Grid item>*/}
+                          {/*  <Typography*/}
+                          {/*    component={Link}*/}
+                          {/*    to="#"*/}
+                          {/*    variant="subtitle2"*/}
+                          {/*    color="primary"*/}
+                          {/*  >*/}
+                          {/*    Mark as all read*/}
+                          {/*  </Typography>*/}
+                          {/*</Grid>*/}
                         </Grid>
                       </Grid>
                       <Grid item xs={12}>
@@ -226,7 +233,11 @@ const NotificationSection = () => {
                     </Grid>
                     <Divider />
                     <CardActions sx={{ p: 1.25, justifyContent: 'center' }}>
-                      <Button size="small" disableElevation>
+                      <Button
+                        size="small"
+                        disableElevation
+                        onClick={handleViewAll}
+                      >
                         View All
                       </Button>
                     </CardActions>

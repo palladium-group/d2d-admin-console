@@ -147,7 +147,7 @@ const FacilityDetails = ({ facilityId }) => {
       setSeries(seriesData);
       setCategories(category);
     }
-  }, [data, isLoading, isError]);
+  }, [data, isLoading, isError, monthNames]);
   const [options, setOptions] = useState({});
 
   function formatDateToMonthYear(dateStr) {
