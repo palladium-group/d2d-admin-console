@@ -103,9 +103,9 @@
   "scripts": {
     "start": "HTTPS=true SSL_CRT_FILE=./.cert/cert.pem SSL_KEY_FILE=./.cert/key.pem react-app-rewired start",
     "build-stage": "env-cmd -f .env.qa react-app-rewired build",
-    "build": "react-app-rewired build --passWithNoTests",
+    "build": "react-app-rewired build",
     "lint": "eslint --ext .js,.jsx ./src",
-    "test": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "lint:fix": "eslint --fix .",
     "prettier": "prettier --write ."
