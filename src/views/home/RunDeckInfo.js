@@ -220,7 +220,7 @@ const RunDeckInfo = () => {
         <Grid container spacing={gridSpacing} style={{ flexGrow: 1 }}>
           <Grid
             item
-            md={3}
+            md={4}
             style={{ display: 'flex', flexDirection: 'column' }}
             ref={leftColumnRef}
           >
@@ -363,7 +363,7 @@ const RunDeckInfo = () => {
           </Grid>
           <Grid
             item
-            md={9}
+            md={8}
             style={{
               display: 'flex',
               flexDirection: 'column'
