@@ -38,10 +38,11 @@ const DispatchesYoY = ({ height, data }) => {
   useEffect(() => {
     setOptions({
       chart: {
-        height: height
+        height: height - 80,
+        type: 'spline'
       },
       title: {
-        text: 'Number of Dispatches Processed YoY',
+        text: '',
         align: 'left'
       },
       yAxis: {
@@ -82,6 +83,12 @@ const DispatchesYoY = ({ height, data }) => {
           label: {
             connectorAllowed: false
           }
+        },
+        spline: {
+          dataLabels: {
+            enabled: true
+          },
+          enableMouseTracking: false
         }
       },
       series: series,
