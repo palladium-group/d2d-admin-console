@@ -5,7 +5,7 @@ if (process.env.NODE_ENV == 'production') {
 
 let hostname = window.location.hostname;
 if (process.env.NODE_ENV == 'production') {
-  hostname = 'd2d-api.dreamspartners.org';
+  hostname = 'd2d-api.dataforimplementation.org';
 }
 const path = protocol + '//' + hostname;
 
