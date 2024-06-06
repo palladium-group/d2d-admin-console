@@ -126,8 +126,8 @@ const Facility = () => {
 
   return (
     <Container>
-      <MainCard>
-        <MaterialReactTable table={table} />;
+      <MainCard title="Most Recent Facility Dispatch">
+        <MaterialReactTable table={table} />
       </MainCard>
       <Dialog
         open={openDialog}
