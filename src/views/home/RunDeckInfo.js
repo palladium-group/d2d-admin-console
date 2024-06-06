@@ -9,7 +9,6 @@ import {
   CircularProgress
 } from '@mui/material';
 import { gridSpacing } from '../../store/constant';
-import MainCard from '../../ui-component/cards/MainCard';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
 import { useTheme } from '@mui/material/styles';
@@ -19,6 +18,7 @@ import useKeyCloakAuth from '../../hooks/useKeyCloakAuth';
 import { useQuery } from '@tanstack/react-query';
 import { getDashboardSummary, getRecencyAsAtDate } from '../../api/d2d-api';
 import { format } from 'date-fns';
+import SubCard from 'ui-component/cards/SubCard';
 
 const RunDeckInfo = () => {
   const theme = useTheme();
@@ -40,7 +40,7 @@ const RunDeckInfo = () => {
   const greyColor = grey[600];
 
   const leftColumnRef = useRef(null);
-  const [leftColumnHeight, setLeftColumnHeight] = useState(300);
+  const [leftColumnHeight, setLeftColumnHeight] = useState(0);
   const [numberOfFacilities, setNumberOfFacilities] = useState(0);
   const [recentQuarterCount, setRecentQuarterCount] = useState(0);
   const [recentMonthCount, setRecentMonthCount] = useState(0);
@@ -226,7 +226,8 @@ const RunDeckInfo = () => {
           >
             <Grid container spacing={gridSpacing} style={{ flexGrow: 1 }}>
               <Grid item md={12} style={{ flexGrow: 1, display: 'flex' }}>
-                <MainCard
+                <SubCard
+                  title="Facilities with Recent Dispatches"
                   sx={{
                     flexGrow: 1,
                     display: 'flex',
@@ -246,9 +247,6 @@ const RunDeckInfo = () => {
                       sx={{ flexGrow: 1 }}
                     >
                       <Grid item>
-                        <Typography variant="h5" color="inherit">
-                          Facilities with Recent Dispatches
-                        </Typography>
                         <Typography
                           variant="subtitle2"
                           color={greyColor}
@@ -266,7 +264,7 @@ const RunDeckInfo = () => {
                         >
                           {quarterlyDifference > 0 && RedIcon}
                           {quarterlyDifference <= 0 && GreenIcon}
-                          <Typography variant="h3">
+                          <Typography variant="h1">
                             {quarterPercent}%
                           </Typography>
                           <Divider
@@ -274,25 +272,30 @@ const RunDeckInfo = () => {
                             variant="middle"
                             flexItem
                           />
-                          <Typography variant="h3">
+                          <Typography variant="body" sx={{ fontSize: 24 }}>
                             {recentQuarterCount}/{numberOfFacilities}
                           </Typography>
                         </Stack>
                       </Grid>
                       <Grid item>
-                        <Typography variant="body2" color="textSecondary">
+                        <Typography variant="caption" color="textSecondary">
                           {quarterlyDifference > 0 &&
-                            `${quarterlyDifference}% less than Last Quarter`}
+                            `${quarterlyDifference.toFixed(
+                              1
+                            )}% less than the previous quarter`}
                           {quarterlyDifference <= 0 &&
-                            `${quarterlyDifference}% more than Last Quarter`}
+                            `${quarterlyDifference.toFixed(
+                              1
+                            )}% more than the previous quarter`}
                         </Typography>
                       </Grid>
                     </Grid>
                   )}
-                </MainCard>
+                </SubCard>
               </Grid>
               <Grid item md={12} style={{ flexGrow: 1, display: 'flex' }}>
-                <MainCard
+                <SubCard
+                  title="Facilities with Recent Dispatches"
                   sx={{
                     flexGrow: 1,
                     display: 'flex',
@@ -312,9 +315,6 @@ const RunDeckInfo = () => {
                       sx={{ flexGrow: 1 }}
                     >
                       <Grid item>
-                        <Typography variant="h5" color="inherit" gutterBottom>
-                          Facilities with Recent Dispatches
-                        </Typography>
                         <Typography
                           variant="subtitle2"
                           color={greyColor}
@@ -334,7 +334,7 @@ const RunDeckInfo = () => {
                         >
                           {monthlyDifference > 0 && RedIcon}
                           {monthlyDifference <= 0 && GreenIcon}
-                          <Typography variant="h3">
+                          <Typography variant="h1">
                             {monthlyPercent}%
                           </Typography>
                           <Divider
@@ -342,22 +342,26 @@ const RunDeckInfo = () => {
                             variant="middle"
                             flexItem
                           />
-                          <Typography variant="h3">
+                          <Typography variant="body" sx={{ fontSize: 24 }}>
                             {recentMonthCount}/{numberOfFacilities}
                           </Typography>
                         </Stack>
                       </Grid>
                       <Grid item>
-                        <Typography variant="body2" color="textSecondary">
+                        <Typography variant="caption" color="textSecondary">
                           {monthlyDifference > 0 &&
-                            `${monthlyDifference}% less than previous month`}
+                            `${monthlyDifference.toFixed(
+                              1
+                            )}% less than the previous month`}
                           {monthlyDifference <= 0 &&
-                            `${monthlyDifference}% more than previous month`}
+                            `${monthlyDifference.toFixed(
+                              1
+                            )}% more than the previous month`}
                         </Typography>
                       </Grid>
                     </Grid>
                   )}
-                </MainCard>
+                </SubCard>
               </Grid>
             </Grid>
           </Grid>
@@ -370,7 +374,8 @@ const RunDeckInfo = () => {
               // maxHeight: leftColumnHeight
             }}
           >
-            <MainCard
+            <SubCard
+              title="Number of Dispatches Processed YoY"
               sx={{
                 flexGrow: 1,
                 display: 'flex',
@@ -379,7 +384,7 @@ const RunDeckInfo = () => {
               }}
             >
               <DispatchesYoY height={leftColumnHeight} data={data} />
-            </MainCard>
+            </SubCard>
           </Grid>
         </Grid>
       </Box>
