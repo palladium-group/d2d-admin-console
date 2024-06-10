@@ -273,7 +273,13 @@ const RunDeckInfo = () => {
                             flexItem
                           />
                           <Typography variant="body" sx={{ fontSize: 24 }}>
-                            {recentQuarterCount}/{numberOfFacilities}
+                            {recentQuarterCount
+                              ? recentQuarterCount.toLocaleString()
+                              : recentQuarterCount}
+                            /
+                            {numberOfFacilities
+                              ? numberOfFacilities.toLocaleString()
+                              : numberOfFacilities}
                           </Typography>
                         </Stack>
                       </Grid>
@@ -343,7 +349,13 @@ const RunDeckInfo = () => {
                             flexItem
                           />
                           <Typography variant="body" sx={{ fontSize: 24 }}>
-                            {recentMonthCount}/{numberOfFacilities}
+                            {recentMonthCount
+                              ? recentMonthCount.toLocaleString()
+                              : recentMonthCount}
+                            /
+                            {numberOfFacilities
+                              ? numberOfFacilities.toLocaleString()
+                              : numberOfFacilities}
                           </Typography>
                         </Stack>
                       </Grid>
@@ -375,7 +387,7 @@ const RunDeckInfo = () => {
             }}
           >
             <SubCard
-              title="Number of Dispatches Processed YoY"
+              title="Number of Facilities Processed (YoY)"
               sx={{
                 flexGrow: 1,
                 display: 'flex',
