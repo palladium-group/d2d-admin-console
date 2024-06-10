@@ -19,10 +19,12 @@ import { styled } from '@mui/material/styles';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import CheckCircle from '@mui/icons-material/CheckCircle';
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import { useQuery } from '@tanstack/react-query';
 import { getFacilityDetails } from '../../../api/d2d-api';
 import { format } from 'date-fns';
+import SubCard from 'ui-component/cards/SubCard';
 
 const CustomTimeline = styled(Timeline)({
   padding: 0,
@@ -71,7 +73,7 @@ const FacilityDetails = ({ facilityId }) => {
     enabled: !!facilityId
   });
 
-  const createZones = (val = []) => {
+  /*  const createZones = (val = []) => {
     const zones = [];
     let currentZone = { value: 0, dashStyle: 'Solid' };
 
@@ -86,7 +88,7 @@ const FacilityDetails = ({ facilityId }) => {
 
     zones.push({ value: val.length - 1 });
     return zones;
-  };
+  }; */
 
   useEffect(() => {
     if (!isLoading && !isError && data) {
@@ -100,7 +102,7 @@ const FacilityDetails = ({ facilityId }) => {
       const category = [];
       let startYear;
       if (currentMonth < 11) {
-        const startMonth = 11 - (currentMonth + 2);
+        const startMonth = 11 - currentMonth;
         for (let i = startMonth; i <= 11; i++) {
           startYear = currentYear - 1;
           category.push(monthNames[i] + ' ' + startYear);
@@ -133,20 +135,22 @@ const FacilityDetails = ({ facilityId }) => {
           name: 'Visits',
           data: visits,
           connectNulls: true,
-          zoneAxis: 'x',
-          zones: createZones(visits)
+          zoneAxis: 'x'
+          //zones: createZones(visits)
         },
         {
           name: 'Patients',
           data: patients,
           connectNulls: true,
           zoneAxis: 'x',
-          zones: createZones(patients)
+          //zones: createZones(patients),
+          yAxis: 1
         }
       );
       setSeries(seriesData);
       setCategories(category);
     }
+    // eslint-disable-next-line
   }, [data, isLoading, isError, monthNames]);
   const [options, setOptions] = useState({});
 
@@ -159,6 +163,9 @@ const FacilityDetails = ({ facilityId }) => {
 
   useEffect(() => {
     setOptions({
+      chart: {
+        type: 'spline'
+      },
       title: {
         text: '',
         align: 'left'
@@ -169,13 +176,23 @@ const FacilityDetails = ({ facilityId }) => {
         align: 'left'
       },
 
-      yAxis: {
-        title: {
-          text: 'Number'
+      yAxis: [
+        {
+          title: {
+            text: 'Visits'
+          },
+          //type: 'logarithmic',
+          minorTickInterval: 0.1
         },
-        type: 'logarithmic',
-        minorTickInterval: 0.1
-      },
+        {
+          opposite: true,
+          title: {
+            text: 'Patients'
+          },
+          //type: 'logarithmic',
+          minorTickInterval: 0.1
+        }
+      ],
 
       xAxis: {
         accessibility: {
@@ -195,6 +212,12 @@ const FacilityDetails = ({ facilityId }) => {
           label: {
             connectorAllowed: false
           }
+        },
+        spline: {
+          dataLabels: {
+            enabled: true
+          }
+          //enableMouseTracking: false
         }
       },
       series: series,
@@ -246,7 +269,7 @@ const FacilityDetails = ({ facilityId }) => {
         <MainCard title={facilityData?.facility?.facilityName}>
           <Grid container spacing={3}>
             <Grid item xs={4}>
-              <MainCard title="Most Recent Dispatch" sx={{ border: 2 }}>
+              <SubCard title="Most Recent Dispatch">
                 <Grid container spacing={3}>
                   <Grid item md={12}>
                     <Grid container>
@@ -334,10 +357,11 @@ const FacilityDetails = ({ facilityId }) => {
                           <CustomTimelineItem>
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
-                              <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
@@ -359,10 +383,11 @@ const FacilityDetails = ({ facilityId }) => {
                           <CustomTimelineItem>
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
-                              <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
@@ -384,10 +409,11 @@ const FacilityDetails = ({ facilityId }) => {
                           <CustomTimelineItem>
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
-                              <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
@@ -408,10 +434,11 @@ const FacilityDetails = ({ facilityId }) => {
                           <CustomTimelineItem>
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
-                              <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                             </TimelineSeparator>
                             <TimelineContent>
@@ -437,9 +464,7 @@ const FacilityDetails = ({ facilityId }) => {
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
                               <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
@@ -462,9 +487,7 @@ const FacilityDetails = ({ facilityId }) => {
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
                               <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
@@ -487,9 +510,7 @@ const FacilityDetails = ({ facilityId }) => {
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
                               <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                             </TimelineSeparator>
                             <TimelineContent>
@@ -511,12 +532,12 @@ const FacilityDetails = ({ facilityId }) => {
                     )}
                   </React.Fragment>
                 </Grid>
-              </MainCard>
+              </SubCard>
             </Grid>
             <Grid item xs={8}>
-              <MainCard title="Record Growth Over Time" sx={{ border: 2 }}>
+              <SubCard title="Record Growth Over Time">
                 <HighchartsReact highcharts={Highcharts} options={options} />
-              </MainCard>
+              </SubCard>
             </Grid>
           </Grid>
         </MainCard>

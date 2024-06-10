@@ -11,8 +11,8 @@ import HomeMap from './HomeMap';
 // custom style
 
 const SectionWrapper = styled('div')({
-  paddingTop: 10,
-  paddingBottom: 10
+  paddingTop: 0,
+  paddingBottom: 0
 });
 
 const Home = () => {

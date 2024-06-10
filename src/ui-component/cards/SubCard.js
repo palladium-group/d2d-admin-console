@@ -44,7 +44,7 @@ const SubCard = React.forwardRef(
             boxShadow:
               theme.palette.mode === 'dark'
                 ? '0 2px 14px 0 rgb(33 150 243 / 10%)'
-                : '0 2px 14px 0 rgb(32 40 45 / 8%)'
+                : '0 2px 14px 0 rgb(32 40 45 / 20%)'
           },
           ...sx
         }}
@@ -53,14 +53,14 @@ const SubCard = React.forwardRef(
         {/* card header and action */}
         {!darkTitle && title && (
           <CardHeader
-            sx={{ p: 2.5 }}
+            sx={{ p: 2 }}
             title={<Typography variant="h5">{title}</Typography>}
             action={secondary}
           />
         )}
         {darkTitle && title && (
           <CardHeader
-            sx={{ p: 2.5 }}
+            sx={{ p: 2 }}
             title={<Typography variant="h4">{title}</Typography>}
             action={secondary}
           />
