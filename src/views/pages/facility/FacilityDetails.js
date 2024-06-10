@@ -19,6 +19,7 @@ import { styled } from '@mui/material/styles';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import CheckCircle from '@mui/icons-material/CheckCircle';
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import { useQuery } from '@tanstack/react-query';
 import { getFacilityDetails } from '../../../api/d2d-api';
@@ -356,10 +357,11 @@ const FacilityDetails = ({ facilityId }) => {
                           <CustomTimelineItem>
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
-                              <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
@@ -381,10 +383,11 @@ const FacilityDetails = ({ facilityId }) => {
                           <CustomTimelineItem>
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
-                              <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
@@ -406,10 +409,11 @@ const FacilityDetails = ({ facilityId }) => {
                           <CustomTimelineItem>
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
-                              <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
@@ -430,10 +434,11 @@ const FacilityDetails = ({ facilityId }) => {
                           <CustomTimelineItem>
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
-                              <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                             </TimelineSeparator>
                             <TimelineContent>
@@ -459,9 +464,7 @@ const FacilityDetails = ({ facilityId }) => {
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
                               <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
@@ -484,9 +487,7 @@ const FacilityDetails = ({ facilityId }) => {
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
                               <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
@@ -509,9 +510,7 @@ const FacilityDetails = ({ facilityId }) => {
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
                               <TimelineDot>
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                             </TimelineSeparator>
                             <TimelineContent>
