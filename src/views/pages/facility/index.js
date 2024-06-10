@@ -3,28 +3,47 @@ import {
   MaterialReactTable,
   useMaterialReactTable
 } from 'material-react-table';
-import { Box, Container, Dialog, IconButton, Tooltip } from '@mui/material';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import { Box, Button, Container, Dialog, IconButton } from '@mui/material';
+// import RefreshIcon from '@mui/icons-material/Refresh';
 import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 import { useQuery } from '@tanstack/react-query';
 import { apiRoutes } from '../../../apiRoutes';
 import useKeyCloakAuth from '../../../hooks/useKeyCloakAuth';
 import { formatDistanceToNow, parseISO } from 'date-fns';
+import { download, generateCsv, mkConfig } from 'export-to-csv';
 import MainCard from '../../../ui-component/cards/MainCard';
 import FacilityDetails from './FacilityDetails';
 import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutlined';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+
+const csvConfig = mkConfig({
+  fieldSeparator: ',',
+  decimalSeparator: '.',
+  useKeysAsHeaders: true
+});
 
 const Facility = () => {
   const user = useKeyCloakAuth();
   const [openDialog, setOpenDialog] = useState(false);
   const [facilityId, setFacilityId] = useState();
 
+  const handleExportRows = (rows) => {
+    const rowData = rows.map((row) => ({
+      Facility: row.original.facilityName,
+      'Dispatch File Name': row.original.dispatch?.name,
+      'Uploaded By': row.original.dispatch?.owner,
+      'Date Processed': row.original.dispatch?.dateProcessed,
+      Status: row.original.manifest?.isAccepted ? 'SUCCESS' : 'FAILURE'
+    }));
+    const csv = generateCsv(csvConfig)(rowData);
+    download(csvConfig)(csv);
+  };
+
   const {
     data = {},
     isError,
     isRefetching,
-    isLoading,
-    refetch
+    isLoading
   } = useQuery({
     queryKey: ['table-data'],
     queryFn: async () => {
@@ -32,9 +51,7 @@ const Facility = () => {
         `${apiRoutes.manifest}/Facility/Latest/${user?.OrgUnit}/${user?.OrgUnitValue}?page=1&pageSize=5000`
       );
       const response = await fetch(fetchURL.href);
-      const json = await response.json();
-
-      return json;
+      return await response.json();
     }
   });
 
@@ -71,7 +88,7 @@ const Facility = () => {
         accessorFn: (row) => {
           return row?.manifest?.isAccepted ? 'SUCCESS' : 'FAILURE';
         },
-        enableColumnFilter: false
+        enableColumnFilter: true
       }
     ],
     []
@@ -106,12 +123,19 @@ const Facility = () => {
         </IconButton>
       </Box>
     ),
-    renderTopToolbarCustomActions: () => (
-      <Tooltip arrow title="Refresh Data">
-        <IconButton onClick={() => refetch()}>
-          <RefreshIcon />
-        </IconButton>
-      </Tooltip>
+    renderTopToolbarCustomActions: ({ table }) => (
+      <Box sx={{ display: 'flex' }}>
+        <Button
+          disabled={table.getPrePaginationRowModel().rows.length === 0}
+          //export all rows, including from the next page, (still respects filtering and sorting)
+          onClick={() =>
+            handleExportRows(table.getPrePaginationRowModel().rows)
+          }
+          startIcon={<FileDownloadIcon />}
+        >
+          Download Data
+        </Button>
+      </Box>
     ),
     state: {
       isLoading,
