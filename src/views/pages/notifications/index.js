@@ -100,13 +100,12 @@ const Notifications = () => {
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const user = useKeyCloakAuth();
   const navigate = useNavigate();
-  console.log(user);
   const {
     data: { data = [] } = {},
     isLoading,
     isError
   } = useQuery({
-    queryKey: ['getOwnerNotifications', 'chris'],
+    queryKey: ['getOwnerNotifications', user.tokenParsed.preferred_username],
     queryFn: async (queryKey) => {
       const data = await getOwnerNotifications(queryKey);
       return data;
