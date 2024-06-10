@@ -64,9 +64,9 @@ const NotificationSection = () => {
   const prevOpen = useRef(open);
 
   const user = useKeyCloakAuth();
-  console.log(user);
+  //console.log(user);
   const { data: { data = [] } = {}, isLoading } = useQuery({
-    queryKey: ['getOwnerNotifications', 'chris'],
+    queryKey: ['getOwnerNotifications', user.tokenParsed.preferred_username],
     queryFn: async (queryKey) => {
       const data = await getOwnerNotifications(queryKey);
       return data;
@@ -190,7 +190,7 @@ const NotificationSection = () => {
                           <Grid item>
                             <Stack direction="row" spacing={2}>
                               <Typography variant="subtitle1">
-                                All Notification
+                                All Notifications
                               </Typography>
                               {/*<Chip*/}
                               {/*  size="small"*/}
