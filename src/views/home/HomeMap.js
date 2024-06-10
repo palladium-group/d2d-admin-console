@@ -7,10 +7,12 @@ import useKeyCloakAuth from '../../hooks/useKeyCloakAuth';
 import { useQuery } from '@tanstack/react-query';
 import { getFacilityByOrgUnit } from '../../api/d2d-api';
 import FacilityDetail from './FacilityDetail';
-import { Container, Dialog, IconButton } from '@mui/material';
+import { Dialog, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutlined';
 import FacilityDetails from '../pages/facility/FacilityDetails';
+import SubCard from 'ui-component/cards/SubCard';
+import { Container } from '@mui/system';
 
 const customIcon = new L.Icon({
   iconUrl: require('./location.svg').default,
@@ -47,57 +49,59 @@ const HomeMap = () => {
 
   return (
     <Container>
-      <MapContainer
-        style={{ height: '500px' }}
-        center={[-30.5595, 22.9375]}
-        zoom={6}
-        scrollWheelZoom={true}
-      >
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <MarkerClusterGroup chunkedLoading>
-          {data.map((address, index) =>
-            address.latitude !== null && address.longitude !== null ? (
-              <Marker
-                key={index}
-                position={[address.latitude, address.longitude]}
-                title={address.facilityName}
-                icon={customIcon}
-              >
-                <StyledPop>
-                  <FacilityDetail
-                    facilityName={address.facilityName}
-                    facilityId={address.facilityId}
-                    handleOpenDialog={handleOpenDialog}
-                  />
-                </StyledPop>
-              </Marker>
-            ) : null
-          )}
-        </MarkerClusterGroup>
-      </MapContainer>
-      <Dialog
-        open={openDialog}
-        fullWidth={true}
-        onClose={handleClose}
-        maxWidth="lg"
-      >
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500]
-          }}
+      <SubCard title="Recency Distribution">
+        <MapContainer
+          style={{ height: '500px', borderRadius: '5px' }}
+          center={[-30.5595, 22.9375]}
+          zoom={6}
+          scrollWheelZoom={true}
         >
-          <CloseFullscreenOutlinedIcon />
-        </IconButton>
-        <FacilityDetails facilityId={facilityId} />
-      </Dialog>
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <MarkerClusterGroup chunkedLoading>
+            {data.map((address, index) =>
+              address.latitude !== null && address.longitude !== null ? (
+                <Marker
+                  key={index}
+                  position={[address.latitude, address.longitude]}
+                  title={address.facilityName}
+                  icon={customIcon}
+                >
+                  <StyledPop>
+                    <FacilityDetail
+                      facilityName={address.facilityName}
+                      facilityId={address.facilityId}
+                      handleOpenDialog={handleOpenDialog}
+                    />
+                  </StyledPop>
+                </Marker>
+              ) : null
+            )}
+          </MarkerClusterGroup>
+        </MapContainer>
+        <Dialog
+          open={openDialog}
+          fullWidth={true}
+          onClose={handleClose}
+          maxWidth="lg"
+        >
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500]
+            }}
+          >
+            <CloseFullscreenOutlinedIcon />
+          </IconButton>
+          <FacilityDetails facilityId={facilityId} />
+        </Dialog>
+      </SubCard>
     </Container>
   );
 };

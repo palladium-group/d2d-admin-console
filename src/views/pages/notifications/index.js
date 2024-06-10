@@ -100,6 +100,7 @@ const Notifications = () => {
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const user = useKeyCloakAuth();
   const navigate = useNavigate();
+  //console.log(user);
   const {
     data: { data = [] } = {},
     isLoading,

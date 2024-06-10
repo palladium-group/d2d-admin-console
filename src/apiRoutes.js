@@ -1,5 +1,12 @@
-const protocol = window.location.protocol;
-const hostname = window.location.hostname;
+let protocol = window.location.protocol;
+if (process.env.NODE_ENV == 'production') {
+  protocol = 'https:';
+}
+
+let hostname = window.location.hostname;
+if (process.env.NODE_ENV == 'production') {
+  hostname = 'd2d-api.dataforimplementation.org';
+}
 const path = protocol + '//' + hostname;
 
 export const apiRoutes = {
