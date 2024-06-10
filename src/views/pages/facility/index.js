@@ -134,6 +134,11 @@ const Facility = () => {
         fullWidth={true}
         onClose={handleClose}
         maxWidth="lg"
+        sx={{
+          '.MuiPaper-root': {
+            padding: 0
+          }
+        }}
       >
         <IconButton
           aria-label="close"
