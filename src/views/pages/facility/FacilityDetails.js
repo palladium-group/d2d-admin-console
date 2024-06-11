@@ -25,6 +25,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getFacilityDetails } from '../../../api/d2d-api';
 import { format } from 'date-fns';
 import SubCard from 'ui-component/cards/SubCard';
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 
 const CustomTimeline = styled(Timeline)({
   padding: 0,
@@ -67,8 +68,7 @@ const FacilityDetails = ({ facilityId }) => {
   } = useQuery({
     queryKey: ['getFacilityDetails', facilityId],
     queryFn: async (queryKey) => {
-      const data = await getFacilityDetails(queryKey);
-      return data;
+      return await getFacilityDetails(queryKey);
     },
     enabled: !!facilityId
   });
@@ -305,10 +305,20 @@ const FacilityDetails = ({ facilityId }) => {
                       </Grid>
                       <Grid item xs={7}>
                         {facilityData?.facility?.manifest?.isAccepted && (
-                          <CheckCircleOutlinedIcon sx={{ color: 'green' }} />
+                          <Box display="flex" alignItems="center">
+                            <CheckCircleOutlinedIcon sx={{ color: 'green' }} />
+                            <Typography component="span" color="green" ml={1}>
+                              SUCCESS
+                            </Typography>
+                          </Box>
                         )}
                         {!facilityData?.facility?.manifest?.isAccepted && (
-                          <ReportProblemOutlinedIcon sx={{ color: 'red' }} />
+                          <Box display="flex" alignItems="center">
+                            <ReportProblemOutlinedIcon sx={{ color: 'red' }} />
+                            <Typography component="span" color="red" ml={1}>
+                              REJECTED
+                            </Typography>
+                          </Box>
                         )}
                       </Grid>
                     </Grid>
@@ -346,6 +356,10 @@ const FacilityDetails = ({ facilityId }) => {
                         <TruncatedName
                           name={facilityData?.facility?.dispatch?.name}
                         />
+                        <Typography variant="subtitle2" gutterBottom>
+                          {facilityData?.facility?.dispatch?.facilityCount}{' '}
+                          Facilities in the Dispatch
+                        </Typography>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -354,6 +368,84 @@ const FacilityDetails = ({ facilityId }) => {
                     {facilityData?.facility?.manifest?.isAccepted ? (
                       <Grid item xs={12}>
                         <CustomTimeline>
+                          <CustomTimelineItem>
+                            <CustomTimelineOppositeContent />
+                            <TimelineSeparator>
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircle sx={{ color: 'green' }} />
+                              </TimelineDot>
+                            </TimelineSeparator>
+                            <TimelineContent>
+                              <Typography variant="h6" component="span">
+                                Dashboards Updated
+                              </Typography>
+                              <Typography>
+                                {format(
+                                  new Date(
+                                    facilityData?.facility?.dispatch?.dateProcessed
+                                  ),
+                                  "d MMM  yyyy hh:mm aaaaa'm'"
+                                )}
+                              </Typography>
+                            </TimelineContent>
+                          </CustomTimelineItem>
+
+                          <CustomTimelineItem>
+                            <CustomTimelineOppositeContent />
+                            <TimelineSeparator>
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircle sx={{ color: 'green' }} />
+                              </TimelineDot>
+                              <TimelineConnector />
+                            </TimelineSeparator>
+                            <TimelineContent>
+                              <Typography variant="h6" component="span">
+                                Processing Complete
+                              </Typography>
+                              <Typography>
+                                {format(
+                                  new Date(
+                                    facilityData?.facility?.dispatch?.dateProcessed
+                                  ),
+                                  "d MMM  yyyy hh:mm aaaaa'm'"
+                                )}
+                              </Typography>
+                            </TimelineContent>
+                          </CustomTimelineItem>
+
+                          <CustomTimelineItem>
+                            <CustomTimelineOppositeContent />
+                            <TimelineSeparator>
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircle sx={{ color: 'green' }} />
+                              </TimelineDot>
+                              <TimelineConnector />
+                            </TimelineSeparator>
+                            <TimelineContent>
+                              <Typography variant="h6" component="span">
+                                Dispatch Uploaded By{' '}
+                                {facilityData?.facility?.dispatch?.owner}
+                              </Typography>
+                              <Typography>
+                                {format(
+                                  new Date(
+                                    facilityData?.facility?.dispatch?.dateProcessed
+                                  ),
+                                  "d MMM  yyyy hh:mm aaaaa'm'"
+                                )}
+                              </Typography>
+                            </TimelineContent>
+                          </CustomTimelineItem>
+
                           <CustomTimelineItem>
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
@@ -380,81 +472,6 @@ const FacilityDetails = ({ facilityId }) => {
                               </Typography>
                             </TimelineContent>
                           </CustomTimelineItem>
-                          <CustomTimelineItem>
-                            <CustomTimelineOppositeContent />
-                            <TimelineSeparator>
-                              <TimelineDot
-                                variant="outlined"
-                                sx={{ padding: 0 }}
-                              >
-                                <CheckCircle sx={{ color: 'green' }} />
-                              </TimelineDot>
-                              <TimelineConnector />
-                            </TimelineSeparator>
-                            <TimelineContent>
-                              <Typography variant="h6" component="span">
-                                Dispatch Uploaded By{' '}
-                                {facilityData?.facility?.dispatch?.owner}
-                              </Typography>
-                              <Typography>
-                                {format(
-                                  new Date(
-                                    facilityData?.facility?.dispatch?.dateProcessed
-                                  ),
-                                  "d MMM  yyyy hh:mm aaaaa'm'"
-                                )}
-                              </Typography>
-                            </TimelineContent>
-                          </CustomTimelineItem>
-                          <CustomTimelineItem>
-                            <CustomTimelineOppositeContent />
-                            <TimelineSeparator>
-                              <TimelineDot
-                                variant="outlined"
-                                sx={{ padding: 0 }}
-                              >
-                                <CheckCircle sx={{ color: 'green' }} />
-                              </TimelineDot>
-                              <TimelineConnector />
-                            </TimelineSeparator>
-                            <TimelineContent>
-                              <Typography variant="h6" component="span">
-                                Processing Complete
-                              </Typography>
-                              <Typography>
-                                {format(
-                                  new Date(
-                                    facilityData?.facility?.dispatch?.dateProcessed
-                                  ),
-                                  "d MMM  yyyy hh:mm aaaaa'm'"
-                                )}
-                              </Typography>
-                            </TimelineContent>
-                          </CustomTimelineItem>
-                          <CustomTimelineItem>
-                            <CustomTimelineOppositeContent />
-                            <TimelineSeparator>
-                              <TimelineDot
-                                variant="outlined"
-                                sx={{ padding: 0 }}
-                              >
-                                <CheckCircle sx={{ color: 'green' }} />
-                              </TimelineDot>
-                            </TimelineSeparator>
-                            <TimelineContent>
-                              <Typography variant="h6" component="span">
-                                Dashboards Updated
-                              </Typography>
-                              <Typography>
-                                {format(
-                                  new Date(
-                                    facilityData?.facility?.dispatch?.dateProcessed
-                                  ),
-                                  "d MMM  yyyy hh:mm aaaaa'm'"
-                                )}
-                              </Typography>
-                            </TimelineContent>
-                          </CustomTimelineItem>
                         </CustomTimeline>
                       </Grid>
                     ) : (
@@ -463,31 +480,43 @@ const FacilityDetails = ({ facilityId }) => {
                           <CustomTimelineItem>
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
-                              <TimelineDot>
-                                <CheckCircle sx={{ color: 'green' }} />
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <ErrorOutlineOutlinedIcon
+                                  sx={{ color: 'red' }}
+                                />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
                             <TimelineContent>
                               <Typography variant="h6" component="span">
-                                Dispatch Created By{' '}
-                                {facilityData?.facility?.dispatch?.creator}
+                                Processing Failed
                               </Typography>
                               <Typography>
-                                {/*{format(*/}
-                                {/*  new Date(*/}
-                                {/*    facilityData?.facility?.dispatch?.dateCreated*/}
-                                {/*  ),*/}
-                                {/*  "d MMM  yyyy hh:mm aaaaa'm'"*/}
-                                {/*)}*/}
+                                {facilityData?.facility?.dispatch
+                                  ?.dateProcessed &&
+                                  format(
+                                    new Date(
+                                      facilityData?.facility?.dispatch?.dateProcessed
+                                    ),
+                                    "d MMM  yyyy hh:mm aaaaa'm'"
+                                  )}
                               </Typography>
                             </TimelineContent>
                           </CustomTimelineItem>
+
                           <CustomTimelineItem>
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
-                              <TimelineDot>
-                                <CheckCircle sx={{ color: 'green' }} />
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircleOutlinedIcon
+                                  sx={{ color: 'green' }}
+                                />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
@@ -497,33 +526,43 @@ const FacilityDetails = ({ facilityId }) => {
                                 {facilityData?.facility?.dispatch?.owner}
                               </Typography>
                               <Typography>
-                                {/*{format(*/}
-                                {/*  new Date(*/}
-                                {/*    facilityData?.facility?.dispatch?.dateProcessed*/}
-                                {/*  ),*/}
-                                {/*  "d MMM  yyyy hh:mm aaaaa'm'"*/}
-                                {/*)}*/}
+                                {facilityData?.facility?.dispatch
+                                  ?.dateProcessed &&
+                                  format(
+                                    new Date(
+                                      facilityData?.facility?.dispatch?.dateProcessed
+                                    ),
+                                    "d MMM  yyyy hh:mm aaaaa'm'"
+                                  )}
                               </Typography>
                             </TimelineContent>
                           </CustomTimelineItem>
+
                           <CustomTimelineItem>
                             <CustomTimelineOppositeContent />
                             <TimelineSeparator>
-                              <TimelineDot>
-                                <CheckCircle sx={{ color: 'green' }} />
+                              <TimelineDot
+                                variant="outlined"
+                                sx={{ padding: 0 }}
+                              >
+                                <CheckCircleOutlinedIcon
+                                  sx={{ color: 'green' }}
+                                />
                               </TimelineDot>
                             </TimelineSeparator>
                             <TimelineContent>
                               <Typography variant="h6" component="span">
-                                Dashboards Updated
+                                Dispatch Created by
                               </Typography>
                               <Typography>
-                                {/*{format(*/}
-                                {/*  new Date(*/}
-                                {/*    facilityData?.facility?.dispatch?.dateProcessed*/}
-                                {/*  ),*/}
-                                {/*  "d MMM  yyyy hh:mm aaaaa'm'"*/}
-                                {/*)}*/}
+                                {facilityData?.facility?.dispatch
+                                  ?.dateCreated &&
+                                  format(
+                                    new Date(
+                                      facilityData?.facility?.dispatch?.dateCreated
+                                    ),
+                                    "d MMM  yyyy hh:mm aaaaa'm'"
+                                  )}
                               </Typography>
                             </TimelineContent>
                           </CustomTimelineItem>
