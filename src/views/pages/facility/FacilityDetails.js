@@ -18,14 +18,16 @@ import {
 import { styled } from '@mui/material/styles';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import CheckCircle from '@mui/icons-material/CheckCircle';
-import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import { useQuery } from '@tanstack/react-query';
 import { getFacilityDetails } from '../../../api/d2d-api';
 import { format } from 'date-fns';
 import SubCard from 'ui-component/cards/SubCard';
-import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
+import { FolderZipTwoTone } from '@mui/icons-material';
+import ErrorIcon from '@mui/icons-material/Error';
+import { red } from '@mui/material/colors';
+import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded';
+import LocalHospitalTwoToneIcon from '@mui/icons-material/LocalHospitalTwoTone';
 
 const CustomTimeline = styled(Timeline)({
   padding: 0,
@@ -180,17 +182,17 @@ const FacilityDetails = ({ facilityId }) => {
         {
           title: {
             text: 'Visits'
-          },
+          }
           //type: 'logarithmic',
-          minorTickInterval: 0.1
+          //minorTickInterval: 0.1
         },
         {
           opposite: true,
           title: {
             text: 'Patients'
-          },
+          }
           //type: 'logarithmic',
-          minorTickInterval: 0.1
+          //minorTickInterval: 0.1
         }
       ],
 
@@ -266,15 +268,33 @@ const FacilityDetails = ({ facilityId }) => {
           <CircularProgress />
         </Box>
       ) : (
-        <MainCard title={facilityData?.facility?.facilityName}>
+        <MainCard
+          title={
+            <Box display="flex" alignItems="center">
+              <LocalHospitalTwoToneIcon />
+              <Typography variant="body" ml={1}>
+                {facilityData?.facility?.facilityName}
+              </Typography>
+            </Box>
+          }
+        >
           <Grid container spacing={3}>
             <Grid item xs={4}>
-              <SubCard title="Most Recent Dispatch">
-                <Grid container spacing={3}>
+              <SubCard
+                title={
+                  <Box display="flex" alignItems="center">
+                    <FolderZipTwoTone />
+                    <Typography variant="h5" ml={1}>
+                      Most Recent Dispatch
+                    </Typography>
+                  </Box>
+                }
+              >
+                <Grid container spacing={2}>
                   <Grid item md={12}>
                     <Grid container>
                       <Grid item md={5}>
-                        Last Submitted On:
+                        <Typography variant="h5">Last Submitted On:</Typography>
                       </Grid>
                       <Grid item md={7}>
                         {facilityData?.facility?.dispatch?.dateCreated &&
@@ -282,7 +302,7 @@ const FacilityDetails = ({ facilityId }) => {
                             new Date(
                               facilityData?.facility?.dispatch?.dateCreated
                             ),
-                            "d MMM  yyyy hh:mm aaaaa'm'"
+                            "d MMM yyyy hh:mmaaaaa'm'"
                           )}
                       </Grid>
                     </Grid>
@@ -290,7 +310,7 @@ const FacilityDetails = ({ facilityId }) => {
                   <Grid item xs={12}>
                     <Grid container>
                       <Grid item xs={5}>
-                        Submitted By:
+                        <Typography variant="h5">Submitted By:</Typography>
                       </Grid>
                       <Grid item xs={7}>
                         {facilityData?.facility?.dispatch?.creator}
@@ -301,21 +321,21 @@ const FacilityDetails = ({ facilityId }) => {
                   <Grid item xs={12}>
                     <Grid container>
                       <Grid item xs={5}>
-                        Status:
+                        <Typography variant="h5">Status:</Typography>
                       </Grid>
                       <Grid item xs={7}>
                         {facilityData?.facility?.manifest?.isAccepted && (
                           <Box display="flex" alignItems="center">
-                            <CheckCircleOutlinedIcon sx={{ color: 'green' }} />
-                            <Typography component="span" color="green" ml={1}>
+                            <CheckCircle sx={{ color: 'green' }} />
+                            <Typography variant="h5" color="green" ml={1}>
                               SUCCESS
                             </Typography>
                           </Box>
                         )}
                         {!facilityData?.facility?.manifest?.isAccepted && (
                           <Box display="flex" alignItems="center">
-                            <ReportProblemOutlinedIcon sx={{ color: 'red' }} />
-                            <Typography component="span" color="red" ml={1}>
+                            <ErrorIcon sx={{ color: 'red' }} />
+                            <Typography variant="h5" color="red" ml={1}>
                               REJECTED
                             </Typography>
                           </Box>
@@ -328,7 +348,7 @@ const FacilityDetails = ({ facilityId }) => {
                           &nbsp;
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="body1" sx={{ color: 'red' }}>
+                          <Typography variant="subtitle2" sx={{ color: 'red' }}>
                             {
                               facilityData?.facility?.manifest
                                 ?.rejectReasonLongDescription
@@ -342,7 +362,7 @@ const FacilityDetails = ({ facilityId }) => {
                   <Grid item xs={12}>
                     <Grid container spacing={2}>
                       <Grid item xs={5}>
-                        File Name:
+                        <Typography variant="h5">File Name:</Typography>
                       </Grid>
                       <Grid
                         item
@@ -358,7 +378,7 @@ const FacilityDetails = ({ facilityId }) => {
                         />
                         <Typography variant="subtitle2" gutterBottom>
                           {facilityData?.facility?.dispatch?.facilityCount}{' '}
-                          Facilities in the Dispatch
+                          facilities in this dispatch.
                         </Typography>
                       </Grid>
                     </Grid>
@@ -377,12 +397,13 @@ const FacilityDetails = ({ facilityId }) => {
                               >
                                 <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
+                              <TimelineConnector />
                             </TimelineSeparator>
                             <TimelineContent>
-                              <Typography variant="h6" component="span">
-                                Dashboards Updated
+                              <Typography variant="body2" component="span">
+                                Dashboards updated
                               </Typography>
-                              <Typography>
+                              <Typography variant="subtitle2">
                                 {format(
                                   new Date(
                                     facilityData?.facility?.dispatch?.dateProcessed
@@ -405,10 +426,10 @@ const FacilityDetails = ({ facilityId }) => {
                               <TimelineConnector />
                             </TimelineSeparator>
                             <TimelineContent>
-                              <Typography variant="h6" component="span">
-                                Processing Complete
+                              <Typography variant="body2" component="span">
+                                Processing complete
                               </Typography>
-                              <Typography>
+                              <Typography variant="subtitle2">
                                 {format(
                                   new Date(
                                     facilityData?.facility?.dispatch?.dateProcessed
@@ -431,11 +452,13 @@ const FacilityDetails = ({ facilityId }) => {
                               <TimelineConnector />
                             </TimelineSeparator>
                             <TimelineContent>
-                              <Typography variant="h6" component="span">
-                                Dispatch Uploaded By{' '}
-                                {facilityData?.facility?.dispatch?.owner}
+                              <Typography variant="body2" component="span">
+                                Dispatch uploaded by{' '}
+                                <strong>
+                                  {facilityData?.facility?.dispatch?.owner}
+                                </strong>
                               </Typography>
-                              <Typography>
+                              <Typography variant="subtitle2">
                                 {format(
                                   new Date(
                                     facilityData?.facility?.dispatch?.dateProcessed
@@ -455,14 +478,15 @@ const FacilityDetails = ({ facilityId }) => {
                               >
                                 <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
-                              <TimelineConnector />
                             </TimelineSeparator>
                             <TimelineContent>
-                              <Typography variant="h6" component="span">
-                                Dispatch Created By{' '}
-                                {facilityData?.facility?.dispatch?.creator}
+                              <Typography variant="body2" component="span">
+                                Dispatch created by{' '}
+                                <strong>
+                                  {facilityData?.facility?.dispatch?.creator}
+                                </strong>
                               </Typography>
-                              <Typography>
+                              <Typography variant="subtitle2">
                                 {format(
                                   new Date(
                                     facilityData?.facility?.dispatch?.dateCreated
@@ -484,17 +508,15 @@ const FacilityDetails = ({ facilityId }) => {
                                 variant="outlined"
                                 sx={{ padding: 0 }}
                               >
-                                <ErrorOutlineOutlinedIcon
-                                  sx={{ color: 'red' }}
-                                />
+                                <ErrorIcon sx={{ color: red[500] }} />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
                             <TimelineContent>
-                              <Typography variant="h6" component="span">
-                                Processing Failed
+                              <Typography variant="body2" component="span">
+                                Processing failed
                               </Typography>
-                              <Typography>
+                              <Typography variant="subtitle2">
                                 {facilityData?.facility?.dispatch
                                   ?.dateProcessed &&
                                   format(
@@ -514,18 +536,18 @@ const FacilityDetails = ({ facilityId }) => {
                                 variant="outlined"
                                 sx={{ padding: 0 }}
                               >
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                               <TimelineConnector />
                             </TimelineSeparator>
                             <TimelineContent>
-                              <Typography variant="h6" component="span">
-                                Dispatch Uploaded By{' '}
-                                {facilityData?.facility?.dispatch?.owner}
+                              <Typography variant="body2" component="span">
+                                Dispatch uploaded by{' '}
+                                <strong>
+                                  {facilityData?.facility?.dispatch?.owner}
+                                </strong>
                               </Typography>
-                              <Typography>
+                              <Typography variant="subtitle2">
                                 {facilityData?.facility?.dispatch
                                   ?.dateProcessed &&
                                   format(
@@ -545,16 +567,17 @@ const FacilityDetails = ({ facilityId }) => {
                                 variant="outlined"
                                 sx={{ padding: 0 }}
                               >
-                                <CheckCircleOutlinedIcon
-                                  sx={{ color: 'green' }}
-                                />
+                                <CheckCircle sx={{ color: 'green' }} />
                               </TimelineDot>
                             </TimelineSeparator>
                             <TimelineContent>
-                              <Typography variant="h6" component="span">
-                                Dispatch Created by
+                              <Typography variant="body2" component="span">
+                                Dispatch created by{' '}
+                                <strong>
+                                  {facilityData?.facility?.dispatch?.creator}
+                                </strong>
                               </Typography>
-                              <Typography>
+                              <Typography variant="subtitle2">
                                 {facilityData?.facility?.dispatch
                                   ?.dateCreated &&
                                   format(
@@ -574,7 +597,16 @@ const FacilityDetails = ({ facilityId }) => {
               </SubCard>
             </Grid>
             <Grid item xs={8}>
-              <SubCard title="Record Growth Over Time">
+              <SubCard
+                title={
+                  <Box display="flex" alignItems="center">
+                    <TrendingUpRoundedIcon />
+                    <Typography variant="h5" ml={1}>
+                      Record Growth over Time
+                    </Typography>
+                  </Box>
+                }
+              >
                 <HighchartsReact highcharts={Highcharts} options={options} />
               </SubCard>
             </Grid>
