@@ -38,7 +38,7 @@ const DispatchesYoY = ({ height, data }) => {
   useEffect(() => {
     setOptions({
       chart: {
-        height: height - 80,
+        height: '46%', //height - 80,
         type: 'spline'
       },
       title: {
