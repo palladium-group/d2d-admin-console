@@ -21,7 +21,7 @@ const Logo = () => {
      * <img src={theme.palette.mode === 'dark' ? logoDark : logo} alt="Berry" width="100" />
      *
      */
-    <img src={logo} alt="D2D" width="92" />
+    <img src={logo} alt="D2D" width="120" />
   );
 };
 
