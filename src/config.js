@@ -6,7 +6,7 @@ export const HORIZONTAL_MAX_ITEM = 7;
 const config = {
   layout: LAYOUT_CONST.HORIZONTAL_LAYOUT, // vertical, horizontal
   drawerType: LAYOUT_CONST.MINI_DRAWER, // default, mini-drawer
-  fontFamily: `'Roboto', sans-serif`,
+  fontFamily: `-apple-system, BlinkMacSystemFont, 'Roboto', sans-serif`,
   borderRadius: 8,
   outlinedFilled: true,
   navType: 'light', // light, dark

@@ -2,12 +2,14 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 const DispatchesYoY = ({ height, data }) => {
   const [options, setOptions] = useState({});
   const [series, setSeries] = useState([]);
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
+  const theme = useTheme();
 
   useEffect(() => {
     if (
@@ -38,7 +40,7 @@ const DispatchesYoY = ({ height, data }) => {
   useEffect(() => {
     setOptions({
       chart: {
-        height: height - 80,
+        height: '46%', //height - 80,
         type: 'spline'
       },
       title: {
@@ -86,12 +88,39 @@ const DispatchesYoY = ({ height, data }) => {
         },
         spline: {
           dataLabels: {
-            enabled: true
+            //enabled: true
           },
           enableMouseTracking: false
         }
       },
-      series: series,
+      series: [
+        {
+          data: series[1] ? series[1].data : [],
+          name: series[1] ? series[1].name : null,
+          color: theme.palette.primary.main,
+          dataLabels: {
+            enabled: true,
+            x: -15,
+            color: theme.palette.primary.main,
+            style: {
+              textOutline: 'none'
+            }
+          }
+        },
+        {
+          data: series[0] ? series[0].data : [],
+          name: series[0] ? series[0].name : null,
+          color: theme.palette.secondary.main,
+          dataLabels: {
+            enabled: true,
+            x: 15,
+            color: theme.palette.secondary.main,
+            style: {
+              textOutline: 'none'
+            }
+          }
+        }
+      ],
       responsive: {
         rules: [
           {
