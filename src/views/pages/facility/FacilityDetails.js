@@ -152,7 +152,7 @@ const FacilityDetails = ({ facilityId }) => {
                         <Typography variant="h5">Submitted By:</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        {facilityData?.facility?.dispatch?.creator}
+                        {facilityData?.facility?.dispatch?.owner}
                       </Grid>
                     </Grid>
                   </Grid>
@@ -243,12 +243,15 @@ const FacilityDetails = ({ facilityId }) => {
                                 Dashboards updated
                               </Typography>
                               <Typography variant="subtitle2">
-                                {format(
-                                  new Date(
-                                    facilityData?.facility?.dispatch?.dateProcessed
-                                  ),
-                                  "d MMM  yyyy hh:mm aaaaa'm'"
-                                )}
+                                {facilityData?.facility?.dispatch?.refreshes[0]
+                                  ?.endTime
+                                  ? format(
+                                      new Date(
+                                        facilityData?.facility?.dispatch?.refreshes[0]?.endTime
+                                      ),
+                                      "d MMM  yyyy hh:mmaaaaa'm'"
+                                    )
+                                  : 'Refresh time not available'}
                               </Typography>
                             </TimelineContent>
                           </CustomTimelineItem>
@@ -273,7 +276,7 @@ const FacilityDetails = ({ facilityId }) => {
                                   new Date(
                                     facilityData?.facility?.dispatch?.dateProcessed
                                   ),
-                                  "d MMM  yyyy hh:mm aaaaa'm'"
+                                  "d MMM  yyyy hh:mmaaaaa'm'"
                                 )}
                               </Typography>
                             </TimelineContent>
@@ -300,9 +303,11 @@ const FacilityDetails = ({ facilityId }) => {
                               <Typography variant="subtitle2">
                                 {format(
                                   new Date(
-                                    facilityData?.facility?.dispatch?.dateProcessed
+                                    new Date(
+                                      facilityData?.facility?.dispatch?.dateProcessed
+                                    ).getTime() - 4000000
                                   ),
-                                  "d MMM  yyyy hh:mm aaaaa'm'"
+                                  "d MMM  yyyy hh:mmaaaaa'm'"
                                 )}
                               </Typography>
                             </TimelineContent>
@@ -330,7 +335,7 @@ const FacilityDetails = ({ facilityId }) => {
                                   new Date(
                                     facilityData?.facility?.dispatch?.dateCreated
                                   ),
-                                  "d MMM  yyyy hh:mm aaaaa'm'"
+                                  "d MMM  yyyy hh:mmaaaaa'm'"
                                 )}
                               </Typography>
                             </TimelineContent>
@@ -362,7 +367,7 @@ const FacilityDetails = ({ facilityId }) => {
                                     new Date(
                                       facilityData?.facility?.dispatch?.dateProcessed
                                     ),
-                                    "d MMM  yyyy hh:mm aaaaa'm'"
+                                    "d MMM  yyyy hh:mmaaaaa'm'"
                                   )}
                               </Typography>
                             </TimelineContent>
@@ -393,7 +398,7 @@ const FacilityDetails = ({ facilityId }) => {
                                     new Date(
                                       facilityData?.facility?.dispatch?.dateProcessed
                                     ),
-                                    "d MMM  yyyy hh:mm aaaaa'm'"
+                                    "d MMM  yyyy hh:mmaaaaa'm'"
                                   )}
                               </Typography>
                             </TimelineContent>
@@ -423,7 +428,7 @@ const FacilityDetails = ({ facilityId }) => {
                                     new Date(
                                       facilityData?.facility?.dispatch?.dateCreated
                                     ),
-                                    "d MMM  yyyy hh:mm aaaaa'm'"
+                                    "d MMM  yyyy hh:mmaaaaa'm'"
                                   )}
                               </Typography>
                             </TimelineContent>
