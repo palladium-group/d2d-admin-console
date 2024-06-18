@@ -2,8 +2,20 @@ import { apiRoutes } from '../apiRoutes';
 import axios from 'axios';
 
 export const getDispatches = async ({ queryKey }) => {
-  const [, page, pageSize] = queryKey;
-  return await axios.get(
+  const [, page, pageSize, token] = queryKey;
+  const apiClient = axios.create();
+  apiClient.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  return await apiClient.get(
     `${apiRoutes.d2dApi}?page=${page}&pageSize=${pageSize}`
   );
 };
@@ -21,45 +33,131 @@ export const getNextExecutionTime = async () => {
 };
 
 export const getFacilityByOrgUnit = async ({ queryKey }) => {
-  const [, orgUnit, orgUnitValue] = queryKey;
-  return await axios.get(`${apiRoutes.facilities}/${orgUnit}/${orgUnitValue}`);
+  const [, orgUnit, orgUnitValue, token] = queryKey;
+  const apiClient = axios.create();
+  apiClient.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  return await apiClient.get(
+    `${apiRoutes.facilities}/${orgUnit}/${orgUnitValue}`
+  );
 };
 
 export const getFacilityDetails = async ({ queryKey }) => {
-  const [, facilityId] = queryKey;
-  return await axios.get(
+  const [, facilityId, token] = queryKey;
+  const apiClient = axios.create();
+  apiClient.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  return await apiClient.get(
     `${apiRoutes.manifest}/Facility/${facilityId}?historyPageSize=1000`
   );
 };
 
 export const getDashboardSummary = async ({ queryKey }) => {
-  const [, orgUnit, orgUnitValue] = queryKey;
-  return await axios.get(
+  const [, orgUnit, orgUnitValue, token] = queryKey;
+  const apiClient = axios.create();
+  apiClient.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  return await apiClient.get(
     `${apiRoutes.dashboard}/Summary/${orgUnit}/${orgUnitValue}`
   );
 };
 
 export const getRecencyAsAtDate = async ({ queryKey }) => {
-  const [, date_as_at, orgUnit, orgUnitValue] = queryKey;
-  return await axios.get(
+  const [, date_as_at, orgUnit, orgUnitValue, token] = queryKey;
+  const apiClient = axios.create();
+  apiClient.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  return await apiClient.get(
     `${apiRoutes.dashboard}/Recency/${date_as_at}/${orgUnit}/${orgUnitValue}`
   );
 };
 
 export const getOwnerNotifications = async ({ queryKey }) => {
-  const [, ownerId] = queryKey;
-  return await axios.get(
+  const [, ownerId, token] = queryKey;
+  const apiClient = axios.create();
+  apiClient.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  return await apiClient.get(
     `${apiRoutes.dashboard}/Notifications/Owner/${ownerId}?page=1&pageSize=1000`
   );
 };
 
 export const getNotificationById = async ({ queryKey }) => {
-  const [, id] = queryKey;
-  return await axios.get(`${apiRoutes.dashboard}/Notification/${id}`);
+  const [, id, token] = queryKey;
+  const apiClient = axios.create();
+  apiClient.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  return await apiClient.get(`${apiRoutes.dashboard}/Notification/${id}`);
 };
 
 export const notificationAcknowledged = async (values) => {
-  return await axios.post(
+  const apiClient = axios.create();
+  apiClient.interceptors.request.use(
+    (config) => {
+      if (values.token) {
+        config.headers.Authorization = `Bearer ${values.token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  return await apiClient.post(
     `${apiRoutes.dashboard}/Notification/Acknowledged`,
     values
   );
@@ -69,5 +167,24 @@ export const getManifestLatest = async ({ queryKey }) => {
   const [, orgUnit, orgUnitValue] = queryKey;
   return await axios.get(
     `${apiRoutes.manifest}/Facility/Latest/${orgUnit}/${orgUnitValue}`
+  );
+};
+
+export const getMostRecentFacilityDispatchTable = async ({ queryKey }) => {
+  const [, orgUnit, orgUnitValue, token] = queryKey;
+  const apiClient = axios.create();
+  apiClient.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  return await apiClient.get(
+    `${apiRoutes.manifest}/Facility/Latest/${orgUnit}/${orgUnitValue}?page=1&pageSize=5000`
   );
 };
