@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import MainCard from '../../../ui-component/cards/MainCard';
 import {
   Box,
@@ -16,8 +16,6 @@ import {
   TimelineSeparator
 } from '@mui/lab';
 import { styled } from '@mui/material/styles';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import { useQuery } from '@tanstack/react-query';
 import { getFacilityDetails } from '../../../api/d2d-api';
@@ -29,6 +27,8 @@ import { red } from '@mui/material/colors';
 import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded';
 import LocalHospitalTwoToneIcon from '@mui/icons-material/LocalHospitalTwoTone';
 import useKeyCloakAuth from 'hooks/useKeyCloakAuth';
+import RecordGrowthChart from './RecordGrowthChart';
+import { useTheme } from '@mui/material/styles';
 
 const CustomTimeline = styled(Timeline)({
   padding: 0,
@@ -48,24 +48,11 @@ const CustomTimelineOppositeContent = styled(Box)({
 
 const FacilityDetails = ({ facilityId }) => {
   const [facilityData, setFacilityData] = useState();
-  const [series, setSeries] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const monthNames = [
-    'JAN',
-    'FEB',
-    'MAR',
-    'APR',
-    'MAY',
-    'JUN',
-    'JUL',
-    'AUG',
-    'SEP',
-    'OCT',
-    'NOV',
-    'DEC'
-  ];
-
   const user = useKeyCloakAuth();
+  const theme = useTheme();
+
+  const leftColumnRef = useRef(null);
+  const [leftColumnHeight, setLeftColumnHeight] = useState(0);
 
   const {
     data: { data = {} } = {},
@@ -79,172 +66,15 @@ const FacilityDetails = ({ facilityId }) => {
     enabled: !!facilityId
   });
 
-  /*  const createZones = (val = []) => {
-    const zones = [];
-    let currentZone = { value: 0, dashStyle: 'Solid' };
-
-    val.forEach((point, index) => {
-      if (point === null) {
-        currentZone = { value: index, dashStyle: 'Dot' };
-        zones.push(currentZone);
-        currentZone = { value: index + 1, dashStyle: 'Dot' };
-        zones.push(currentZone);
-      }
-    });
-
-    zones.push({ value: val.length - 1 });
-    return zones;
-  }; */
-
   useEffect(() => {
+    if (leftColumnRef.current) {
+      setLeftColumnHeight(leftColumnRef.current.offsetHeight);
+    }
+
     if (!isLoading && !isError && data) {
       setFacilityData(data);
-
-      const seriesData = [];
-      const today = new Date();
-      const currentMonth = today.getMonth();
-      const currentYear = today.getFullYear();
-
-      const category = [];
-      let startYear;
-      if (currentMonth < 11) {
-        const startMonth = 11 - currentMonth;
-        for (let i = startMonth; i <= 11; i++) {
-          startYear = currentYear - 1;
-          category.push(monthNames[i] + ' ' + startYear);
-        }
-        for (let j = 0; j <= currentMonth; j++) {
-          category.push(monthNames[j] + ' ' + currentYear);
-        }
-      } else {
-        for (let j = 0; j <= currentMonth; j++) {
-          category.push(monthNames[j] + ' ' + currentYear);
-        }
-      }
-
-      const visits = [];
-      const patients = [];
-      for (let i = 0; i < 12; i++) {
-        const res = data.history.filter(
-          (obj) => formatDateToMonthYear(obj.date) === category[i]
-        );
-        if (res.length > 0) {
-          visits.push(res[0].visits);
-          patients.push(res[0].patients);
-        } else {
-          visits.push(null);
-          patients.push(null);
-        }
-      }
-      seriesData.push(
-        {
-          name: 'Visits',
-          data: visits,
-          connectNulls: true,
-          zoneAxis: 'x'
-          //zones: createZones(visits)
-        },
-        {
-          name: 'Patients',
-          data: patients,
-          connectNulls: true,
-          zoneAxis: 'x',
-          //zones: createZones(patients),
-          yAxis: 1
-        }
-      );
-      setSeries(seriesData);
-      setCategories(category);
     }
-    // eslint-disable-next-line
-  }, [data, isLoading, isError, monthNames]);
-  const [options, setOptions] = useState({});
-
-  function formatDateToMonthYear(dateStr) {
-    const date = new Date(dateStr);
-    const month = monthNames[date.getMonth()];
-    const year = date.getFullYear();
-    return `${month} ${year}`;
-  }
-
-  useEffect(() => {
-    setOptions({
-      chart: {
-        type: 'spline'
-      },
-      title: {
-        text: '',
-        align: 'left'
-      },
-
-      subtitle: {
-        text: '',
-        align: 'left'
-      },
-
-      yAxis: [
-        {
-          title: {
-            text: 'Visits'
-          }
-          //type: 'logarithmic',
-          //minorTickInterval: 0.1
-        },
-        {
-          opposite: true,
-          title: {
-            text: 'Patients'
-          }
-          //type: 'logarithmic',
-          //minorTickInterval: 0.1
-        }
-      ],
-
-      xAxis: {
-        accessibility: {
-          rangeDescription: 'Months'
-        },
-        categories: categories
-      },
-
-      legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle'
-      },
-
-      plotOptions: {
-        series: {
-          label: {
-            connectorAllowed: false
-          }
-        },
-        spline: {
-          dataLabels: {
-            enabled: true
-          }
-          //enableMouseTracking: false
-        }
-      },
-      series: series,
-      responsive: {
-        rules: [
-          {
-            condition: {
-              maxWidth: 500
-            },
-            chartOptions: {
-              legend: {
-                layout: 'horizontal',
-                align: 'center',
-                verticalAlign: 'bottom'
-              }
-            }
-          }
-        ]
-      }
-    });
-  }, [categories, series]);
+  }, [leftColumnRef, data, isLoading, isError]);
 
   const TruncatedName = ({ name }) => {
     return (
@@ -256,7 +86,7 @@ const FacilityDetails = ({ facilityId }) => {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
-            color: 'blue'
+            color: theme.palette.secondary.main
           }}
         >
           {name}
@@ -283,7 +113,12 @@ const FacilityDetails = ({ facilityId }) => {
           }
         >
           <Grid container spacing={3}>
-            <Grid item xs={4}>
+            <Grid
+              item
+              xs={4}
+              ref={leftColumnRef}
+              style={{ display: 'flex', flexDirection: 'column' }}
+            >
               <SubCard
                 title={
                   <Box display="flex" alignItems="center">
@@ -600,7 +435,14 @@ const FacilityDetails = ({ facilityId }) => {
                 </Grid>
               </SubCard>
             </Grid>
-            <Grid item xs={8}>
+            <Grid
+              item
+              xs={8}
+              style={{
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+            >
               <SubCard
                 title={
                   <Box display="flex" alignItems="center">
@@ -610,8 +452,13 @@ const FacilityDetails = ({ facilityId }) => {
                     </Typography>
                   </Box>
                 }
+                sx={{
+                  flexGrow: 1,
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
               >
-                <HighchartsReact highcharts={Highcharts} options={options} />
+                <RecordGrowthChart height={leftColumnHeight} data={data} />
               </SubCard>
             </Grid>
           </Grid>
