@@ -10,13 +10,17 @@ import DispatchDetailsTable from './DispatchDetailsTable';
 import { useQuery } from '@tanstack/react-query';
 import { getDispatches } from '../../api/d2d-api';
 
+import useKeyCloakAuth from 'hooks/useKeyCloakAuth';
+
 const DispatchTable = () => {
   const [pagination, setPagination] = useState({
     pageIndex: 1,
     pageSize: 10
   });
+  const user = useKeyCloakAuth();
+  const token = user.token;
   const { data: { data = [] } = {} } = useQuery({
-    queryKey: ['getDispatches', pagination.pageIndex + 1, pagination.pageSize],
+    queryKey: ['getDispatches', pagination.pageIndex + 1, pagination.pageSize, token],
     queryFn: async (queryKeys) => {
       const data = await getDispatches(queryKeys);
       return data;

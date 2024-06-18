@@ -30,7 +30,12 @@ const HomeMap = () => {
 
   const user = useKeyCloakAuth();
   const { data: { data = [] } = {} } = useQuery({
-    queryKey: ['getFacilityByOrgUnit', user.OrgUnit, user.OrgUnitValue],
+    queryKey: [
+      'getFacilityByOrgUnit',
+      user.OrgUnit,
+      user.OrgUnitValue,
+      user.token
+    ],
     queryFn: async (queryKey) => {
       const data = await getFacilityByOrgUnit(queryKey);
       return data;

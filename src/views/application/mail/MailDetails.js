@@ -24,6 +24,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { notificationAcknowledged } from '../../../api/d2d-api';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useKeyCloakAuth from 'hooks/useKeyCloakAuth';
 
 // ==============================|| MAIL DETAILS ||============================== //
 
@@ -36,10 +37,12 @@ const MailDetails = ({ data }) => {
   const emailBody = typeof data.emailBody === 'string' ? data.emailBody : '';
   const sanitizedHtml = DOMPurify.sanitize(emailBody);
 
+  const user = useKeyCloakAuth();
+
   const mutation = useMutation({ mutationFn: notificationAcknowledged });
 
   useEffect(() => {
-    mutation.mutate({ id: data.id });
+    mutation.mutate({ id: data.id, token: user.token });
     queryClient
       .invalidateQueries(['getOwnerNotifications'])
       .then((r) => console.log(r));

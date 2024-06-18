@@ -106,7 +106,11 @@ const Notifications = () => {
     isLoading,
     isError
   } = useQuery({
-    queryKey: ['getOwnerNotifications', user.tokenParsed.preferred_username],
+    queryKey: [
+      'getOwnerNotifications',
+      user.tokenParsed.preferred_username,
+      user.token
+    ],
     queryFn: async (queryKey) => {
       const data = await getOwnerNotifications(queryKey);
       return data;

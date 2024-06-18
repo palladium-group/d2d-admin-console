@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getNotificationById } from '../../../api/d2d-api';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import useKeyCloakAuth from 'hooks/useKeyCloakAuth';
 
 // drawer content element
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -38,13 +39,14 @@ const NotificationDetail = () => {
   let { id } = useParams();
   const theme = useTheme();
   const [emailBody, setEmailBody] = useState();
+  const user = useKeyCloakAuth();
 
   const {
     data: { data = {} } = {},
     isLoading,
     isError
   } = useQuery({
-    queryKey: ['getNotificationById', id],
+    queryKey: ['getNotificationById', id, user.token],
     queryFn: async (queryKey) => {
       const data = await getNotificationById(queryKey);
       return data;

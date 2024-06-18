@@ -28,6 +28,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import { red } from '@mui/material/colors';
 import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded';
 import LocalHospitalTwoToneIcon from '@mui/icons-material/LocalHospitalTwoTone';
+import useKeyCloakAuth from 'hooks/useKeyCloakAuth';
 
 const CustomTimeline = styled(Timeline)({
   padding: 0,
@@ -63,12 +64,15 @@ const FacilityDetails = ({ facilityId }) => {
     'NOV',
     'DEC'
   ];
+
+  const user = useKeyCloakAuth();
+
   const {
     data: { data = {} } = {},
     isLoading,
     isError
   } = useQuery({
-    queryKey: ['getFacilityDetails', facilityId],
+    queryKey: ['getFacilityDetails', facilityId, user.token],
     queryFn: async (queryKey) => {
       return await getFacilityDetails(queryKey);
     },
