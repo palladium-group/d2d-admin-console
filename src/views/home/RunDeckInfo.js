@@ -55,7 +55,12 @@ const RunDeckInfo = () => {
 
   const user = useKeyCloakAuth();
   const { data: { data = [] } = {}, isLoading } = useQuery({
-    queryKey: ['getDashboardSummary', user.OrgUnit, user.OrgUnitValue],
+    queryKey: [
+      'getDashboardSummary',
+      user.OrgUnit,
+      user.OrgUnitValue,
+      user.token
+    ],
     queryFn: async (queryKey) => {
       const data = await getDashboardSummary(queryKey);
       return data;
@@ -67,7 +72,8 @@ const RunDeckInfo = () => {
       'getRecencyAsAtDate',
       lastQuarterDate,
       user.OrgUnit,
-      user.OrgUnitValue
+      user.OrgUnitValue,
+      user.token
     ],
     queryFn: async (queryKey) => {
       const data = await getRecencyAsAtDate(queryKey);
@@ -83,7 +89,8 @@ const RunDeckInfo = () => {
       'getRecencyAsAtDate',
       secondLastQuarterEndDate,
       user.OrgUnit,
-      user.OrgUnitValue
+      user.OrgUnitValue,
+      user.token
     ],
     queryFn: async (queryKey) => {
       const data = await getRecencyAsAtDate(queryKey);
@@ -97,7 +104,8 @@ const RunDeckInfo = () => {
         'getRecencyAsAtDate',
         lastMonthDate,
         user.OrgUnit,
-        user.OrgUnitValue
+        user.OrgUnitValue,
+        user.token
       ],
       queryFn: async (queryKey) => {
         const data = await getRecencyAsAtDate(queryKey);
@@ -113,7 +121,8 @@ const RunDeckInfo = () => {
       'getRecencyAsAtDate',
       previousLastMonthDate,
       user.OrgUnit,
-      user.OrgUnitValue
+      user.OrgUnitValue,
+      user.token
     ],
     queryFn: async (queryKey) => {
       const data = await getRecencyAsAtDate(queryKey);

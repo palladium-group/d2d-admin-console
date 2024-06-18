@@ -7,7 +7,7 @@ import { Box, Button, Container, Dialog, IconButton } from '@mui/material';
 // import RefreshIcon from '@mui/icons-material/Refresh';
 import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 import { useQuery } from '@tanstack/react-query';
-import { apiRoutes } from '../../../apiRoutes';
+import { getMostRecentFacilityDispatchTable } from 'api/d2d-api';
 import useKeyCloakAuth from '../../../hooks/useKeyCloakAuth';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { download, generateCsv, mkConfig } from 'export-to-csv';
@@ -45,14 +45,18 @@ const Facility = () => {
     isRefetching,
     isLoading
   } = useQuery({
-    queryKey: ['table-data'],
-    queryFn: async () => {
-      const fetchURL = new URL(
+    queryKey: ['table-data', user.OrgUnit, user.OrgUnitValue, user.token],
+    queryFn: async (queryKey) => {
+      const data = await getMostRecentFacilityDispatchTable(queryKey);
+      return data.data;
+      /*const fetchURL = new URL(
         `${apiRoutes.manifest}/Facility/Latest/${user?.OrgUnit}/${user?.OrgUnitValue}?page=1&pageSize=5000`
       );
       const response = await fetch(fetchURL.href);
       return await response.json();
-    }
+      */
+    },
+    enabled: !!user.OrgUnit && !!user.OrgUnitValue
   });
 
   const columns = useMemo(
