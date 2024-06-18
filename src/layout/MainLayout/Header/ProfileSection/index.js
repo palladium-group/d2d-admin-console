@@ -181,15 +181,17 @@ const ProfileSection = () => {
                         >
                           <Typography
                             component="span"
-                            variant="h4"
+                            variant="body2"
                             sx={{
                               fontWeight: 400,
                               whiteSpace: 'normal',
                               wordBreak: 'break-word'
                             }}
                           >
-                            Hi, {user.name} you are limited to{' '}
-                            {user.OrgUnitValue}.
+                            Hi, {user.name}.
+                            <p>
+                              You are viewing facilities in {user.OrgUnitValue}.
+                            </p>
                           </Typography>
                         </Stack>
                       </Stack>
