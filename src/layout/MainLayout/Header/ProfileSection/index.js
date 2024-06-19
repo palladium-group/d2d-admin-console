@@ -267,7 +267,6 @@ const ProfileSection = () => {
                         {/*    </Grid>*/}
                         {/*  </CardContent>*/}
                         {/*</Card>*/}
-                        <Divider />
                         <List
                           component="nav"
                           sx={{
@@ -361,6 +360,10 @@ const ProfileSection = () => {
                             />
                           </ListItemButton>
                         </List>
+                        <Divider />
+                        <Typography variant="subtitle2">
+                          v{process.env.REACT_APP_VERSION}
+                        </Typography>
                       </Box>
                     </PerfectScrollbar>
                   </MainCard>
