@@ -23,16 +23,16 @@ import KeyboardArrowLeftTwoToneIcon from '@mui/icons-material/KeyboardArrowLeftT
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { notificationAcknowledged } from '../../../api/d2d-api';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import useKeyCloakAuth from 'hooks/useKeyCloakAuth';
 
 // ==============================|| MAIL DETAILS ||============================== //
 
-const MailDetails = ({ data }) => {
+const MailDetails = ({ handleUserDetails, data }) => {
   const theme = useTheme();
   const queryClient = useQueryClient();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const emailBody = typeof data.emailBody === 'string' ? data.emailBody : '';
   const sanitizedHtml = DOMPurify.sanitize(emailBody);
@@ -48,9 +48,9 @@ const MailDetails = ({ data }) => {
       .then((r) => console.log(r));
   }, [data]);
 
-  const handleClickDetails = () => {
-    navigate('/notifications');
-  };
+  //const handleClickDetails = () => {
+  //  navigate('/notifications');
+  //};
 
   return (
     <Grid container spacing={gridSpacing}>
@@ -77,7 +77,7 @@ const MailDetails = ({ data }) => {
                       spacing={matchDownSM ? 1 : 2}
                     >
                       <IconButton
-                        onClick={(e) => handleClickDetails(e, null)}
+                        onClick={(e) => handleUserDetails(e, null)}
                         size="small"
                       >
                         <KeyboardArrowLeftTwoToneIcon />
@@ -114,7 +114,7 @@ const MailDetails = ({ data }) => {
                   </Grid>
                   <Grid item>
                     <Typography variant="subtitle2">
-                      {format(new Date(data?.sentDate), 'd MMM')}
+                      {format(new Date(data?.sentDate), 'd MMM yyyy')}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -129,7 +129,7 @@ const MailDetails = ({ data }) => {
                     <Grid container alignItems="center" spacing={0}>
                       <Grid item>
                         <Typography variant={matchDownSM ? 'h4' : 'h3'}>
-                          RE: {data?.emailSubject}
+                          {data?.emailSubject}
                         </Typography>
                       </Grid>
                       <Grid item xs zeroMinWidth />
