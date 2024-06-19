@@ -56,7 +56,10 @@ const HomeMap = () => {
     <Container>
       <SubCard title="Recency Distribution">
         <MapContainer
-          style={{ height: '500px', borderRadius: '5px' }}
+          style={{
+            height: '500px',
+            borderRadius: '8px'
+          }}
           center={[-30.5595, 22.9375]}
           zoom={6}
           scrollWheelZoom={true}

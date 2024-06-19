@@ -3,6 +3,7 @@ import HighchartsReact from 'highcharts-react-official';
 import { useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import useConfig from 'hooks/useConfig';
 
 const DispatchesYoY = ({ height, data }) => {
   const [options, setOptions] = useState({});
@@ -10,6 +11,7 @@ const DispatchesYoY = ({ height, data }) => {
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
   const theme = useTheme();
+  const config = useConfig();
 
   useEffect(() => {
     if (
@@ -40,8 +42,12 @@ const DispatchesYoY = ({ height, data }) => {
   useEffect(() => {
     setOptions({
       chart: {
-        height: '46%', //height - 80,
-        type: 'spline'
+        height: '47%', //height - 80,
+        type: 'spline',
+        style: {
+          fontFamily: config.fontFamily
+        },
+        backgroundColor: theme.palette.background
       },
       title: {
         text: '',
