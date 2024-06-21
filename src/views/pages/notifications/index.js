@@ -1,4 +1,4 @@
-import { Box, Grid, Container } from '@mui/material';
+import { Box, Grid, Container, useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import MailDrawer from './MailDrawer';
 import { appDrawerWidth as drawerWidth, gridSpacing } from 'store/constant';
@@ -20,7 +20,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
       duration: theme.transitions.duration.shorter
     }),
     marginLeft: `-${drawerWidth}px`,
-    [theme.breakpoints.down('xl')]: {
+    [theme.breakpoints.down('lg')]: {
       paddingLeft: 0,
       marginLeft: 0
     },
@@ -69,6 +69,19 @@ const Notifications = () => {
     setFilter(string);
     //await dispatch(filterMails(string));
   };
+  const matchDownSM = useMediaQuery(theme.breakpoints.down('lg'));
+  const [openMailSidebar, setOpenMailSidebar] = useState(true);
+  const handleDrawerOpen = () => {
+    setOpenMailSidebar((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    if (matchDownSM) {
+      setOpenMailSidebar(false);
+    } else {
+      setOpenMailSidebar(true);
+    }
+  }, [matchDownSM]);
 
   const {
     data: { data = [] } = {},
@@ -104,13 +117,14 @@ const Notifications = () => {
     <Container>
       <Box sx={{ display: 'flex' }}>
         <MailDrawer
-          openMailSidebar={true}
+          openMailSidebar={openMailSidebar}
+          handleDrawerOpen={handleDrawerOpen}
           unreadCounts={notificationsCount}
           errorCounts={errorNotificationsCount}
           filter={filter}
           handleFilter={handleFilter}
         />
-        <Main theme={theme} open={true}>
+        <Main theme={theme} open={openMailSidebar}>
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>
               {emailDetails ? (
@@ -124,6 +138,7 @@ const Notifications = () => {
                   data={data}
                   handleUserDetails={(e, d) => handleUserChange(d)}
                   handleStarredChange={handleStarredChange}
+                  handleDrawerOpen={handleDrawerOpen}
                 />
               )}
             </Grid>
