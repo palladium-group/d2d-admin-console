@@ -43,7 +43,7 @@ const MailDrawer = ({
 }) => {
   const theme = useTheme();
   const { borderRadius } = useConfig();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('xl'));
+  const matchDownSM = useMediaQuery(theme.breakpoints.down('lg'));
 
   return (
     <Drawer
@@ -81,7 +81,7 @@ const MailDrawer = ({
                   style={{
                     height: matchDownSM ? 'calc(100vh - 115px)' : '100%',
                     overflowX: 'hidden',
-                    minHeight: matchDownSM ? 0 : 435
+                    minHeight: matchDownSM ? 0 : 335
                   }}
                 >
                   <List

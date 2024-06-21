@@ -136,7 +136,7 @@ const MailList = ({
     setDenseTable(!denseTable);
   };
 
-  const darkBG = theme.palette.mode === 'dark' ? 'dark.main' : 'grey.100';
+  const darkBG = theme.palette.mode === 'dark' ? 'dark.main' : 'grey.300';
 
   return (
     <>
@@ -159,7 +159,8 @@ const MailList = ({
             <MainCard
               content={false}
               sx={{
-                bgcolor: theme.palette.mode === 'dark' ? 'dark.800' : 'grey.50'
+                bgcolor: theme.palette.mode === 'dark' ? 'dark.800' : 'grey.50',
+                border: true
               }}
             >
               {/* table */}

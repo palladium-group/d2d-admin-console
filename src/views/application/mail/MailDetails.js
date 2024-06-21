@@ -16,7 +16,6 @@ import { format } from 'date-fns';
 import DOMPurify from 'dompurify';
 import 'react-quill/dist/quill.snow.css';
 
-import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
 import KeyboardArrowLeftTwoToneIcon from '@mui/icons-material/KeyboardArrowLeftTwoTone';
@@ -25,6 +24,7 @@ import { notificationAcknowledged } from '../../../api/d2d-api';
 import { useEffect } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import useKeyCloakAuth from 'hooks/useKeyCloakAuth';
+import SubCard from 'ui-component/cards/SubCard';
 
 // ==============================|| MAIL DETAILS ||============================== //
 
@@ -55,7 +55,7 @@ const MailDetails = ({ handleUserDetails, data }) => {
   return (
     <Grid container spacing={gridSpacing}>
       <Grid item xs={12}>
-        <MainCard
+        <SubCard
           sx={{
             bgcolor: theme.palette.mode === 'dark' ? 'dark.main' : 'grey.50'
           }}
@@ -114,7 +114,10 @@ const MailDetails = ({ handleUserDetails, data }) => {
                   </Grid>
                   <Grid item>
                     <Typography variant="subtitle2">
-                      {format(new Date(data?.sentDate), 'd MMM yyyy')}
+                      {format(
+                        new Date(data?.sentDate),
+                        "d MMM  yyyy hh:mmaaaaa'm'"
+                      )}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -161,7 +164,7 @@ const MailDetails = ({ handleUserDetails, data }) => {
               </Grid>
             </Grid>
           </CardContent>
-        </MainCard>
+        </SubCard>
       </Grid>
     </Grid>
   );
