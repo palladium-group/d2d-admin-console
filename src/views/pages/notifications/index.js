@@ -59,7 +59,7 @@ const Notifications = () => {
     if (dataStarred) {
       //await dispatch(setStarred(dataStarred.id));
       handleFilter(filter);
-      console.log(dataStarred);
+      //console.log(dataStarred);
     }
   };
 

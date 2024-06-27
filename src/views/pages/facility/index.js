@@ -4,8 +4,6 @@ import {
   useMaterialReactTable
 } from 'material-react-table';
 import { Box, Button, Container, Dialog, IconButton } from '@mui/material';
-// import RefreshIcon from '@mui/icons-material/Refresh';
-import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 import { useQuery } from '@tanstack/react-query';
 import { getMostRecentFacilityDispatchTable } from 'api/d2d-api';
 import useKeyCloakAuth from '../../../hooks/useKeyCloakAuth';
@@ -15,6 +13,7 @@ import MainCard from '../../../ui-component/cards/MainCard';
 import FacilityDetails from './FacilityDetails';
 import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutlined';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import ReadMoreRoundedIcon from '@mui/icons-material/ReadMoreRounded';
 
 const csvConfig = mkConfig({
   fieldSeparator: ',',
@@ -123,7 +122,7 @@ const Facility = () => {
             setFacilityId(row.original.facilityId);
           }}
         >
-          <LinkOutlinedIcon />
+          <ReadMoreRoundedIcon />
         </IconButton>
       </Box>
     ),

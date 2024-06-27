@@ -19,6 +19,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getDashboardSummary, getRecencyAsAtDate } from '../../api/d2d-api';
 import { format } from 'date-fns';
 import SubCard from 'ui-component/cards/SubCard';
+import CloudSyncTwoToneIcon from '@mui/icons-material/CloudSyncTwoTone';
+import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded';
 
 const RunDeckInfo = () => {
   const theme = useTheme();
@@ -65,6 +67,8 @@ const RunDeckInfo = () => {
       const data = await getDashboardSummary(queryKey);
       return data;
     },
+    staleTime: 1000 * 60 * 10,
+    gcTime: 1000 * 60 * 10,
     enabled: !!user.OrgUnit && !!user.OrgUnitValue
   });
   const { isLoading: isLoadingRecency, data: recencyData } = useQuery({
@@ -229,14 +233,28 @@ const RunDeckInfo = () => {
         <Grid container spacing={gridSpacing} style={{ flexGrow: 1 }}>
           <Grid
             item
-            md={4}
+            md={5}
+            lg={4}
+            xs={12}
             style={{ display: 'flex', flexDirection: 'column' }}
             ref={leftColumnRef}
           >
             <Grid container spacing={gridSpacing} style={{ flexGrow: 1 }}>
-              <Grid item md={12} style={{ flexGrow: 1, display: 'flex' }}>
+              <Grid
+                item
+                md={12}
+                xs={12}
+                style={{ flexGrow: 1, display: 'flex' }}
+              >
                 <SubCard
-                  title="Facilities with Recent Dispatches"
+                  title={
+                    <Box display="flex" alignItems="center">
+                      <CloudSyncTwoToneIcon fontSize="small" />
+                      <Typography variant="h5" ml={1}>
+                        Facilities with Recent Quarterly Dispatches
+                      </Typography>
+                    </Box>
+                  }
                   sx={{
                     flexGrow: 1,
                     display: 'flex',
@@ -261,7 +279,10 @@ const RunDeckInfo = () => {
                           color={greyColor}
                           gutterBottom
                         >
-                          End of Last Quarter
+                          Quarter ending{' '}
+                          {lastQuarterDate
+                            ? format(new Date(lastQuarterDate), 'do MMMM yyyy')
+                            : ''}
                         </Typography>
                       </Grid>
                       <Grid item sx={{ flexGrow: 1 }}>
@@ -308,9 +329,21 @@ const RunDeckInfo = () => {
                   )}
                 </SubCard>
               </Grid>
-              <Grid item md={12} style={{ flexGrow: 1, display: 'flex' }}>
+              <Grid
+                item
+                md={12}
+                xs={12}
+                style={{ flexGrow: 1, display: 'flex' }}
+              >
                 <SubCard
-                  title="Facilities with Recent Dispatches"
+                  title={
+                    <Box display="flex" alignItems="center">
+                      <CloudSyncTwoToneIcon fontSize="small" />
+                      <Typography variant="h5" ml={1}>
+                        Facilities with Recent Monthly Dispatches
+                      </Typography>
+                    </Box>
+                  }
                   sx={{
                     flexGrow: 1,
                     display: 'flex',
@@ -388,7 +421,9 @@ const RunDeckInfo = () => {
           </Grid>
           <Grid
             item
-            md={8}
+            md={7}
+            lg={8}
+            xs={12}
             style={{
               display: 'flex',
               flexDirection: 'column'
@@ -396,7 +431,14 @@ const RunDeckInfo = () => {
             }}
           >
             <SubCard
-              title="Number of Facilities Processed (YoY)"
+              title={
+                <Box display="flex" alignItems="center">
+                  <TrendingUpRoundedIcon fontSize="small" />
+                  <Typography variant="h5" ml={1}>
+                    Number of Facilities Processed (YoY)
+                  </Typography>
+                </Box>
+              }
               sx={{
                 flexGrow: 1,
                 display: 'flex',

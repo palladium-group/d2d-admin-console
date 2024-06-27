@@ -26,7 +26,7 @@ const Home = () => {
         </SectionWrapper>
       </Grid>
 
-      <Grid item md={12}>
+      <Grid item md={12} xs={12}>
         <SectionWrapper>
           <HomeMap />
         </SectionWrapper>
