@@ -135,7 +135,7 @@ const CustomAppBar = () => {
                 {previousExecutionTime &&
                   format(
                     new Date(previousExecutionTime),
-                    "dd-MM-yy hh:mm aaaaa'm'"
+                    "d MMM yyyy hh:mmaaaaa'm'"
                   )}
               </Typography>
               <Typography variant="h6">

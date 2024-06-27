@@ -17,10 +17,10 @@ import {
   // Stack,
   Typography
 } from '@mui/material';
-import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import ErrorTwoToneIcon from '@mui/icons-material/ErrorTwoTone';
 
 // styles
 const ListItemWrapper = styled('div')(({ theme }) => ({
@@ -82,8 +82,9 @@ const NotificationList = ({ data }) => {
   }
 
   const handleClick = (e, val) => {
-    console.log(e);
-    navigate(`/notification/${val.id}`);
+    //console.log(val);
+    //navigate(`/notification/${val.id}`);
+    navigate(`/notifications`, { state: { selectedNotification: val } });
   };
 
   return (
@@ -113,18 +114,18 @@ const NotificationList = ({ data }) => {
             <ListItem alignItems="center">
               <ListItemAvatar>
                 {val.emailCode === 'ERROR' && (
-                  <ReportProblemOutlinedIcon style={{ fill: 'red' }} />
+                  <ErrorTwoToneIcon style={{ fill: 'red' }} />
                 )}
                 {val.emailCode === 'INFO' && (
                   <InfoOutlinedIcon style={{ fill: 'blue' }} />
                 )}
               </ListItemAvatar>
-              <ListItemText primary={val.dispatchOwner.ownerId} />
+              <ListItemText primary={val.senderName} />
               <ListItemSecondaryAction>
                 <Grid container justifyContent="flex-end">
                   <Grid item xs={12}>
                     <Typography variant="caption" display="block" gutterBottom>
-                      {getTimeAgo(val.createdDate)}
+                      {getTimeAgo(val.sentDate)}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -133,11 +134,6 @@ const NotificationList = ({ data }) => {
             <Grid container direction="column" className="list-container">
               <Grid item xs={12}>
                 {val.previewText}
-                {/*<Typography*/}
-                {/*  variant="subtitle2"*/}
-                {/*  component="div"*/}
-                {/*  dangerouslySetInnerHTML={{ __html: val.emailBody }}*/}
-                {/*/>*/}
               </Grid>
               <Grid item xs={12}>
                 <Grid container>

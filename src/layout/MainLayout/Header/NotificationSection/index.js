@@ -194,7 +194,7 @@ const NotificationSection = () => {
                           <Grid item>
                             <Stack direction="row" spacing={2}>
                               <Typography variant="subtitle1">
-                                All Notifications
+                                Unread Notifications
                               </Typography>
                               {/*<Chip*/}
                               {/*  size="small"*/}

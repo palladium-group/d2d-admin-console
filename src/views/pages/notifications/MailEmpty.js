@@ -21,11 +21,8 @@ const MailEmpty = () => {
         sx={{ maxWidth: 720 }}
       />
       <Stack spacing={1}>
-        <Typography variant="h1" color="inherit" component="div">
-          There is No Mail
-        </Typography>
-        <Typography variant="body2">
-          When You have message that will Display here
+        <Typography variant="h3" color="inherit" component="div">
+          You don&apos;t have any notifications
         </Typography>
       </Stack>
     </Stack>
