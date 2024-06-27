@@ -20,6 +20,23 @@ export const getDispatches = async ({ queryKey }) => {
   );
 };
 
+export const getSubDistricts = async ({ queryKey }) => {
+  const [, token] = queryKey;
+  const apiClient = axios.create();
+  apiClient.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  return await apiClient.get(`${apiRoutes.subDistricts}?page=1&pageSize=300`);
+};
+
 export const getPreviousExecutionInfo = async () => {
   return await axios.get(
     `https://rundeck.chi-sa.org/api/14/job/f1e18eb3-da3a-4893-8504-1721e29e145d/executions?authtoken=kiu6jc0f7jiV2xiW0jyOjAYnMFNeZ0Fs&max=1`
@@ -57,6 +74,7 @@ export const getFacilityDetails = async ({ queryKey }) => {
   apiClient.interceptors.request.use(
     (config) => {
       if (token) {
+        //console.log(token);
         config.headers.Authorization = `Bearer ${token}`;
       }
       return config;

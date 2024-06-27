@@ -1,0 +1,55 @@
+.marker-cluster-custom {
+    background: #ada5bdcb;
+    border: 6px solid #e5e1eb;
+    border-radius: 50%;
+    color: #fffefe;
+    height: 20px;
+    line-height: 28px;
+    text-align: center;
+    width: 20px;
+    font-size: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  }
+
+  .info.legend {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+  }
+  
+  .info.legend h4 {
+    margin: 0 0 5px;
+    color: #777;
+  }
+  
+  .info.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.5;
+  }
+  
+  .info.legend span {
+    line-height: 18px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-size: 12px;
+  }
+
+   .leaflet-popup-content {
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    margin: 0 0 0 0;
+  }
+
+  .leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    padding: 0px;
+  } 
+
+  .leaflet-div-icon {
+    background: transparent;
+    border: 0px;
+  }

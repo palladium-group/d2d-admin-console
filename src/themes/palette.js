@@ -111,6 +111,13 @@ const Palette = (navType, presetColor) => {
       background: {
         paper: navType === 'dark' ? colors.darkLevel2 : colors.paper,
         default: navType === 'dark' ? colors.darkPaper : colors.paper
+      },
+      heatmap: {
+        one: '#6aa84f',
+        two: '#b6d7a8',
+        three: '#f6b26b',
+        four: '#e06666',
+        five: '#cc0000'
       }
     }
   });
