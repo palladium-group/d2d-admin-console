@@ -36,7 +36,7 @@ const RecordGrowthChart = ({ height, data }) => {
 
   useEffect(() => {
     if (data.history && data.history.length > 0) {
-      console.log(data);
+      //console.log(data);
       const seriesData = [];
       const today = new Date();
       const currentMonth = today.getMonth();
@@ -119,7 +119,8 @@ const RecordGrowthChart = ({ height, data }) => {
         height: 0.85 * height,
         style: {
           fontFamily: config.fontFamily
-        }
+        },
+        backgroundColor: theme.palette.background
       },
       title: {
         text: '',
