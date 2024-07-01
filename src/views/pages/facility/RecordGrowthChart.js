@@ -6,77 +6,50 @@ import useConfig from 'hooks/useConfig';
 import { useTheme } from '@mui/material/styles';
 
 const RecordGrowthChart = ({ height, data }) => {
-  const [options, setOptions] = useState({});
-  const [series, setSeries] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const monthNames = [
-    'JAN',
-    'FEB',
-    'MAR',
-    'APR',
-    'MAY',
-    'JUN',
-    'JUL',
-    'AUG',
-    'SEP',
-    'OCT',
-    'NOV',
-    'DEC'
-  ];
-
   const config = useConfig();
   const theme = useTheme();
 
-  function formatDateToMonthYear(dateStr) {
-    const date = new Date(dateStr);
-    const month = monthNames[date.getMonth()];
-    const year = date.getFullYear();
-    return `${month} ${year}`;
-  }
+  const [options, setOptions] = useState({});
+  const [patientCountSeriesData, setPatientCountSeriesData] = useState([]);
+  const [visitCountSeriesData, setVisitCountSeriesData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  /*const calculateTrendline = (data) => {
+    const n = data.length;
+    const sumX = data.reduce((sum, point) => sum + point[0], 0);
+    const sumY = data.reduce((sum, point) => sum + point[1], 0);
+    const sumXY = data.reduce((sum, point) => sum + point[0] * point[1], 0);
+    const sumX2 = data.reduce((sum, point) => sum + point[0] * point[0], 0);
+
+    const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+
+    const trendlineData = data.map((point) => [
+      point[0],
+      slope * point[0] + intercept
+    ]);
+    return trendlineData;
+  };*/
 
   useEffect(() => {
+    setIsLoading(true);
     if (data.history && data.history.length > 0) {
-      //console.log(data);
+      const patientCounts = data.history.map((item) => [
+        new Date(item.date).getTime(),
+        item.patients
+      ]);
+      const visitCounts = data.history.map((item) => [
+        new Date(item.date).getTime(),
+        item.visits
+      ]);
+      setPatientCountSeriesData(patientCounts.sort((a, b) => a[0] - b[0]));
+      setVisitCountSeriesData(visitCounts.sort((a, b) => a[0] - b[0]));
+
       const seriesData = [];
-      const today = new Date();
-      const currentMonth = today.getMonth();
-      const currentYear = today.getFullYear();
-
-      const category = [];
-      let startYear;
-      if (currentMonth < 11) {
-        const startMonth = 11 - currentMonth;
-        for (let i = startMonth; i <= 11; i++) {
-          startYear = currentYear - 1;
-          category.push(monthNames[i] + ' ' + startYear);
-        }
-        for (let j = 0; j <= currentMonth; j++) {
-          category.push(monthNames[j] + ' ' + currentYear);
-        }
-      } else {
-        for (let j = 0; j <= currentMonth; j++) {
-          category.push(monthNames[j] + ' ' + currentYear);
-        }
-      }
-
-      const visits = [];
-      const patients = [];
-      for (let i = 0; i < 12; i++) {
-        const res = data.history.filter(
-          (obj) => formatDateToMonthYear(obj.date) === category[i]
-        );
-        if (res.length > 0) {
-          visits.push(res[0].visits);
-          patients.push(res[0].patients);
-        } else {
-          visits.push(null);
-          patients.push(null);
-        }
-      }
       seriesData.push(
         {
           name: 'Visits',
-          data: visits,
+          data: visitCountSeriesData,
           connectNulls: true,
           zoneAxis: 'x',
           color: theme.palette.primary.main,
@@ -91,7 +64,7 @@ const RecordGrowthChart = ({ height, data }) => {
         },
         {
           name: 'Patients',
-          data: patients,
+          data: patientCountSeriesData,
           connectNulls: true,
           zoneAxis: 'x',
           yAxis: 1,
@@ -105,87 +78,108 @@ const RecordGrowthChart = ({ height, data }) => {
               textOutline: 'none'
             }
           }
-        }
-      );
-      setSeries(seriesData);
-      setCategories(category);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    setOptions({
-      chart: {
-        type: 'spline',
-        height: 0.85 * height,
-        style: {
-          fontFamily: config.fontFamily
-        },
-        backgroundColor: theme.palette.background
-      },
-      title: {
-        text: '',
-        align: 'left'
-      },
-
-      subtitle: {
-        text: '',
-        align: 'left'
-      },
-
-      yAxis: [
+        } /*,
         {
-          title: {
-            text: 'Visits'
-          }
-        },
-        {
-          opposite: true,
-          title: {
-            text: 'Patients'
-          }
-        }
-      ],
-
-      xAxis: {
-        accessibility: {
-          rangeDescription: 'Months'
-        },
-        categories: categories
-      },
-
-      legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle'
-      },
-
-      plotOptions: {
-        series: {
-          label: {
-            connectorAllowed: false
-          }
-        }
-      },
-      series: series,
-      responsive: {
-        rules: [
-          {
-            condition: {
-              maxWidth: 500
-            },
-            chartOptions: {
-              legend: {
-                layout: 'horizontal',
-                align: 'center',
-                verticalAlign: 'bottom'
-              }
+          name: 'Patients Trend',
+          data: calculateTrendline(patientCountSeriesData),
+          connectNulls: true,
+          zoneAxis: 'x',
+          yAxis: 1,
+          color: theme.palette.secondary.error,
+          dataLabels: {
+            enabled: true,
+            x: 15,
+            y: 20,
+            color: theme.palette.secondary.error,
+            style: {
+              textOutline: 'none'
             }
           }
-        ]
-      }
-    });
-  }, [categories, series]);
-  return series.length === 0 ? (
+        }*/
+      );
+
+      //const trendlineData = calculateTrendline(patientCountSeriesData);
+
+      setOptions({
+        chart: {
+          type: 'spline',
+          height: 0.85 * height,
+          style: {
+            fontFamily: config.fontFamily
+          },
+          backgroundColor: theme.palette.background,
+          accessibility: {
+            enabled: false
+          }
+        },
+        title: {
+          text: '',
+          align: 'left'
+        },
+
+        subtitle: {
+          text: '',
+          align: 'left'
+        },
+
+        yAxis: [
+          {
+            title: {
+              text: 'Visits'
+            }
+          },
+          {
+            opposite: true,
+            title: {
+              text: 'Patients'
+            }
+          }
+        ],
+
+        xAxis: {
+          type: 'datetime',
+          title: {
+            text: 'Dispatch Date'
+          }
+        },
+
+        legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+          series: {
+            label: {
+              connectorAllowed: true
+            }
+          }
+        },
+        series: seriesData,
+        responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 500
+              },
+              chartOptions: {
+                legend: {
+                  layout: 'horizontal',
+                  align: 'center',
+                  verticalAlign: 'bottom'
+                }
+              }
+            }
+          ]
+        }
+      });
+    }
+    //console.log(seriesData);
+    setIsLoading(false);
+  }, [isLoading]);
+
+  return isLoading ? (
     <Box display="flex" justifyContent="center" my={6}>
       <CircularProgress />
     </Box>
