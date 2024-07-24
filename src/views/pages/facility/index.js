@@ -47,7 +47,11 @@ const Facility = () => {
     queryKey: ['table-data', user.OrgUnit, user.OrgUnitValue, user.token],
     queryFn: async (queryKey) => {
       const data = await getMostRecentFacilityDispatchTable(queryKey);
-      return data.data;
+      return data.data.sort((a, b) => {
+        const dateA = new Date(a.dateProcessed);
+        const dateB = new Date(b.dateProcessed);
+        return dateA - dateB;
+      });
       /*const fetchURL = new URL(
         `${apiRoutes.manifest}/Facility/Latest/${user?.OrgUnit}/${user?.OrgUnitValue}?page=1&pageSize=5000`
       );
@@ -86,6 +90,12 @@ const Facility = () => {
         enableColumnFilter: false
       },
       {
+        accessorKey: 'dateProcessed', // Hidden column for sorting
+        header: 'Date Processed (Hidden)',
+        accessorFn: (row) => row?.dispatch?.dateProcessed,
+        enableColumnFilter: false
+      },
+      {
         accessorKey: 'Status',
         header: 'Status',
         accessorFn: (row) => {
@@ -103,7 +113,9 @@ const Facility = () => {
     enablePagination: true,
     positionActionsColumn: 'last',
     initialState: {
-      showColumnFilters: true
+      showColumnFilters: true,
+      sorting: [{ id: 'dateProcessed', desc: true }],
+      columnVisibility: { dateProcessed: false }
     },
     manualFiltering: false,
     manualPagination: false,

@@ -217,7 +217,10 @@ const FacilityDetails = ({ facilityId }) => {
                         />
                         <Typography variant="subtitle2" gutterBottom>
                           {facilityData?.facility?.dispatch?.facilityCount}{' '}
-                          facilities in this dispatch.
+                          {facilityData?.facility?.dispatch?.facilityCount === 1
+                            ? 'facility'
+                            : 'facilities'}
+                          {' in this dispatch'}.
                         </Typography>
                       </Grid>
                     </Grid>
