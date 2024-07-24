@@ -39,12 +39,14 @@ export const getSubDistricts = async ({ queryKey }) => {
 
 export const getPreviousExecutionInfo = async () => {
   return await axios.get(
+    //`https://automate.provshare.health.gov.za/api/46/job/8231b4ce-cf84-4765-91fe-b8df4e5cbda8/executions?authtoken=s8AoeAn1w5UQxtrpQ6CwZvgYWJUcbrUF&max=1`
     `https://rundeck.chi-sa.org/api/14/job/f1e18eb3-da3a-4893-8504-1721e29e145d/executions?authtoken=kiu6jc0f7jiV2xiW0jyOjAYnMFNeZ0Fs&max=1`
   );
 };
 
 export const getNextExecutionTime = async () => {
   return await axios.get(
+    //`https://automate.provshare.health.gov.za/api/46/job/8231b4ce-cf84-4765-91fe-b8df4e5cbda8/info?authtoken=s8AoeAn1w5UQxtrpQ6CwZvgYWJUcbrUF`
     `https://rundeck.chi-sa.org/api/46/job/f1e18eb3-da3a-4893-8504-1721e29e145d/info?authtoken=kiu6jc0f7jiV2xiW0jyOjAYnMFNeZ0Fs`
   );
 };

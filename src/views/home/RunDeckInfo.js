@@ -370,7 +370,7 @@ const RunDeckInfo = () => {
                         >
                           End of{' '}
                           {lastMonthDate &&
-                            format(new Date(lastMonthDate), 'MMM')}
+                            format(new Date(lastMonthDate), 'MMMM')}
                         </Typography>
                       </Grid>
                       <Grid item sx={{ flexGrow: 1 }}>

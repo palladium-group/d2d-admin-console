@@ -47,7 +47,10 @@ const DispatchesYoY = ({ height, data }) => {
         style: {
           fontFamily: config.fontFamily
         },
-        backgroundColor: theme.palette.background
+        backgroundColor: theme.palette.background,
+        accessibility: {
+          enabled: false
+        }
       },
       title: {
         text: '',
@@ -60,9 +63,6 @@ const DispatchesYoY = ({ height, data }) => {
       },
       xAxis: [
         {
-          accessibility: {
-            rangeDescription: 'Months'
-          },
           categories: [
             'JAN',
             'FEB',

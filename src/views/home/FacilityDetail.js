@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { getFacilityDetails } from '../../api/d2d-api';
 import { Grid, Link, Typography } from '@mui/material';
-import { format } from 'date-fns';
+import { format, startOfToday, differenceInDays } from 'date-fns';
 import React from 'react';
 import SubCard from 'ui-component/cards/SubCard';
 import { Box } from '@mui/system';
@@ -10,12 +11,12 @@ import Chip from 'ui-component/extended/Chip';
 import useKeyCloakAuth from 'hooks/useKeyCloakAuth';
 
 const FacilityDetail = ({ facilityName, facilityId, handleOpenDialog }) => {
+  const [dispatchAge, setDispatchAge] = useState(0);
   const user = useKeyCloakAuth();
   const { data: { data = [] } = {} } = useQuery({
     queryKey: ['getFacilityDetails', facilityId, user.token],
     queryFn: async (queryKey) => {
       const data = await getFacilityDetails(queryKey);
-      console.log(data);
       return data;
     },
     enabled: !!facilityId
@@ -24,6 +25,21 @@ const FacilityDetail = ({ facilityName, facilityId, handleOpenDialog }) => {
   const handleDetailsClick = () => {
     handleOpenDialog(facilityId);
   };
+
+  const getColorByAge = (age) => {
+    if (age < 31) return 'success';
+    return 'primary';
+  };
+
+  useEffect(() => {
+    if (data?.facility?.lastVisitDate) {
+      const calcDaysBetween = differenceInDays(
+        startOfToday(),
+        new Date(data?.facility?.lastVisitDate)
+      );
+      setDispatchAge(calcDaysBetween);
+    }
+  }, [data]);
 
   if (data) {
     return (
@@ -49,12 +65,11 @@ const FacilityDetail = ({ facilityName, facilityId, handleOpenDialog }) => {
               : ''}
           </Grid>
           <Grid item md={12}>
-            <strong>Recent: </strong>{' '}
-            {data?.facility?.isRecentQuarter === 1 ? (
-              <Chip label="Yes" chipcolor="success" />
-            ) : (
-              <Chip label="No" chipcolor="error" />
-            )}
+            <strong>Dispatch Age: </strong>{' '}
+            <Chip
+              label={dispatchAge + ' days'}
+              chipcolor={getColorByAge(dispatchAge)}
+            />
           </Grid>
           <Grid item md={12}>
             <Link
