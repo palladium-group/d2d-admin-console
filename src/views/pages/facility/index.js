@@ -14,6 +14,7 @@ import FacilityDetails from './FacilityDetails';
 import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutlined';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import ReadMoreRoundedIcon from '@mui/icons-material/ReadMoreRounded';
+import Chip from '@mui/material/Chip';
 
 const csvConfig = mkConfig({
   fieldSeparator: ',',
@@ -98,8 +99,15 @@ const Facility = () => {
       {
         accessorKey: 'Status',
         header: 'Status',
-        accessorFn: (row) => {
-          return row?.manifest?.isAccepted ? 'SUCCESS' : 'FAILURE';
+        accessorFn: (row) =>
+          row?.manifest?.isAccepted ? 'SUCCESS' : 'FAILURE',
+        Cell: ({ cell }) => {
+          const status = cell.getValue();
+          return status === 'SUCCESS' ? (
+            <Chip label="SUCCESS" color="success" />
+          ) : (
+            <Chip label="FAILURE" color="error" />
+          );
         },
         enableColumnFilter: true
       }
