@@ -5,8 +5,7 @@ if (process.env.NODE_ENV == 'production') {
 
 let hostname = window.location.hostname;
 if (process.env.NODE_ENV == 'production') {
-  //hostname = 'api.provshare.health.gov.za';
-  hostname = 'd2d-api.dataforimplementation.org';
+  hostname = process.env.REACT_APP_D2D_BACKEND_URL;
 }
 const path = protocol + '//' + hostname;
 
