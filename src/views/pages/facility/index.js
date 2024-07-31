@@ -3,7 +3,14 @@ import {
   MaterialReactTable,
   useMaterialReactTable
 } from 'material-react-table';
-import { Box, Button, Container, Dialog, IconButton } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  IconButton,
+  Typography
+} from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { getMostRecentFacilityDispatchTable } from 'api/d2d-api';
 import useKeyCloakAuth from '../../../hooks/useKeyCloakAuth';
@@ -12,9 +19,11 @@ import { download, generateCsv, mkConfig } from 'export-to-csv';
 import MainCard from '../../../ui-component/cards/MainCard';
 import FacilityDetails from './FacilityDetails';
 import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutlined';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+//import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import ReadMoreRoundedIcon from '@mui/icons-material/ReadMoreRounded';
 import Chip from '@mui/material/Chip';
+import { FolderZipTwoTone } from '@mui/icons-material';
+import DownloadForOfflineTwoToneIcon from '@mui/icons-material/DownloadForOfflineTwoTone';
 
 const csvConfig = mkConfig({
   fieldSeparator: ',',
@@ -149,14 +158,15 @@ const Facility = () => {
     renderTopToolbarCustomActions: ({ table }) => (
       <Box sx={{ display: 'flex' }}>
         <Button
+          variant="outlined"
           disabled={table.getPrePaginationRowModel().rows.length === 0}
           //export all rows, including from the next page, (still respects filtering and sorting)
           onClick={() =>
             handleExportRows(table.getPrePaginationRowModel().rows)
           }
-          startIcon={<FileDownloadIcon />}
+          startIcon={<DownloadForOfflineTwoToneIcon />}
         >
-          Download Data
+          Download
         </Button>
       </Box>
     ),
@@ -173,7 +183,16 @@ const Facility = () => {
 
   return (
     <Container>
-      <MainCard title="Most Recent Facility Dispatch">
+      <MainCard
+        title={
+          <Box display="flex" alignItems="center">
+            <FolderZipTwoTone color="secondary" />
+            <Typography variant="body" ml={1}>
+              Most Recent Facility Dispatches
+            </Typography>
+          </Box>
+        }
+      >
         <MaterialReactTable table={table} />
       </MainCard>
       <Dialog
