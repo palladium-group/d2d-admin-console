@@ -1,5 +1,6 @@
 import dashboard from './dashboard';
 import facilities from './facilities';
+//import notifications from './notifications';
 // import application from './application';
 // import forms from './forms';
 // import elements from './elements';

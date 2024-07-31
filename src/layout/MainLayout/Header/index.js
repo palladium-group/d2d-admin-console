@@ -18,6 +18,7 @@ import { openDrawer } from 'store/slices/menu';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
+//import NavTypeToggle from 'ui-component/NavTypeToggle';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
@@ -101,6 +102,7 @@ const Header = () => {
       {/*</Box>*/}
 
       {/* notification & profile */}
+      {/* <NavTypeToggle /> */}
       <NotificationSection />
       <ProfileSection />
 

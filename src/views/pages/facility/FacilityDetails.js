@@ -105,7 +105,7 @@ const FacilityDetails = ({ facilityId }) => {
         <MainCard
           title={
             <Box display="flex" alignItems="center">
-              <LocalHospitalTwoToneIcon />
+              <LocalHospitalTwoToneIcon color="secondary" />
               <Typography variant="body" ml={1}>
                 {facilityData?.facility?.facilityName}
               </Typography>
@@ -122,7 +122,7 @@ const FacilityDetails = ({ facilityId }) => {
               <SubCard
                 title={
                   <Box display="flex" alignItems="center">
-                    <FolderZipTwoTone />
+                    <FolderZipTwoTone color="secondary" />
                     <Typography variant="h5" ml={1}>
                       Most Recent Dispatch
                     </Typography>
@@ -454,7 +454,7 @@ const FacilityDetails = ({ facilityId }) => {
               <SubCard
                 title={
                   <Box display="flex" alignItems="center">
-                    <TrendingUpRoundedIcon />
+                    <TrendingUpRoundedIcon color="secondary" />
                     <Typography variant="h5" ml={1}>
                       Record Growth over Time
                     </Typography>
