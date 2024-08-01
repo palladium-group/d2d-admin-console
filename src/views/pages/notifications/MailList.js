@@ -313,10 +313,12 @@ const MailList = ({
                               align="center"
                               sx={{ position: 'relative' }}
                             >
-                              {format(
-                                new Date(row.sentDate),
-                                'd MMM yy HH:mm a'
-                              )}
+                              {row.sentDate
+                                ? format(
+                                    new Date(row.sentDate),
+                                    'd MMM yy HH:mm a'
+                                  )
+                                : ''}
                               <div>
                                 <IconButton size="large" aria-label="archive">
                                   <ArchiveTwoToneIcon fontSize="small" />
