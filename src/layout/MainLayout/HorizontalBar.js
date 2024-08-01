@@ -80,7 +80,11 @@ const CustomAppBar = () => {
     }
     if (!isLoadingPreviousExecution && !isErrorPreviousExecution && previous) {
       if (previous.executions.length > 0) {
-        setPreviousExecutionTime(previous.executions[0]['date-ended']['date']);
+        previous.executions[0]['date-ended']['date']
+          ? setPreviousExecutionTime(
+              previous.executions[0]['date-ended']['date']
+            )
+          : 'Now :)';
       }
     }
   }, [
