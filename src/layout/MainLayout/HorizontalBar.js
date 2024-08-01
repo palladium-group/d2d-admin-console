@@ -80,11 +80,11 @@ const CustomAppBar = () => {
     }
     if (!isLoadingPreviousExecution && !isErrorPreviousExecution && previous) {
       if (previous.executions.length > 0) {
-        previous.executions[0]['date-ended']['date']
-          ? setPreviousExecutionTime(
-              previous.executions[0]['date-ended']['date']
-            )
-          : 'Now :)';
+        const dateEnded =
+          previous.executions[0]?.['date-ended']?.['date'] ?? null;
+        if (dateEnded) {
+          setPreviousExecutionTime(dateEnded);
+        }
       }
     }
   }, [
@@ -130,17 +130,18 @@ const CustomAppBar = () => {
             <MenuList />
 
             <Box sx={{ flexGrow: 1 }} />
-            <IconButton sx={{ color: '#72BB53' }}>
+            <IconButton color="success">
               <AlarmIcon />
             </IconButton>
             <Box>
               <Typography variant="h6">
                 Last Run:{' '}
-                {previousExecutionTime &&
-                  format(
-                    new Date(previousExecutionTime),
-                    "d MMM yyyy hh:mmaaaaa'm'"
-                  )}
+                {previousExecutionTime
+                  ? format(
+                      new Date(previousExecutionTime),
+                      "d MMM yyyy hh:mmaaaaa'm'"
+                    )
+                  : 'Currently running...'}
               </Typography>
               <Typography variant="h6">
                 Next Run: {nextExecutionTime && getTimeAgo(nextExecutionTime)}
