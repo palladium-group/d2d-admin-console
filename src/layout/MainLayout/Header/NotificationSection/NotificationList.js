@@ -125,7 +125,7 @@ const NotificationList = ({ data }) => {
                 <Grid container justifyContent="flex-end">
                   <Grid item xs={12}>
                     <Typography variant="caption" display="block" gutterBottom>
-                      {getTimeAgo(val.sentDate)}
+                      {val.sentDate ? getTimeAgo(val.sentDate) : ''}
                     </Typography>
                   </Grid>
                 </Grid>

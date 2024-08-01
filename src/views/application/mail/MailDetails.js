@@ -114,10 +114,12 @@ const MailDetails = ({ handleUserDetails, data }) => {
                   </Grid>
                   <Grid item>
                     <Typography variant="subtitle2">
-                      {format(
-                        new Date(data?.sentDate),
-                        "d MMM  yyyy hh:mmaaaaa'm'"
-                      )}
+                      {data?.sentDate
+                        ? format(
+                            new Date(data?.sentDate),
+                            "d MMM  yyyy hh:mmaaaaa'm'"
+                          )
+                        : ''}
                     </Typography>
                   </Grid>
                 </Grid>
