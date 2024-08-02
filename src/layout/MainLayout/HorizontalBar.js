@@ -130,8 +130,8 @@ const CustomAppBar = () => {
             <MenuList />
 
             <Box sx={{ flexGrow: 1 }} />
-            <IconButton color="success">
-              <AlarmIcon />
+            <IconButton>
+              <AlarmIcon sx={{ color: theme.palette.primary.main }} />
             </IconButton>
             <Box>
               <Typography variant="h6">
