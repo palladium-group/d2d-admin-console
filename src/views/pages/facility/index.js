@@ -202,7 +202,8 @@ const Facility = () => {
         maxWidth="lg"
         sx={{
           '.MuiPaper-root': {
-            padding: 0
+            padding: 0,
+            overflow: 'auto'
           }
         }}
       >
