@@ -115,7 +115,9 @@ const FacilityDetails = ({ facilityId }) => {
           <Grid container spacing={3}>
             <Grid
               item
-              xs={4}
+              md={4}
+              lg={4}
+              xs={12}
               ref={leftColumnRef}
               style={{ display: 'flex', flexDirection: 'column' }}
             >
@@ -445,7 +447,9 @@ const FacilityDetails = ({ facilityId }) => {
             </Grid>
             <Grid
               item
-              xs={8}
+              md={8}
+              lg={8}
+              xs={12}
               style={{
                 display: 'flex',
                 flexDirection: 'column'
