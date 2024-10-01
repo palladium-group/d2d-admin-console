@@ -20,7 +20,7 @@ import {
   // OutlinedInput,
   Paper,
   Popper,
-  // Stack,
+  Stack,
   // Switch,
   Typography
 } from '@mui/material';
@@ -46,12 +46,14 @@ import {
 } from '@tabler/icons';
 import useConfig from 'hooks/useConfig';
 import { kc } from '../../../../keycloak';
+import useKeyCloakAuth from '../../../../hooks/useKeyCloakAuth';
 
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
   const theme = useTheme();
   const { borderRadius } = useConfig();
+  const user = useKeyCloakAuth();
   // const navigate = useNavigate();
 
   // const [sdm, setSdm] = useState(true);
@@ -170,6 +172,30 @@ const ProfileSection = () => {
                     boxShadow
                     shadow={theme.shadows[16]}
                   >
+                    <Box sx={{ p: 2, pb: 0, maxWidth: 250 }}>
+                      <Stack>
+                        <Stack
+                          direction="row"
+                          spacing={0.5}
+                          alignItems="center"
+                        >
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            sx={{
+                              fontWeight: 400,
+                              whiteSpace: 'normal',
+                              wordBreak: 'break-word'
+                            }}
+                          >
+                            Hi, {user.name}.
+                            <p>
+                              You are viewing facilities in {user.OrgUnitValue}.
+                            </p>
+                          </Typography>
+                        </Stack>
+                      </Stack>
+                    </Box>
                     <PerfectScrollbar
                       style={{
                         height: '100%',
@@ -241,7 +267,6 @@ const ProfileSection = () => {
                         {/*    </Grid>*/}
                         {/*  </CardContent>*/}
                         {/*</Card>*/}
-                        <Divider />
                         <List
                           component="nav"
                           sx={{
@@ -335,6 +360,10 @@ const ProfileSection = () => {
                             />
                           </ListItemButton>
                         </List>
+                        <Divider />
+                        <Typography variant="subtitle2">
+                          v{process.env.REACT_APP_VERSION}
+                        </Typography>
                       </Box>
                     </PerfectScrollbar>
                   </MainCard>
