@@ -14,7 +14,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { getMostRecentFacilityDispatchTable } from 'api/d2d-api';
 import useKeyCloakAuth from '../../../hooks/useKeyCloakAuth';
-import { formatDistanceToNow, parseISO } from 'date-fns';
+import { formatDistanceToNow, parseISO, format } from 'date-fns';
 import { download, generateCsv, mkConfig } from 'export-to-csv';
 import MainCard from '../../../ui-component/cards/MainCard';
 import FacilityDetails from './FacilityDetails';
@@ -41,7 +41,14 @@ const Facility = () => {
       Facility: row.original.facilityName,
       'Dispatch File Name': row.original.dispatch?.name,
       'Uploaded By': row.original.dispatch?.owner,
-      'Date Processed': row.original.dispatch?.dateProcessed,
+      'Date Processed': format(
+        new Date(row.original.dispatch?.dateProcessed),
+        'd MMM yyyy'
+      ),
+      'Last Visit  Date': format(
+        new Date(row.original.lastVisitDate),
+        'd MMM yyyy'
+      ),
       Status: row.original.manifest?.isAccepted ? 'SUCCESS' : 'FAILURE'
     }));
     const csv = generateCsv(csvConfig)(rowData);
@@ -108,12 +115,35 @@ const Facility = () => {
       {
         accessorKey: 'Status',
         header: 'Status',
-        accessorFn: (row) =>
-          row?.manifest?.isAccepted ? 'SUCCESS' : 'FAILURE',
+        accessorFn: (row) => {
+          if (row?.manifest?.isAccepted && !row?.expectedToReport) {
+            return 'SUCCESS';
+          } else if (
+            row?.manifest?.isAccepted &&
+            row?.daysSinceLastVisit <= 91 &&
+            row?.expectedToReport
+          ) {
+            return 'SUCCESS';
+          } else if (
+            row?.manifest?.isAccepted &&
+            row?.daysSinceLastVisit > 91 &&
+            row?.expectedToReport
+          ) {
+            return 'STALE';
+          } else return 'FAILURE';
+          /*row?.manifest?.isAccepted
+            ? calcDaysBetween == 7
+              ? 'SUCCESS'
+              : 'STALE'
+            : 'FAILURE';
+            */
+        },
         Cell: ({ cell }) => {
           const status = cell.getValue();
           return status === 'SUCCESS' ? (
             <Chip label="SUCCESS" color="success" />
+          ) : status === 'STALE' ? (
+            <Chip label="STALE" color="warning" />
           ) : (
             <Chip label="FAILURE" color="error" />
           );

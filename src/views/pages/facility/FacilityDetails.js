@@ -135,7 +135,21 @@ const FacilityDetails = ({ facilityId }) => {
                   <Grid item md={12}>
                     <Grid container>
                       <Grid item md={5}>
-                        <Typography variant="h5">Last Submitted On:</Typography>
+                        <Typography variant="h5">Last Visit Date:</Typography>
+                      </Grid>
+                      <Grid item md={7}>
+                        {facilityData?.facility?.lastVisitDate &&
+                          format(
+                            new Date(facilityData?.facility?.lastVisitDate),
+                            'd MMM yyyy'
+                          )}
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item md={12}>
+                    <Grid container>
+                      <Grid item md={5}>
+                        <Typography variant="h5">Dispatch Created:</Typography>
                       </Grid>
                       <Grid item md={7}>
                         {facilityData?.facility?.dispatch?.dateCreated &&
@@ -148,31 +162,57 @@ const FacilityDetails = ({ facilityId }) => {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item xs={12}>
+                  {/*<Grid item xs={12}>
                     <Grid container>
-                      <Grid item xs={5}>
+                      <Grid item md={5}>
                         <Typography variant="h5">Submitted By:</Typography>
                       </Grid>
-                      <Grid item xs={7}>
+                      <Grid item md={7}>
                         {facilityData?.facility?.dispatch?.owner}
                       </Grid>
                     </Grid>
-                  </Grid>
+                  </Grid>*/}
 
                   <Grid item xs={12}>
                     <Grid container>
-                      <Grid item xs={5}>
+                      <Grid item md={5}>
                         <Typography variant="h5">Status:</Typography>
                       </Grid>
-                      <Grid item xs={7}>
-                        {facilityData?.facility?.manifest?.isAccepted && (
-                          <Box display="flex" alignItems="center">
-                            <CheckCircle sx={{ color: 'green' }} />
-                            <Typography variant="h5" color="green" ml={1}>
-                              SUCCESS
-                            </Typography>
-                          </Box>
-                        )}
+                      <Grid item md={7}>
+                        {facilityData?.facility?.manifest?.isAccepted &&
+                          facilityData?.facility?.daysSinceLastVisit <= 91 &&
+                          facilityData?.facility?.expectedToReport && (
+                            <Box display="flex" alignItems="center">
+                              <CheckCircle sx={{ color: 'green' }} />
+                              <Typography variant="h5" color="green" ml={1}>
+                                SUCCESS
+                              </Typography>
+                            </Box>
+                          )}
+                        {facilityData?.facility?.manifest?.isAccepted &&
+                          !facilityData?.facility?.expectedToReport && (
+                            <Box display="flex" alignItems="center">
+                              <CheckCircle sx={{ color: 'green' }} />
+                              <Typography variant="h5" color="green" ml={1}>
+                                SUCCESS
+                              </Typography>
+                            </Box>
+                          )}
+                        {facilityData?.facility?.manifest?.isAccepted &&
+                          facilityData?.facility?.daysSinceLastVisit > 91 &&
+                          facilityData?.facility?.expectedToReport && (
+                            <Box display="flex" alignItems="center">
+                              <ErrorIcon color="warning" />
+                              <Typography
+                                variant="h5"
+                                color="palette.warning"
+                                ml={1}
+                                gutterBottom
+                              >
+                                STALE
+                              </Typography>
+                            </Box>
+                          )}
                         {!facilityData?.facility?.manifest?.isAccepted && (
                           <Box display="flex" alignItems="center">
                             <ErrorIcon sx={{ color: 'red' }} />
@@ -185,10 +225,10 @@ const FacilityDetails = ({ facilityId }) => {
                     </Grid>
                     {!facilityData?.facility?.manifest?.isAccepted && (
                       <Grid container>
-                        <Grid item xs={5}>
+                        <Grid item md={5}>
                           &nbsp;
                         </Grid>
-                        <Grid item xs={7}>
+                        <Grid item md={7}>
                           <Typography variant="subtitle2" sx={{ color: 'red' }}>
                             {
                               facilityData?.facility?.manifest
@@ -198,16 +238,32 @@ const FacilityDetails = ({ facilityId }) => {
                         </Grid>
                       </Grid>
                     )}
+                    {facilityData?.facility?.manifest?.isAccepted &&
+                      facilityData?.facility?.daysSinceLastVisit > 91 &&
+                      facilityData?.facility?.expectedToReport && (
+                        <Grid container>
+                          <Grid item md={5}>
+                            &nbsp;
+                          </Grid>
+                          <Grid item md={7}>
+                            <Typography variant="subtitle2">
+                              This facility&apos;s data was last updated {}
+                              {facilityData?.facility?.daysSinceLastVisit} days
+                              ago. Consider submitting a newer dispatch.
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      )}
                   </Grid>
 
                   <Grid item xs={12}>
                     <Grid container spacing={2}>
-                      <Grid item xs={5}>
+                      <Grid item md={5}>
                         <Typography variant="h5">File Name:</Typography>
                       </Grid>
                       <Grid
                         item
-                        xs={7}
+                        md={7}
                         style={{
                           overflowX: 'auto',
                           whiteSpace: 'nowrap',
@@ -308,9 +364,7 @@ const FacilityDetails = ({ facilityId }) => {
                               <Typography variant="subtitle2">
                                 {format(
                                   new Date(
-                                    new Date(
-                                      facilityData?.facility?.dispatch?.dateProcessed
-                                    ).getTime() - 4000000
+                                    facilityData?.facility?.dispatch?.share?.dateUploaded
                                   ),
                                   "d MMM  yyyy hh:mmaaaaa'm'"
                                 )}
