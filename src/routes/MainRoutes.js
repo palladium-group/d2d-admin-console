@@ -14,6 +14,9 @@ const Notifications = Loadable(
   lazy(() => import('views/pages/notifications/index'))
 );
 
+//Completeness
+const Completeness = Loadable(lazy(() => import('views/pages/completeness')));
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -35,6 +38,10 @@ const MainRoutes = {
     {
       path: '/notification/:id',
       element: <NotificationDetail />
+    },
+    {
+      path: '/completeness',
+      element: <Completeness />
     }
   ]
 };
