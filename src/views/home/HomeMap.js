@@ -182,10 +182,10 @@ const HomeMap = () => {
         ) : (
           <MapContainer
             style={{
-              height: '500px',
+              height: '666px',
               borderRadius: '8px'
             }}
-            center={[-30.5595, 22.9375]}
+            center={[-28.8595, 24.4375]}
             zoom={6}
             scrollWheelZoom={true}
             //whenReady={setMap}

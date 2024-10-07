@@ -180,7 +180,7 @@ const FacilityDetails = ({ facilityId }) => {
                       </Grid>
                       <Grid item md={7}>
                         {facilityData?.facility?.manifest?.isAccepted &&
-                          facilityData?.facility?.daysSinceLastVisit <= 91 &&
+                          facilityData?.facility?.daysSinceLastVisit <= 100 &&
                           facilityData?.facility?.expectedToReport && (
                             <Box display="flex" alignItems="center">
                               <CheckCircle sx={{ color: 'green' }} />
@@ -199,7 +199,7 @@ const FacilityDetails = ({ facilityId }) => {
                             </Box>
                           )}
                         {facilityData?.facility?.manifest?.isAccepted &&
-                          facilityData?.facility?.daysSinceLastVisit > 91 &&
+                          facilityData?.facility?.daysSinceLastVisit > 100 &&
                           facilityData?.facility?.expectedToReport && (
                             <Box display="flex" alignItems="center">
                               <ErrorIcon color="warning" />
@@ -239,7 +239,7 @@ const FacilityDetails = ({ facilityId }) => {
                       </Grid>
                     )}
                     {facilityData?.facility?.manifest?.isAccepted &&
-                      facilityData?.facility?.daysSinceLastVisit > 91 &&
+                      facilityData?.facility?.daysSinceLastVisit > 100 &&
                       facilityData?.facility?.expectedToReport && (
                         <Grid container>
                           <Grid item md={5}>

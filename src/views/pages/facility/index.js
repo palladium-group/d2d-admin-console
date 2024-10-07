@@ -120,13 +120,13 @@ const Facility = () => {
             return 'SUCCESS';
           } else if (
             row?.manifest?.isAccepted &&
-            row?.daysSinceLastVisit <= 91 &&
+            row?.daysSinceLastVisit <= 100 &&
             row?.expectedToReport
           ) {
             return 'SUCCESS';
           } else if (
             row?.manifest?.isAccepted &&
-            row?.daysSinceLastVisit > 91 &&
+            row?.daysSinceLastVisit > 100 &&
             row?.expectedToReport
           ) {
             return 'STALE';
