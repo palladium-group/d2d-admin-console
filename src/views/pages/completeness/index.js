@@ -45,7 +45,7 @@ const Completeness = () => {
       'Sub District': row.original.orgHierarchy.subDistrictName,
       Facility: row.original.facilityName,
       UID: row.original.dhisUid,
-      Code: row.original.mflCode,
+      'MHFL Code': row.original.mflCode,
       'Facility Type': row.original.facilityType,
       'Last ART Visit Captured': row.original.lastVisitDate
         ? format(new Date(row.original.lastVisitDate), 'd MMM yyyy')
@@ -110,7 +110,7 @@ const Completeness = () => {
         accessorKey: 'dhisUid'
       },
       {
-        header: 'Code',
+        header: 'MHFL Code',
         accessorKey: 'mflCode'
       },
       {
