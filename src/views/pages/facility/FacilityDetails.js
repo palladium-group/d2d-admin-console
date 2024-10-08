@@ -95,6 +95,56 @@ const FacilityDetails = ({ facilityId }) => {
     );
   };
 
+  /*const getRecencyStatus = (row) => {
+    if (row?.daysSinceLastVisit <= 100 && row?.expectedToReport) {
+      return 'SUCCESS';
+    }
+    if (row?.daysSinceLastVisit > 100 && row?.expectedToReport) {
+      return 'STALE';
+    }
+    if (!row?.expectedToReport) {
+      return 'SUCCESS';
+    }
+    return 'REJECTED';
+  };*/
+
+  const getRecencyStatus = (row) => {
+    const currentDate = new Date(2024, 8, 30);
+    const diffTime = Math.abs(
+      currentDate - new Date(row?.facility?.lastVisitDate)
+    );
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const slowFacilityTypes = [
+      'Mobile',
+      'Correctional Centre',
+      'Hospital',
+      'Health Post',
+      'Non-Medical Site'
+    ];
+    if (
+      row?.facility?.manifest?.isAccepted &&
+      slowFacilityTypes.includes(row?.facility?.facilityType) &&
+      row?.facility?.expectedToReport
+    ) {
+      return diffDays <= 27 ? 'SUCCESS' : 'STALE';
+    } else if (
+      row?.facility?.manifest?.isAccepted &&
+      !slowFacilityTypes.includes(row?.facility?.facilityType) &&
+      row?.facility?.expectedToReport
+    ) {
+      return diffDays <= 7 ? 'SUCCESS' : 'STALE';
+    } else if (
+      row?.facility?.manifest?.isAccepted &&
+      !row?.facility?.expectedToReport
+    ) {
+      return 'SUCCESS';
+    } else if (!row?.facility?.manifest?.isAccepted) {
+      return 'REJECTED';
+    } else {
+      return 'UNKNOWN';
+    }
+  };
+
   return (
     <React.Fragment>
       {isLoading ? (
@@ -179,17 +229,15 @@ const FacilityDetails = ({ facilityId }) => {
                         <Typography variant="h5">Status:</Typography>
                       </Grid>
                       <Grid item md={7}>
-                        {facilityData?.facility?.manifest?.isAccepted &&
-                          facilityData?.facility?.daysSinceLastVisit <= 100 &&
-                          facilityData?.facility?.expectedToReport && (
-                            <Box display="flex" alignItems="center">
-                              <CheckCircle sx={{ color: 'green' }} />
-                              <Typography variant="h5" color="green" ml={1}>
-                                SUCCESS
-                              </Typography>
-                            </Box>
-                          )}
-                        {facilityData?.facility?.manifest?.isAccepted &&
+                        {getRecencyStatus(facilityData) == 'SUCCESS' && (
+                          <Box display="flex" alignItems="center">
+                            <CheckCircle sx={{ color: 'green' }} />
+                            <Typography variant="h5" color="green" ml={1}>
+                              SUCCESS
+                            </Typography>
+                          </Box>
+                        )}
+                        {/*facilityData?.facility?.manifest?.isAccepted &&
                           !facilityData?.facility?.expectedToReport && (
                             <Box display="flex" alignItems="center">
                               <CheckCircle sx={{ color: 'green' }} />
@@ -197,23 +245,21 @@ const FacilityDetails = ({ facilityId }) => {
                                 SUCCESS
                               </Typography>
                             </Box>
-                          )}
-                        {facilityData?.facility?.manifest?.isAccepted &&
-                          facilityData?.facility?.daysSinceLastVisit > 100 &&
-                          facilityData?.facility?.expectedToReport && (
-                            <Box display="flex" alignItems="center">
-                              <ErrorIcon color="warning" />
-                              <Typography
-                                variant="h5"
-                                color="palette.warning"
-                                ml={1}
-                                gutterBottom
-                              >
-                                STALE
-                              </Typography>
-                            </Box>
-                          )}
-                        {!facilityData?.facility?.manifest?.isAccepted && (
+                          )*/}
+                        {getRecencyStatus(facilityData) == 'STALE' && (
+                          <Box display="flex" alignItems="center">
+                            <ErrorIcon color="warning" />
+                            <Typography
+                              variant="h5"
+                              color="palette.warning"
+                              ml={1}
+                              gutterBottom
+                            >
+                              STALE
+                            </Typography>
+                          </Box>
+                        )}
+                        {getRecencyStatus(facilityData) == 'REJECTED' && (
                           <Box display="flex" alignItems="center">
                             <ErrorIcon sx={{ color: 'red' }} />
                             <Typography variant="h5" color="red" ml={1}>
@@ -223,7 +269,7 @@ const FacilityDetails = ({ facilityId }) => {
                         )}
                       </Grid>
                     </Grid>
-                    {!facilityData?.facility?.manifest?.isAccepted && (
+                    {getRecencyStatus(facilityData) == 'REJECTED' && (
                       <Grid container>
                         <Grid item md={5}>
                           &nbsp;
@@ -238,22 +284,20 @@ const FacilityDetails = ({ facilityId }) => {
                         </Grid>
                       </Grid>
                     )}
-                    {facilityData?.facility?.manifest?.isAccepted &&
-                      facilityData?.facility?.daysSinceLastVisit > 100 &&
-                      facilityData?.facility?.expectedToReport && (
-                        <Grid container>
-                          <Grid item md={5}>
-                            &nbsp;
-                          </Grid>
-                          <Grid item md={7}>
-                            <Typography variant="subtitle2">
-                              This facility&apos;s data was last updated {}
-                              {facilityData?.facility?.daysSinceLastVisit} days
-                              ago. Consider submitting a newer dispatch.
-                            </Typography>
-                          </Grid>
+                    {getRecencyStatus(facilityData) == 'STALE' && (
+                      <Grid container>
+                        <Grid item md={5}>
+                          &nbsp;
                         </Grid>
-                      )}
+                        <Grid item md={7}>
+                          <Typography variant="subtitle2">
+                            This facility&apos;s data was last updated {}
+                            {facilityData?.facility?.daysSinceLastVisit} days
+                            ago. Consider submitting a newer dispatch.
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    )}
                   </Grid>
 
                   <Grid item xs={12}>
