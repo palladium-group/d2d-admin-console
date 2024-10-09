@@ -25,7 +25,7 @@ const Completeness = () => {
   const user = useKeyCloakAuth();
   const getCompleteness = (lastVisitDate, facilityType) => {
     const currentDate = new Date(2024, 8, 30);
-    const diffTime = Math.abs(currentDate - lastVisitDate);
+    const diffTime = currentDate - lastVisitDate;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const slowFacilityTypes = [
       'Mobile',
@@ -129,22 +129,6 @@ const Completeness = () => {
         header: 'Completeness',
         accessorKey: 'Completeness',
         accessorFn: (row) => {
-          /*const lastVisitDate = new Date(row?.lastVisitDate);
-          const currentDate = new Date(2024, 8, 30);
-          const diffTime = Math.abs(currentDate - lastVisitDate);
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-          const facilityType = row?.facilityType;
-          const slowFacilityTypes = [
-            'Mobile',
-            'Correctional Centre',
-            'Hospital',
-            'Health Post',
-            'Non-Medical Site'
-          ];
-          if (slowFacilityTypes.includes(facilityType)) {
-            return diffDays <= 27 ? 'Up To Date' : 'Chase Latest Dispatch';
-          } else return diffDays <= 7 ? 'Up To Date' : 'Chase Latest Dispatch';
-        }*/
           return getCompleteness(
             new Date(row?.lastVisitDate),
             row?.facilityType

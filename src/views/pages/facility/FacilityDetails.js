@@ -94,25 +94,9 @@ const FacilityDetails = ({ facilityId }) => {
       </Tooltip>
     );
   };
-
-  /*const getRecencyStatus = (row) => {
-    if (row?.daysSinceLastVisit <= 100 && row?.expectedToReport) {
-      return 'SUCCESS';
-    }
-    if (row?.daysSinceLastVisit > 100 && row?.expectedToReport) {
-      return 'STALE';
-    }
-    if (!row?.expectedToReport) {
-      return 'SUCCESS';
-    }
-    return 'REJECTED';
-  };*/
-
   const getRecencyStatus = (row) => {
     const currentDate = new Date(2024, 8, 30);
-    const diffTime = Math.abs(
-      currentDate - new Date(row?.facility?.lastVisitDate)
-    );
+    const diffTime = currentDate - new Date(row?.facility?.lastVisitDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const slowFacilityTypes = [
       'Mobile',
