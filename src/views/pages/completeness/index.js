@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Container, Box, Typography, Button } from '@mui/material';
+import { Container, Box, Typography, Button, Chip } from '@mui/material';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import DownloadForOfflineTwoToneIcon from '@mui/icons-material/DownloadForOfflineTwoTone';
 import MainCard from 'ui-component/cards/MainCard';
@@ -132,6 +132,15 @@ const Completeness = () => {
           return getCompleteness(
             new Date(row?.lastVisitDate),
             row?.facilityType
+          );
+        },
+        Cell: ({ cell }) => {
+          const value = cell.getValue();
+          return (
+            <Chip
+              label={value}
+              color={value === 'Up To Date' ? 'success' : 'warning'}
+            />
           );
         }
       },
