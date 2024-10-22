@@ -120,7 +120,10 @@ const Facility = () => {
       {
         accessorKey: 'Dispatch File Name',
         header: 'Dispatch File Name',
-        accessorFn: (row) => row?.dispatch?.name,
+        accessorFn: (row) => {
+          const dispatchName = row?.dispatch?.name;
+          return dispatchName ? dispatchName.replace(/_/g, ' ') : '';
+        },
         enableColumnFilter: false
       },
       {

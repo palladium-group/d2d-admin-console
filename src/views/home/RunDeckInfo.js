@@ -16,7 +16,10 @@ import { grey } from '@mui/material/colors';
 import DispatchesYoY from './DispatchesYoY';
 import useKeyCloakAuth from '../../hooks/useKeyCloakAuth';
 import { useQuery } from '@tanstack/react-query';
-import { getDashboardSummary, getRecencyAsAtDate } from '../../api/d2d-api';
+import {
+  getDashboardSummary,
+  getReportingPerformance
+} from '../../api/d2d-api';
 import { format } from 'date-fns';
 import SubCard from 'ui-component/cards/SubCard';
 import CloudSyncTwoToneIcon from '@mui/icons-material/CloudSyncTwoTone';
@@ -54,6 +57,8 @@ const RunDeckInfo = () => {
   const [secondLastQuarterEndDate, setSecondLastQuarterEndDate] = useState();
   const [lastMonthDate, setLastMonthDate] = useState();
   const [previousLastMonthDate, setPreviousLastMonthDate] = useState();
+  const [thisQuarterEndDate, setThisQuarterEndDate] = useState();
+  const [thisMonthEnd, setThisMonthEnd] = useState();
 
   const user = useKeyCloakAuth();
   const { data: { data = [] } = {}, isLoading } = useQuery({
@@ -73,14 +78,15 @@ const RunDeckInfo = () => {
   });
   const { isLoading: isLoadingRecency, data: recencyData } = useQuery({
     queryKey: [
-      'getRecencyAsAtDate',
+      'getReportingPerformance',
       lastQuarterDate,
+      thisQuarterEndDate,
       user.OrgUnit,
       user.OrgUnitValue,
       user.token
     ],
     queryFn: async (queryKey) => {
-      const data = await getRecencyAsAtDate(queryKey);
+      const data = await getReportingPerformance(queryKey);
       return data;
     },
     enabled: !!lastQuarterDate && !!user.OrgUnit && !!user.OrgUnitValue
@@ -90,14 +96,15 @@ const RunDeckInfo = () => {
     data: recencyDataSecondLastQuarter
   } = useQuery({
     queryKey: [
-      'getRecencyAsAtDate',
+      'getReportingPerformance',
       secondLastQuarterEndDate,
+      lastQuarterDate,
       user.OrgUnit,
       user.OrgUnitValue,
       user.token
     ],
     queryFn: async (queryKey) => {
-      const data = await getRecencyAsAtDate(queryKey);
+      const data = await getReportingPerformance(queryKey);
       return data;
     },
     enabled: !!secondLastQuarterEndDate && !!user.OrgUnit && !!user.OrgUnitValue
@@ -105,14 +112,15 @@ const RunDeckInfo = () => {
   const { isLoading: isLoadingRecencyMonth, data: recencyDataMonthly } =
     useQuery({
       queryKey: [
-        'getRecencyAsAtDate',
+        'getReportingPerformance',
         lastMonthDate,
+        thisMonthEnd,
         user.OrgUnit,
         user.OrgUnitValue,
         user.token
       ],
       queryFn: async (queryKey) => {
-        const data = await getRecencyAsAtDate(queryKey);
+        const data = await getReportingPerformance(queryKey);
         return data;
       },
       enabled: !!lastMonthDate && !!user.OrgUnit && !!user.OrgUnitValue
@@ -122,14 +130,15 @@ const RunDeckInfo = () => {
     data: recencyDataPreviousMonthly
   } = useQuery({
     queryKey: [
-      'getRecencyAsAtDate',
+      'getReportingPerformance',
       previousLastMonthDate,
+      lastMonthDate,
       user.OrgUnit,
       user.OrgUnitValue,
       user.token
     ],
     queryFn: async (queryKey) => {
-      const data = await getRecencyAsAtDate(queryKey);
+      const data = await getReportingPerformance(queryKey);
       return data;
     },
     enabled: !!previousLastMonthDate && !!user.OrgUnit && !!user.OrgUnitValue
@@ -177,10 +186,15 @@ const RunDeckInfo = () => {
     const secondLastQuarterEndDate = getLastQuarterEndDate(new Date(lastDate));
     const lastMonth = getLastDayOfLastMonth();
     const previousLastMonth = getLastDayOfLastMonth(new Date(lastMonth));
+    const thisQuarterEndDate = getThisQuarterEndDate();
+    const lastDayOfThisMonth = getLastDayOfThisMonth();
+
     setLastQuarterDate(lastQuarterEndDate);
     setLastMonthDate(lastMonth);
     setSecondLastQuarterEndDate(secondLastQuarterEndDate);
     setPreviousLastMonthDate(previousLastMonth);
+    setThisQuarterEndDate(thisQuarterEndDate);
+    setThisMonthEnd(lastDayOfThisMonth);
   }, [
     leftColumnRef,
     data,
@@ -225,6 +239,39 @@ const RunDeckInfo = () => {
     const lastDayOfLastMonth = new Date(firstDayOfCurrentMonth - 1);
 
     return format(new Date(lastDayOfLastMonth), 'yyyy-MM-dd');
+  }
+
+  function getLastDayOfThisMonth() {
+    const today = new Date();
+    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Last day of the current month
+    return format(new Date(endOfMonth), 'yyyy-MM-dd');
+  }
+
+  function getThisQuarterEndDate() {
+    const today = new Date();
+    const currentMonth = today.getMonth(); // getMonth() returns 0 for January, 11 for December
+    let quarterEndMonth;
+
+    if (currentMonth < 3) {
+      // Q1: January (0), February (1), March (2)
+      quarterEndMonth = 2; // March
+    } else if (currentMonth < 6) {
+      // Q2: April (3), May (4), June (5)
+      quarterEndMonth = 5; // June
+    } else if (currentMonth < 9) {
+      // Q3: July (6), August (7), September (8)
+      quarterEndMonth = 8; // September
+    } else {
+      // Q4: October (9), November (10), December (11)
+      quarterEndMonth = 11; // December
+    }
+
+    const quarterEndDate = new Date(
+      today.getFullYear(),
+      quarterEndMonth + 1,
+      0
+    ); // Last day of the month
+    return format(new Date(quarterEndDate), 'yyyy-MM-dd');
   }
 
   return (
@@ -316,11 +363,11 @@ const RunDeckInfo = () => {
                       <Grid item>
                         <Typography variant="caption" color="textSecondary">
                           {quarterlyDifference > 0 &&
-                            `${quarterlyDifference.toFixed(
+                            `${Math.abs(quarterlyDifference).toFixed(
                               1
                             )}% less than the previous quarter`}
                           {quarterlyDifference <= 0 &&
-                            `${quarterlyDifference.toFixed(
+                            `${Math.abs(quarterlyDifference).toFixed(
                               1
                             )}% more than the previous quarter`}
                         </Typography>
@@ -368,9 +415,9 @@ const RunDeckInfo = () => {
                           color={greyColor}
                           gutterBottom
                         >
-                          End of{' '}
+                          Month ending{' '}
                           {lastMonthDate &&
-                            format(new Date(lastMonthDate), 'MMMM')}
+                            format(new Date(lastMonthDate), 'do MMMM yyyy')}
                         </Typography>
                       </Grid>
                       <Grid item sx={{ flexGrow: 1 }}>
@@ -404,11 +451,11 @@ const RunDeckInfo = () => {
                       <Grid item>
                         <Typography variant="caption" color="textSecondary">
                           {monthlyDifference > 0 &&
-                            `${monthlyDifference.toFixed(
+                            `${Math.abs(monthlyDifference).toFixed(
                               1
                             )}% less than the previous month`}
                           {monthlyDifference <= 0 &&
-                            `${monthlyDifference.toFixed(
+                            `${Math.abs(monthlyDifference).toFixed(
                               1
                             )}% more than the previous month`}
                         </Typography>
