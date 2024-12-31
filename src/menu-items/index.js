@@ -1,5 +1,6 @@
 import dashboard from './dashboard';
 import facilities from './facilities';
+import completeness from './completeness';
 //import notifications from './notifications';
 // import application from './application';
 // import forms from './forms';
@@ -12,7 +13,7 @@ import facilities from './facilities';
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-  items: [dashboard, facilities]
+  items: [dashboard, facilities, completeness]
 };
 
 export default menuItems;

@@ -1,10 +1,10 @@
-import { IconBuildingHospital } from '@tabler/icons';
+import { IconFileUpload } from '@tabler/icons';
 
 const facilities = {
   id: 'facilities',
-  title: 'Facilities',
+  title: 'Uploads',
   type: 'group',
-  icon: IconBuildingHospital,
+  icon: IconFileUpload,
   url: '/facilities'
 };
 
