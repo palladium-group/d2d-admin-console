@@ -101,8 +101,8 @@ const DispatchesYoY = ({ height, data }) => {
       },
       series: [
         {
-          data: series[1] ? series[1].data : [],
-          name: series[1] ? series[1].name : null,
+          data: series[2] ? series[2].data : [],
+          name: series[2] ? series[2].name : null,
           color: theme.palette.primary.main,
           dataLabels: {
             enabled: true,
@@ -114,8 +114,8 @@ const DispatchesYoY = ({ height, data }) => {
           }
         },
         {
-          data: series[0] ? series[0].data : [],
-          name: series[0] ? series[0].name : null,
+          data: series[1] ? series[1].data : [],
+          name: series[1] ? series[1].name : null,
           color: theme.palette.secondary.main,
           dataLabels: {
             enabled: true,
