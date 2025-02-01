@@ -79,6 +79,38 @@ const Facility = () => {
     enabled: !!user.OrgUnit && !!user.OrgUnitValue
   });
 
+  const getRecencyStatus = (row) => {
+    const currentDate = new Date(2024, 11, 31);
+    const diffTime = currentDate - new Date(row?.lastVisitDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const slowFacilityTypes = [
+      'Mobile',
+      'Correctional Centre',
+      'Hospital',
+      'Health Post',
+      'Non-Medical Site'
+    ];
+    if (
+      row?.manifest?.isAccepted &&
+      slowFacilityTypes.includes(row?.facilityType) &&
+      row?.expectedToReport
+    ) {
+      return diffDays <= 27 ? 'SUCCESS' : 'STALE';
+    } else if (
+      row?.manifest?.isAccepted &&
+      !slowFacilityTypes.includes(row?.facilityType) &&
+      row?.expectedToReport
+    ) {
+      return diffDays <= 7 ? 'SUCCESS' : 'STALE';
+    } else if (row?.manifest?.isAccepted && !row?.expectedToReport) {
+      return 'SUCCESS';
+    } else if (!row?.manifest?.isAccepted) {
+      return 'FAILURE';
+    } else {
+      return 'UNKNOWN';
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -88,7 +120,10 @@ const Facility = () => {
       {
         accessorKey: 'Dispatch File Name',
         header: 'Dispatch File Name',
-        accessorFn: (row) => row?.dispatch?.name,
+        accessorFn: (row) => {
+          const dispatchName = row?.dispatch?.name;
+          return dispatchName ? dispatchName.replace(/_/g, ' ') : '';
+        },
         enableColumnFilter: false
       },
       {
@@ -116,27 +151,7 @@ const Facility = () => {
         accessorKey: 'Status',
         header: 'Status',
         accessorFn: (row) => {
-          if (row?.manifest?.isAccepted && !row?.expectedToReport) {
-            return 'SUCCESS';
-          } else if (
-            row?.manifest?.isAccepted &&
-            row?.daysSinceLastVisit <= 91 &&
-            row?.expectedToReport
-          ) {
-            return 'SUCCESS';
-          } else if (
-            row?.manifest?.isAccepted &&
-            row?.daysSinceLastVisit > 91 &&
-            row?.expectedToReport
-          ) {
-            return 'STALE';
-          } else return 'FAILURE';
-          /*row?.manifest?.isAccepted
-            ? calcDaysBetween == 7
-              ? 'SUCCESS'
-              : 'STALE'
-            : 'FAILURE';
-            */
+          return getRecencyStatus(row);
         },
         Cell: ({ cell }) => {
           const status = cell.getValue();

@@ -132,6 +132,25 @@ export const getRecencyAsAtDate = async ({ queryKey }) => {
   );
 };
 
+export const getReportingPerformance = async ({ queryKey }) => {
+  const [, start_date, end_date, orgUnit, orgUnitValue, token] = queryKey;
+  const apiClient = axios.create();
+  apiClient.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  return await apiClient.get(
+    `${apiRoutes.dashboard}/Performance/${start_date}/${end_date}/${orgUnit}/${orgUnitValue}`
+  );
+};
+
 export const getOwnerNotifications = async ({ queryKey }) => {
   const [, ownerId, token] = queryKey;
   const apiClient = axios.create();
