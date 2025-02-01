@@ -80,7 +80,7 @@ const Facility = () => {
   });
 
   const getRecencyStatus = (row) => {
-    const currentDate = new Date(2024, 8, 30);
+    const currentDate = new Date(2024, 11, 31);
     const diffTime = currentDate - new Date(row?.lastVisitDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const slowFacilityTypes = [
