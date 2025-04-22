@@ -19,8 +19,11 @@ const DispatchesYoY = ({ height, data }) => {
       data.facilitiesProcessedByYear &&
       data.facilitiesProcessedByYear.length > 0
     ) {
+      const lastTwoYears = data.facilitiesProcessedByYear.filter(
+        (item) => item.name >= currentYear - 1
+      );
       const seriesData = [];
-      for (const yearProcessed of data.facilitiesProcessedByYear) {
+      for (const yearProcessed of lastTwoYears) {
         const yearData = { name: yearProcessed.name, data: [] };
         for (let i = 1; i <= 12; i++) {
           if (yearProcessed.name == currentYear && i === currentMonth + 2) {
@@ -101,8 +104,8 @@ const DispatchesYoY = ({ height, data }) => {
       },
       series: [
         {
-          data: series[2] ? series[2].data : [],
-          name: series[2] ? series[2].name : null,
+          data: series[1] ? series[1].data : [],
+          name: series[1] ? series[1].name : null,
           color: theme.palette.primary.main,
           dataLabels: {
             enabled: true,
@@ -114,8 +117,8 @@ const DispatchesYoY = ({ height, data }) => {
           }
         },
         {
-          data: series[1] ? series[1].data : [],
-          name: series[1] ? series[1].name : null,
+          data: series[0] ? series[0].data : [],
+          name: series[0] ? series[0].name : null,
           color: theme.palette.secondary.main,
           dataLabels: {
             enabled: true,
