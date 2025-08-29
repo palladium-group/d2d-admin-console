@@ -5,20 +5,6 @@ import { useState, useEffect } from 'react';
 import { IntlProvider } from 'react-intl';
 import useConfig from 'hooks/useConfig';
 
-// load locales files
-const loadLocaleData = (locale) => {
-  switch (locale) {
-    case 'fr':
-      return import('utils/locales/fr.json');
-    case 'ro':
-      return import('utils/locales/ro.json');
-    case 'zh':
-      return import('utils/locales/zh.json');
-    default:
-      return import('utils/locales/en.json');
-  }
-};
-
 // ==============================|| LOCALIZATION ||============================== //
 
 const Locales = ({ children }) => {
@@ -26,9 +12,7 @@ const Locales = ({ children }) => {
   const [messages, setMessages] = useState();
 
   useEffect(() => {
-    loadLocaleData(locale).then((d) => {
-      setMessages(d.default);
-    });
+    setMessages({});
   }, [locale]);
 
   return (
