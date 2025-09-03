@@ -25,5 +25,15 @@ module.exports = function override(config) {
     })
   ];
 
+  config.module.rules.push({
+    enforce: 'pre',
+    test: /\.js$/,
+    loader: require.resolve('source-map-loader'),
+    exclude: [
+      /@formatjs[\\/]fast-memoize/,
+      /stylis-plugin-rtl/
+    ]
+  });
+
   return config;
 };
