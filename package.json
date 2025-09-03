@@ -104,6 +104,7 @@
     "immutable": "^4.3.0",
     "prettier": "^2.8.8",
     "react-error-overlay": "6.0.11",
-    "sass": "^1.63.6"
+    "sass": "^1.63.6",
+    "source-map-explorer": "^2.5.3"
   }
 }
