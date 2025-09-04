@@ -334,9 +334,9 @@ const RunDeckInfo = () => {
                       </Grid>
                       <Grid item sx={{ flexGrow: 1 }}>
                         <Stack
-                          direction="row"
+                          direction={{ xs: 'column', sm: 'row' }}
                           alignItems="center"
-                          spacing={3}
+                          spacing={{ xs: 1, sm: 3 }}
                           sx={{ my: 1.75, mx: 'auto' }}
                         >
                           {quarterlyDifference > 0 && RedIcon}
@@ -422,9 +422,9 @@ const RunDeckInfo = () => {
                       </Grid>
                       <Grid item sx={{ flexGrow: 1 }}>
                         <Stack
-                          direction="row"
+                          direction={{ xs: 'column', sm: 'row' }}
                           alignItems="center"
-                          spacing={3}
+                          spacing={{ xs: 1, sm: 3 }}
                           sx={{ my: 1.75, mx: 'auto' }}
                         >
                           {monthlyDifference > 0 && RedIcon}
