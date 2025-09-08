@@ -1,6 +1,6 @@
 # D2D Admin Console
 
-The **D2D Admin Console** is a React-based frontend application for managing and administering the [Palladium D2D platform](https://github.com/palladium-group/). It provides a modern, responsive UI built with React and packaged for deployment using **Docker** and **Nginx**.
+The **D2D Admin Console** is a React-based frontend application for managing and administering the [D2D platform](https://github.com/palladium-group/). It provides a modern, responsive UI built with React and packaged for deployment using **Docker** and **Nginx**.
 
 ---
 
