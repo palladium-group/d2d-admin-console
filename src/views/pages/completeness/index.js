@@ -24,7 +24,7 @@ const csvConfig = mkConfig({
 const Completeness = () => {
   const user = useKeyCloakAuth();
   const getCompleteness = (lastVisitDate, facilityType) => {
-    const currentDate = new Date(2025, 5, 30);
+    const currentDate = new Date(2025, 7, 31); // Months are 0-indexed, so 7 represents August
     const diffTime = currentDate - lastVisitDate;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const slowFacilityTypes = [
