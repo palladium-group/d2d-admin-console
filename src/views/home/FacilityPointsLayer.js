@@ -92,7 +92,7 @@ const FacilityPointsLayer = ({ user, handleOpenDialog }) => {
                 key={index}
                 position={[address.latitude, address.longitude]}
                 title={address.facilityName}
-                icon={customIcon(address.isRecentQuarter)}
+                icon={customIcon(address.isRecentMonth)}
               >
                 <StyledPop>
                   <FacilityDetail

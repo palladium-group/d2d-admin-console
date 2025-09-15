@@ -95,22 +95,29 @@ const FacilityDetails = ({ facilityId }) => {
     );
   };
   const getRecencyStatus = (row) => {
-    const currentDate = new Date(2025, 5, 30);
-    const diffTime = currentDate - new Date(row?.facility?.lastVisitDate);
+    //const currentDate = new Date(2025, 5, 30);
+    const endOfPreviousMonth = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      0
+    );
+    const diffTime =
+      endOfPreviousMonth - new Date(row?.facility?.lastVisitDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const slowFacilityTypes = [
       'Mobile',
       'Correctional Centre',
       'Hospital',
       'Health Post',
-      'Non-Medical Site'
+      'Non-Medical Site',
+      'CDC'
     ];
     if (
       row?.facility?.manifest?.isAccepted &&
       slowFacilityTypes.includes(row?.facility?.facilityType) &&
       row?.facility?.expectedToReport
     ) {
-      return diffDays <= 27 ? 'SUCCESS' : 'STALE';
+      return diffDays <= 15 ? 'SUCCESS' : 'STALE';
     } else if (
       row?.facility?.manifest?.isAccepted &&
       !slowFacilityTypes.includes(row?.facility?.facilityType) &&

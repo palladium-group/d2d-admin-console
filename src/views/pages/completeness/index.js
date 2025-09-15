@@ -24,18 +24,24 @@ const csvConfig = mkConfig({
 const Completeness = () => {
   const user = useKeyCloakAuth();
   const getCompleteness = (lastVisitDate, facilityType) => {
-    const currentDate = new Date(2025, 7, 31); // Months are 0-indexed, so 7 represents August
-    const diffTime = currentDate - lastVisitDate;
+    //const currentDate = new Date(2025, 7, 31);
+    const endOfPreviousMonth = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      0
+    );
+    const diffTime = endOfPreviousMonth - lastVisitDate;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const slowFacilityTypes = [
       'Mobile',
       'Correctional Centre',
       'Hospital',
       'Health Post',
-      'Non-Medical Site'
+      'Non-Medical Site',
+      'CDC'
     ];
     if (slowFacilityTypes.includes(facilityType)) {
-      return diffDays <= 27 ? 'Up To Date' : 'Chase Latest Dispatch';
+      return diffDays <= 15 ? 'Up To Date' : 'Chase Latest Dispatch';
     } else return diffDays <= 7 ? 'Up To Date' : 'Chase Latest Dispatch';
   };
   const handleExportRows = (rows) => {
